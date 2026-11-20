@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<script>
+(function () {
+  function applyTheme(t) {
+    var darkPalettes = { dark: 1, navy: 1, moss: 1, espresso: 1, ochre: 1, purple: 1, ocean: 1 };
+    var isDark = !!darkPalettes[t] || (t === 'auto' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    if (isDark) document.documentElement.dataset.theme = 'dark';
+    else delete document.documentElement.dataset.theme;
+  }
+  try { applyTheme(localStorage.getItem('neurologia_hub_theme') || 'auto'); } catch (e) {}
+  window.addEventListener('storage', function (e) {
+    if (e.key === 'neurologia_hub_theme') applyTheme(e.newValue || 'auto');
+  });
+  window.addEventListener('message', function (e) {
+    if (e.data && e.data.type === 'SET_THEME') applyTheme(e.data.theme || 'auto');
+  });
+})();
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>[9] Choroby demielinizacyjne i autoimmunologiczne OUN – Neurologia V Hub</title>
+<link rel="preconnect" href="https://api.fontshare.com">
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&f[]=cabinet-grotesk@700,800&display=swap" rel="stylesheet" crossorigin="anonymous" media="print" onload="this.media='all'">
+<noscript><link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&f[]=cabinet-grotesk@700,800&display=swap" rel="stylesheet" crossorigin="anonymous"></noscript>
+<link rel="stylesheet" href="../atlas-base.css">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="../atlas-mobile.css">
+</head>
+<body>
+<nav class="nav" aria-label="Nawigacja sekcji">
+  <div class="wrap">
+    <a class="hub-back" href="../../index.html">← Hub</a>
+    <div class="brand"><b>[9]</b> <span>SM i Autoimmunologia OUN</span></div>
+    <ul id="navlist">
+      <li><a href="#sm">Obraz SM</a></li>
+      <li><a href="#mcdonald">Kryteria McDonalda</a></li>
+      <li><a href="#leczenie">Rzut i DMT</a></li>
+      <li><a href="#nmosd">NMOSD i MOGAD</a></li>
+      <li><a href="#zapalenia">Zapalenia autoimmun.</a></li>
+      <li><a href="#zadania">Zadania testowe</a></li>
+      <li><a href="#klucz">Klucz vs wytyczne</a></li>
+      <li><a href="#pulapki">Pułapki</a></li>
+      <li><a href="#zrodla">Źródła</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap grid">
+    <div>
+      <span class="tag">MODUŁ [9] · Grupa C · W03g · Sem TK02 · Ćw TK05</span>
+      <h1>Choroby <span>demielinizacyjne</span><br>i autoimmunologiczne OUN</h1>
+      <p class="sub">Kompendium do zaliczenia i egzaminu testowego (ET): fenotypy i zespoły objawów stwardnienia rozsianego (ON, INO, Lhermitte, Uhthoff), kryteria McDonalda (DIS + DIT / prążki oligoklonalne), leczenie rzutu oraz DMT, a także różnicowanie SM z NMOSD (AQP4-IgG), MOGAD i zapaleniami autoimmunologicznymi mózgu (anty-NMDAR, anty-LGI1).</p>
+      <div class="chips">
+        <span class="chip s">🧠 McDonald: DIS ≥2/4 + DIT (lub OCB w PMR)</span>
+        <span class="chip i">👁️ ON + obustronne INO (MLF) + Lhermitte</span>
+        <span class="chip e">💉 Rzut: metyloprednizolon i.v. 1000 mg/d</span>
+        <span class="chip f">🧬 NMOSD (LETM ≥3 seg.) · Anty-NMDAR</span>
+      </div>
+      <div class="legend">
+        <div><span class="kb src">KLUCZ POTWIERDZONY</span> odpowiedź potwierdzona wprost w sylabusie PUM 2026/2027, literaturze podstawowej i kryteriach McDonalda/IPND</div>
+        <div><span class="kb inf">KLUCZ WNIOSKOWANY</span> odpowiedź wynikająca z topodiagnostyki demielinizacji i wytycznych EAN/ECTRIMS/Graus</div>
+        <div><span class="kb unk">KLUCZ NIEPEWNY</span> wariant zależny od wersji kryteriów (2010 vs 2017/2024) lub schematu eskalacji/HET</div>
+      </div>
+    </div>
+    <figure class="fig" aria-label="Schemat lokalizacji zmian w SM oraz porównanie z NMOSD i zapaleniami autoimmunologicznymi">
+      <svg viewBox="0 0 460 350" id="heroSvg" role="img" aria-label="4 lokalizacje DIS w SM kontra podłużne zapalenie rdzenia LETM w NMOSD i zapalenie anty-NMDAR">
+        <!-- Panel lewy: SM -->
+        <rect x="10" y="10" width="215" height="330" rx="14" fill="#EEF2F0" stroke="#DCE2E0" stroke-width="1.5"/>
+        <text x="117" y="34" text-anchor="middle" font-size="13" font-weight="800" fill="#13232C">SM · 4 lokalizacje DIS</text>
+        <!-- Zarys półkuli mózgu -->
+        <path d="M52 130 C46 72 94 46 136 52 C178 58 194 96 184 138 C178 160 156 172 132 172 L96 172 C72 172 56 154 52 130Z" fill="#FFFFFF" stroke="#44545D" stroke-width="1.8"/>
+        <!-- Komora boczna + palce Dawsona -->
+        <path d="M98 112 Q118 96 138 112 Q122 126 98 112Z" fill="#DCE2E0" stroke="#44545D" stroke-width="1.2"/>
+        <ellipse cx="110" cy="96" rx="10" ry="4" transform="rotate(-25 110 96)" fill="#2B63AE"/>
+        <ellipse cx="128" cy="94" rx="10" ry="4" transform="rotate(20 128 94)" fill="#2B63AE"/>
+        <!-- Korowe/podkorowe -->
+        <circle cx="72" cy="92" r="7" fill="#0C7A85"/>
+        <!-- Pień i móżdżek -->
+        <rect x="103" y="174" width="26" height="46" rx="6" fill="#FFFFFF" stroke="#44545D" stroke-width="1.8"/>
+        <ellipse cx="148" cy="196" rx="22" ry="18" fill="#FFFFFF" stroke="#44545D" stroke-width="1.8"/>
+        <circle cx="116" cy="194" r="6" fill="#8F5808"/>
+        <!-- Rdzeń szyjno-piersiowy krótki ekscentryczny -->
+        <rect x="106" y="226" width="20" height="86" rx="8" fill="#FFFFFF" stroke="#44545D" stroke-width="1.8"/>
+        <rect x="117" y="246" width="7" height="18" rx="3" fill="#216B3E"/>
+        <!-- Numery 1-4 -->
+        <g font-size="11" font-weight="800" fill="#FFFFFF" text-anchor="middle">
+          <circle cx="152" cy="84" r="10" fill="#2B63AE"/><text x="152" y="88">1</text>
+          <circle cx="62" cy="70" r="10" fill="#0C7A85"/><text x="62" y="74">2</text>
+          <circle cx="80" cy="194" r="10" fill="#8F5808"/><text x="80" y="198">3</text>
+          <circle cx="80" cy="255" r="10" fill="#216B3E"/><text x="80" y="259">4</text>
+        </g>
+        <text x="117" y="328" text-anchor="middle" font-size="10.5" font-weight="700" fill="#44545D">rdzeń &lt;3 segm., ekscentrycznie</text>
+
+        <!-- Panel prawy: NMOSD / MOGAD / AE -->
+        <rect x="235" y="10" width="215" height="330" rx="14" fill="#EEF2F0" stroke="#DCE2E0" stroke-width="1.5"/>
+        <text x="342" y="34" text-anchor="middle" font-size="13" font-weight="800" fill="#13232C">NMOSD · MOGAD · AE</text>
+
+        <!-- Karta NMOSD -->
+        <rect x="247" y="50" width="191" height="92" rx="10" fill="#FBE6E2" stroke="#A82D1E" stroke-width="1.6"/>
+        <text x="258" y="70" font-size="11.5" font-weight="800" fill="#A82D1E">NMOSD (AQP4-IgG)</text>
+        <text x="258" y="88" font-size="10.5" fill="#13232C">• LETM ≥3 segm. centralnie</text>
+        <text x="258" y="104" font-size="10.5" fill="#13232C">• Area postrema (czkawka)</text>
+        <text x="258" y="120" font-size="10.5" fill="#13232C">• Ciężkie ON (skrzyżowanie)</text>
+        <text x="258" y="135" font-size="10" font-weight="700" fill="#A82D1E">ZAKAZ IFN-β / fingolimod!</text>
+
+        <!-- Karta MOGAD -->
+        <rect x="247" y="152" width="191" height="82" rx="10" fill="#E1ECF9" stroke="#2B63AE" stroke-width="1.6"/>
+        <text x="258" y="172" font-size="11.5" font-weight="800" fill="#2B63AE">MOGAD (MOG-IgG)</text>
+        <text x="258" y="190" font-size="10.5" fill="#13232C">• Obustronny obrzęk tarcz II</text>
+        <text x="258" y="206" font-size="10.5" fill="#13232C">• Stożek rdzeniowy / ADEM</text>
+        <text x="258" y="222" font-size="10.5" fill="#13232C">• Dobra odpowiedź na GKS</text>
+
+        <!-- Karta AE -->
+        <rect x="247" y="244" width="191" height="84" rx="10" fill="#E1EFF5" stroke="#245B7A" stroke-width="1.6"/>
+        <text x="258" y="264" font-size="11.5" font-weight="800" fill="#245B7A">Zapalenie anty-NMDAR</text>
+        <text x="258" y="282" font-size="10.5" fill="#13232C">• Psychoza + katatonia + napady</text>
+        <text x="258" y="298" font-size="10.5" fill="#13232C">• Dyskinezy ustno-twarzowe</text>
+        <text x="258" y="314" font-size="10.5" font-weight="700" fill="#245B7A">Potworniak jajnika · PMR!</text>
+      </svg>
+      <div class="herolist">
+        <div><b style="color:#2B63AE">1 Okołokomorowe</b> „palce Dawsona”</div>
+        <div><b style="color:#0C7A85">2 Korowe / podkorowe</b> styk korowo-podk.</div>
+        <div><b style="color:#8F5808">3 Podnamiotowe</b> pień (MLF) i móżdżek</div>
+        <div><b style="color:#216B3E">4 Rdzeń kręgowy</b> &lt;3 segm. w SM vs ≥3 LETM</div>
+      </div>
+      <figcaption>Topografia rozsiania w przestrzeni (DIS) w SM oraz kluczowe jednostki różnicowe w chorobach autoimmunologicznych OUN.</figcaption>
+    </figure>
+  </div>
+</header>
+
+<main>
+<!-- ============ A: OBRAZ SM ============ -->
+<section id="sm">
+  <div class="wrap">
+    <div class="eyebrow">Część A · W03g · Sem TK02 · Obraz kliniczny stwardnienia rozsianego</div>
+    <h2>Stwardnienie rozsiane (SM) — fenotypy i zespoły objawów</h2>
+    <p class="lead">Stwardnienie rozsiane jest przewlekłą, zapalno-demielinizacyjną oraz neurozwyrodnieniową chorobą OUN (nie zajmuje obwodowych komórek Schwanna!). Najczęściej rozpoczyna się u młodych dorosłych między 20. a 40. rokiem życia z wyraźną przewagą kobiet.</p>
+
+    <div class="kpis">
+      <div class="kpi"><b>~85%</b><span>chorych rozpoczyna przebieg od postaci rzutowo-remisyjnej (RRMS)</span></div>
+      <div class="kpi a"><b>3 : 1</b><span>stosunek zapadalności kobiet do mężczyzn w postaci RRMS (w PPMS ≈ 1:1)</span></div>
+      <div class="kpi r"><b>≥ 24 h</b><span>minimalny czas trwania nowych/nasilonych objawów rzutu (bez gorączki!)</span></div>
+      <div class="kpi v"><b>MLF + n. II</b><span>obustronne INO i pozagałkowe ZNW to flagowe manifestacje SM</span></div>
+    </div>
+
+    <div class="grid4" style="margin-bottom:1.2rem">
+      <div class="tcard b">
+        <span class="pill b">Najczęstsza (~85%)</span>
+        <h3>RRMS</h3>
+        <p class="small"><b>Postać rzutowo-remisyjna:</b> wyraźne rzuty trwające ≥24 h z następową całkowitą lub częściową remisją; pomiędzy rzutami brak progresji niepełnosprawności.</p>
+      </div>
+      <div class="tcard a">
+        <span class="pill a">Konwersja wtórna</span>
+        <h3>SPMS</h3>
+        <p class="small"><b>Postać wtórnie postępująca:</b> po latach RRMS narasta powolna, niezależna od rzutów progresja (PIRA), z nakładającymi się rzutami lub bez aktywności rzutowej.</p>
+      </div>
+      <div class="tcard v">
+        <span class="pill v">~10–15% · K:M ≈ 1:1</span>
+        <h3>PPMS</h3>
+        <p class="small"><b>Postać pierwotnie postępująca:</b> późniejszy początek (~40–50 r.ż.), powolna progresja głównie paraparet spastycznych rdzenia od początku przez ≥1 rok, bez wyraźnych rzutów.</p>
+      </div>
+      <div class="tcard g">
+        <span class="pill g">Wczesne stadia</span>
+        <h3>CIS i RIS</h3>
+        <p class="small"><b>CIS:</b> pierwszy epizod kliniczny (np. ON, mielopatia, zespół pniowy) niespełniający jeszcze pełnych kryteriów SM. <b>RIS:</b> typowe zmiany w MRI bez objawów klinicznych.</p>
+      </div>
+    </div>
+
+    <div class="grid2" style="margin-bottom:1.2rem">
+      <div class="card">
+        <h3>Częstość zespołów objawowych w przebiegu SM</h3>
+        <p class="small" style="margin-bottom:.6rem">Dominują zaburzenia czucia, deficyt piramidowy i przewlekłe zmęczenie; izolowana demielinizacja obwodowa nie należy do obrazu SM.</p>
+        <div class="bars" id="barsMsSymptoms"></div>
+      </div>
+      <div class="tcard r" style="margin:0">
+        <h3>👁️ Objaw flagowy: INO (międzyjądrowe porażenie spojrzenia)</h3>
+        <ul>
+          <li><b>Lokalizacja:</b> uszkodzenie <b>pęczka podłużnego przyśrodkowego (MLF)</b> w moście lub śródmózgowiu (łączy jądro n. VI z przeciwstronnym podjądrem n. III dla m. prostego przyśrodkowego).</li>
+          <li><b>Objaw przy patrzeniu w bok:</b> upośledzenie lub brak <b>przywodzenia oka po stronie uszkodzonego MLF</b> + dysocjacyjny <b>oczopląs poziomy w oku odwodzonym</b>.</li>
+          <li><b>Różnicowanie z porażeniem n. III:</b> <b>konwergencja pozostaje zachowana</b> (droga odruchowa omija MLF) oraz brak ptozy i poszerzenia źrenicy!</li>
+          <li><b>Znaczenie:</b> obustronne INO u młodego dorosłego jest niemal patognomoniczne dla stwardnienia rozsianego (u starszych częstszy udar lakunarny pnia).</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tw">
+      <table>
+        <thead>
+          <tr>
+            <th>Objaw / zespół</th>
+            <th>Podłoże anatomiczne</th>
+            <th>Obraz kliniczny na egzaminie i w badaniu</th>
+            <th>Uwaga różnicowa / pułapka</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>Pozagałkowe zapalenie n. II (ON)</b></td>
+            <td>Odcinek pozagałkowy nerwu wzrokowego</td>
+            <td>Jednostronny spadek ostrości wzroku w ciągu godzin–dni, <b>ból przy ruchach gałki ocznej</b>, zaburzenie widzenia barw (czerwonej), <b>RAPD (źrenica Marcusa Gunna)</b>, mroczek centralny</td>
+            <td><b>Dno oka jest prawidłowe</b> („chory nic nie widzi, lekarz nic nie widzi”); obrzęk tarczy tylko u ~1/3 (częściej w MOGAD!)</td>
+          </tr>
+          <tr>
+            <td><b>Objaw Lhermitte’a</b></td>
+            <td>Demielinizacja sznurów tylnych odcinka szyjnego rdzenia</td>
+            <td>Uczucie gwałtownego „przejścia prądu” wzdłuż kręgosłupa do kończyn przy <b>zgięciu głowy do przodu</b></td>
+            <td>Nieswoisty dla samego SM — występuje też w niedoborze B12, ucisku szyjnym i po radioterapii</td>
+          </tr>
+          <tr>
+            <td><b>Objaw Uhthoffa</b></td>
+            <td>Wrażliwe na temperaturę zdemielinizowane aksony</td>
+            <td>Przejściowe pogorszenie widzenia lub siły mięśniowej po <b>gorącej kąpieli, saunie, wysiłku lub w gorączce</b></td>
+            <td><b>Nie jest rzutem SM!</b> Ustępuje po schłodzeniu organizmu; przy gorączce szukaj infekcji (ZUM)</td>
+          </tr>
+          <tr>
+            <td><b>Zespół móżdżkowy (triada Charcota)</b></td>
+            <td>Konary móżdżku i drogi móżdżkowe w pniu</td>
+            <td><b>Mowa skandowana + drżenie zamiarowe + oczopląs</b>; ataksja chodu i kończyn, dysmetria</td>
+            <td>W zaawansowanym SM częste nakładanie ataksji móżdżkowej oraz czuciowej (sznury tylne)</td>
+          </tr>
+          <tr>
+            <td><b>Zespół piramidowy i pęcherz</b></td>
+            <td>Drogi korowo-rdzeniowe w rdzeniu i pniu</td>
+            <td>Niedowład spastyczny (częściej KD), wzmożone odruchy głębokie, brak odruchów brzusznych, <b>objaw Babińskiego</b>, parcia naglące / pęcherz neurogenny</td>
+            <td>Odruchy głębokie są <b>wzmożone (UMN)</b>, w przeciwieństwie do GBS/polineuropatii [10]</td>
+          </tr>
+          <tr>
+            <td><b>Objawowa neuralgia nerwu V</b></td>
+            <td>Strefa wejścia korzenia n. V w moście</td>
+            <td>Przeszywający ból twarzy u osoby <b>&lt;40 r.ż.</b>, często <b>obustronny</b> lub z osłabieniem odruchu rogówkowego</td>
+            <td>Powiązanie z Modułem [7]: młoda / obustronna neuralgia V zawsze wymaga MRI w kierunku SM!</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ============ B: KRYTERIA MCDONALDA ============ -->
+<section id="mcdonald">
+  <div class="wrap">
+    <div class="eyebrow">Część B · Rozsianie w przestrzeni (DIS) i w czasie (DIT) · MRI i PMR</div>
+    <h2>Kryteria McDonalda (2017) oraz profil PMR</h2>
+    <p class="lead">Rozpoznanie SM wymaga wykazania rozsiania zmian w przestrzeni (<b>DIS</b>) i w czasie (<b>DIT</b>) oraz <b>wykluczenia innych chorób</b> mogących lepiej tłumaczyć obraz kliniczny. Przełomem kryteriów z 2017 r. jest uznanie prążków oligoklonalnych w PMR za równoważnik DIT.</p>
+
+    <figure class="fig" style="margin-bottom:1.2rem">
+      <svg viewBox="0 0 900 290" id="mcdSvg" role="img" aria-label="Schemat kryteriów McDonalda 2017: 4 lokalizacje DIS oraz 3 drogi do DIT">
+        <defs><marker id="arMcD" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0 0 L9 4.5 L0 9Z" fill="#075760"/></marker></defs>
+        <!-- Kolumna DIS -->
+        <rect x="14" y="14" width="380" height="262" rx="14" fill="#E1ECF9" stroke="#2B63AE" stroke-width="2"/>
+        <text x="204" y="42" text-anchor="middle" font-size="14.5" font-weight="800" fill="#2B63AE">DIS — Rozsianie w przestrzeni (≥2 z 4 okolic)</text>
+        <rect x="30" y="58" width="348" height="44" rx="8" fill="#FFFFFF" stroke="#2B63AE" stroke-width="1.2"/>
+        <text x="44" y="84" font-size="12.5" font-weight="700" fill="#13232C">1. Okołokomorowe („palce Dawsona”, styk ze ścianą komór)</text>
+        <rect x="30" y="110" width="348" height="44" rx="8" fill="#FFFFFF" stroke="#2B63AE" stroke-width="1.2"/>
+        <text x="44" y="136" font-size="12.5" font-weight="700" fill="#13232C">2. Korowe lub podkorowe (juxtacortical — włókna U)</text>
+        <rect x="30" y="162" width="348" height="44" rx="8" fill="#FFFFFF" stroke="#2B63AE" stroke-width="1.2"/>
+        <text x="44" y="188" font-size="12.5" font-weight="700" fill="#13232C">3. Podnamiotowe (pień mózgu, konary, móżdżek)</text>
+        <rect x="30" y="214" width="348" height="44" rx="8" fill="#FFFFFF" stroke="#2B63AE" stroke-width="1.2"/>
+        <text x="44" y="240" font-size="12.5" font-weight="700" fill="#13232C">4. Rdzeń kręgowy (ogniska krótkie &lt;3 segm., ekscentryczne)</text>
+
+        <!-- Plus -->
+        <circle cx="422" cy="145" r="18" fill="#0C7A85"/>
+        <text x="422" y="151" text-anchor="middle" font-size="20" font-weight="800" fill="#FFFFFF">+</text>
+
+        <!-- Kolumna DIT -->
+        <rect x="450" y="14" width="436" height="262" rx="14" fill="#DDF1F2" stroke="#0C7A85" stroke-width="2"/>
+        <text x="668" y="42" text-anchor="middle" font-size="14.5" font-weight="800" fill="#075760">DIT — Rozsianie w czasie (wystarczy 1 z 3)</text>
+        <rect x="466" y="58" width="404" height="58" rx="8" fill="#FFFFFF" stroke="#0C7A85" stroke-width="1.2"/>
+        <text x="480" y="82" font-size="12.5" font-weight="800" fill="#075760">A. Jedno badanie MRI: ognisko Gd+ ORAZ ognisko Gd−</text>
+        <text x="480" y="102" font-size="11.5" fill="#44545D">równoczesna obecność zmiany świeżej (Gd+) i starszej (niewzmacniającej)</text>
+
+        <rect x="466" y="128" width="404" height="58" rx="8" fill="#FFFFFF" stroke="#0C7A85" stroke-width="1.2"/>
+        <text x="480" y="152" font-size="12.5" font-weight="800" fill="#075760">B. Kolejne MRI: nowe ognisko T2 lub nowe ognisko Gd+</text>
+        <text x="480" y="172" font-size="11.5" fill="#44545D">niezależnie od odstępu czasu w stosunku do badania wyjściowego</text>
+
+        <rect x="466" y="198" width="404" height="62" rx="8" fill="#E1F3E7" stroke="#216B3E" stroke-width="1.6"/>
+        <text x="480" y="222" font-size="12.5" font-weight="800" fill="#216B3E">C. Prążki oligoklonalne (OCB IgG) specyficzne dla PMR!</text>
+        <text x="480" y="242" font-size="11.5" fill="#13232C">kryterium 2017: zastępują DIT w MRI po pierwszym rzucie przy spełnionym DIS</text>
+      </svg>
+      <figcaption>Zasada rozpoznania RRMS po pierwszym epizodzie klinicznym (CIS) wg kryteriów McDonalda z 2017 r. (w PPMS wymagana dodatkowo ≥1 rok progresji oraz ≥2 z 3: ≥1 zmiana mózgowa DIS, ≥2 zmiany rdzeniowe lub OCB w PMR).</figcaption>
+    </figure>
+
+    <!-- Interaktywny ewaluator McDonalda 2017 -->
+    <div class="card" style="margin-bottom:1.2rem">
+      <h3>🧪 Interaktywny ewaluator kryteriów McDonalda (2017) dla pacjenta po 1. rzucie (CIS)</h3>
+      <p class="small" style="margin-bottom:.8rem">Zaznacz stwierdzone ogniska T2 w MRI oraz wynik badania PMR / kolejnego MRI, aby sprawdzić spełnienie kryteriów DIS i DIT.</p>
+      <div class="grid2">
+        <div class="pas stack" id="mcdDis">
+          <h4>DIS — lokalizacje T2 w MRI (min. 2 z 4):</h4>
+          <label><input type="checkbox" checked> Okołokomorowa (≥1 ognisko)<b>DIS 1</b></label>
+          <label><input type="checkbox" checked> Korowa / podkorowa (≥1 ognisko)<b>DIS 2</b></label>
+          <label><input type="checkbox"> Podnamiotowa: pień / móżdżek (≥1 ognisko)<b>DIS 3</b></label>
+          <label><input type="checkbox"> Rdzeń kręgowy (≥1 ognisko)<b>DIS 4</b></label>
+        </div>
+        <div class="pas stack" id="mcdDit">
+          <h4>DIT lub zastępnik PMR (min. 1 z poniższych):</h4>
+          <label><input type="checkbox"> Jednoczesne ogniska Gd+ i Gd− w 1 MRI<b>DIT MRI</b></label>
+          <label><input type="checkbox"> Nowe ognisko T2 lub Gd+ w kolejnym MRI<b>DIT f/u</b></label>
+          <label><input type="checkbox" checked> Prążki oligoklonalne (OCB) tylko w PMR (typ 2/3)<b>OCB+</b></label>
+          <label><input type="checkbox"> ≥2 rzuty kliniczne z odrębnych lokalizacji<b>Klinika</b></label>
+        </div>
+      </div>
+      <div id="mcdResult" style="margin-top:.9rem" aria-live="polite"></div>
+    </div>
+
+    <div class="grid2">
+      <div class="card">
+        <h3>Czułość prążków oligoklonalnych (OCB IgG) w PMR</h3>
+        <p class="small" style="margin-bottom:.6rem">Obecność prążków IgG w PMR przy braku identycznych prążków w surowicy (typ 2 lub typ 3) dowodzi wewnątrzoponowej syntezy przeciwciał.</p>
+        <div class="bars" id="barsOcbSens"></div>
+      </div>
+      <div class="tcard v" style="margin:0">
+        <h3>🧫 Typowy profil PMR w SM i czerwone flagi</h3>
+        <ul>
+          <li><b>Pleocytoza:</b> prawidłowa lub łagodna jednojądrzasta (zwykle &lt;35–50 komórek/µl). <b>Pleocytoza &gt;50/µl</b> lub obecność neutrofilów/eozynofilów przemawia przeciwko SM (pomyśl o NMOSD, neuroinfekcji, neurosarkoidozie!).</li>
+          <li><b>Białko całkowite:</b> prawidłowe lub nieznacznie podwyższone (zwykle &lt;70–100 mg/dl). Bardzo wysokie białko &gt;100 mg/dl podważa SM.</li>
+          <li><b>Indeks IgG (Linka–Tibblinga):</b> podwyższony (&gt;0,7) u ~70–80% chorych.</li>
+          <li><b>Prążki oligoklonalne (OCB):</b> dodatnie u ~90–95% chorych na SM (wykrywane ogniskowaniem izoelektrycznym równocześnie w PMR i surowicy!).</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ C: RZUT I DMT ============ -->
+<section id="leczenie">
+  <div class="wrap">
+    <div class="eyebrow">Część C · Leczenie rzutu i terapie modyfikujące przebieg choroby (DMT)</div>
+    <h2>Postępowanie w rzucie oraz profil bezpieczeństwa DMT</h2>
+    <p class="lead">Leczenie stwardnienia rozsianego obejmuje trzy filary: opanowanie ostrego rzutu (skrócenie czasu trwania objawów), przewlekłą terapię modyfikującą przebieg choroby (DMT — redukcja rzutów i progresji) oraz leczenie objawowe (spastyczność, zmęczenie, pęcherz, ból neuropatyczny).</p>
+
+    <div class="flow" style="margin-bottom:1.4rem">
+      <div class="fn start">Podejrzenie rzutu SM: nowe objawy lub wyraźne nasilenie poprzednich trwające ≥24 h</div>
+      <div class="ar">↓</div>
+      <div class="fn amber"><b>Krok 1 · Wyklucz pseudorzut!</b>Sprawdź temperaturę ciała, CRP/leukocytozę i badanie ogólne moczu (ZUM!), przegrzanie (Uhthoff) oraz infekcje. Przy infekcji najpierw lecz zakażenie!</div>
+      <div class="ar">↓</div>
+      <div class="branch">
+        <div>
+          <div class="fn blue"><b>Krok 2 · Rzut potwierdzony (I rzut)</b><b>Metyloprednizolon i.v. 1000 mg/d przez 3–5 dni</b> (z osłoną IPP i kontrolą glikemii/K⁺; nie zapobiega odległym rzutom, przyspiesza jedynie ustępowanie obecnego)</div>
+        </div>
+        <div>
+          <div class="fn red"><b>Krok 3 · Ciężki rzut oporny na GKS</b>Brak poprawy po pulsach metyloprednizolonu (np. ciężkie ON lub mielopatia) → <b>Plazmafereza (PLEX, 5–7 zabiegów)</b> lub kolejny puls GKS</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tw" style="margin-bottom:1.2rem">
+      <table>
+        <thead>
+          <tr>
+            <th>Grupa / lek DMT</th>
+            <th>Mechanizm i postać SM</th>
+            <th>Kluczowe działania niepożądane i monitorowanie na egzaminie</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>Interferony β (IFN-β)</b><br><span class="small">i.m. / s.c.</span></td>
+            <td>Immunomodulacja · CIS, RRMS, aktywna SPMS</td>
+            <td>Objawy grypopodobne, odczyny w miejscu wstrzyknięcia, wzrost transaminaz, depresja. <b>Można rozważyć w ciąży</b>; mogą zaostrzać NMOSD!</td>
+          </tr>
+          <tr>
+            <td><b>Octan glatirameru (GA)</b><br><span class="small">s.c.</span></td>
+            <td>Polimer aminokwasowy (przesunięcie Th1→Th2) · CIS, RRMS</td>
+            <td>Przejściowa reakcja po wstrzyknięciu (zaczerwienienie, duszność, kołatanie), lipoatrofia. <b>Najlepiej udokumentowane bezpieczeństwo w ciąży i laktacji!</b></td>
+          </tr>
+          <tr>
+            <td><b>Fumaran dimetylu (DMF)</b><br><span class="small">doustnie 2×/d</span></td>
+            <td>Aktywacja szlaku Nrf2 · RRMS</td>
+            <td>Uderzenia gorąca (flushing), dolegliwości żołądkowo-jelitowe. Monitoruj morfologię co 3 mies. — przy <b>ciężkiej limfopenii (&lt;500/µl) ryzyko PML!</b></td>
+          </tr>
+          <tr>
+            <td><b>Teryflunomid</b><br><span class="small">doustnie 1×/d</span></td>
+            <td>Inhibitor DHODH (blokuje proliferację limfocytów) · RRMS</td>
+            <td>Przerzedzenie włosów, wzrost AlAT, polineuropatia. <b>BEZWZGLĘDNIE teratogenny!</b> Krążenie jelitowo-wątrobowe do 2 lat — przed planowaną ciążą konieczne <b>przyspieszone wymywanie cholestyraminą</b> lub węglem aktywnym!</td>
+          </tr>
+          <tr>
+            <td><b>Modulatory S1P</b><br><span class="small">fingolimod, siponimod, ozanimod, ponesimod</span></td>
+            <td>Zatrzymanie limfocytów w węzłach chłonnych · RRMS; <b>siponimod w aktywnym SPMS</b></td>
+            <td><b>Fingolimod:</b> przy 1. dawce <b>obowiązkowy monitoring EKG ≥6 h</b> (bradykardia, blok AV!), ocena dna oka/OCT (<b>obrzęk plamki</b> po 3–4 mies.), VZV-IgG przed startem, <b>efekt odbicia (rebound)</b> po odstawieniu.</td>
+          </tr>
+          <tr>
+            <td><b>Natalizumab</b><br><span class="small">i.v. / s.c. co 4 tyg. (HET)</span></td>
+            <td>Przeciwciało anty-α4-integryna (blokuje przechodzenie przez BBB) · wysoce aktywne RRMS</td>
+            <td>Główne ryzyko: <b>PML (wirus JCV)</b> — ryzyko rośnie przy wysokim mianie <b>anty-JCV</b>, leczeniu <b>&gt;24 mies.</b> i wcześniejszej immunosupresji. Po odstawieniu silny efekt odbicia!</td>
+          </tr>
+          <tr>
+            <td><b>Anty-CD20</b><br><span class="small">okrelizumab (i.v.), ofatumumab (s.c.) (HET)</span></td>
+            <td>Deplecja limfocytów B CD20+ · aktywne RRMS; <b>okrelizumab jako jedyny w aktywnym PPMS!</b></td>
+            <td>Reakcje wlewowe, hipogammaglobulinemia, infekcje. Przed podaniem wyklucz <b>utajone zakażenie HBV</b> (ryzyko reaktywacji!), gruźlicę i uzupełnij wymaganą immunizację przed immunosupresją.</td>
+          </tr>
+          <tr>
+            <td><b>Terapie rekonstytucyjne (IRT)</b><br><span class="small">kladrybina (p.o.), alemtuzumab (i.v.)</span></td>
+            <td>Krótkie cykle w roku 1 i 2 z długotrwałą przebudową odporności · wysoce aktywne RRMS</td>
+            <td><b>Alemtuzumab:</b> częste <b>wtórne choroby autoimmunologiczne</b> (tarczycy ~30–40%, ITP, nefropatia anty-GBM) — monitoring laboratoryjny przez 48 mies. po ostatnim cyklu!</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="grid2">
+      <div class="callout green" style="margin:0">
+        <b class="k">Ciąża i SM — co zapamiętać?</b>
+        W trakcie ciąży (zwłaszcza III trymestr) częstość rzutów spada, lecz <b>w pierwszych 3 miesiącach po porodzie ryzyko rzutu wyraźnie rośnie</b>. Bezpieczne/dopuszczalne leki w planowaniu lub ciąży to octan glatirameru i IFN-β (natalizumab/anty-CD20 w indywidualnych wskazaniach); <b>teryflunomid i fingolimod są przeciwwskazane</b>.
+      </div>
+      <div class="callout blue" style="margin:0">
+        <b class="k">Leczenie objawowe w SM (jakość życia)</b>
+        <ul class="tight small" style="margin-top:.25rem">
+          <li><b>Spastyczność:</b> baklofen, tizanidyna, gabapentyna, nabiksimols (Sativex), pompa baklofenowa w ciężkiej spastyczności.</li>
+          <li><b>Przewlekłe zmęczenie:</b> amantadyna, modafinil (off-label), aktywność fizyczna i higiena snu.</li>
+          <li><b>Zaburzenia chodu:</b> famprydyna (4-aminopirydyna — poprawa przewodzenia w zdemielinizowanych aksonach; uwaga na obniżenie progu drgawkowego!).</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ D: NMOSD I MOGAD ============ -->
+<section id="nmosd">
+  <div class="wrap">
+    <div class="eyebrow">Część D · Spektrum zapalenia nerwów wzrokowych i rdzenia</div>
+    <h2>NMOSD (AQP4-IgG) i MOGAD — odróżnienie od SM</h2>
+    <p class="lead">Dawniej łączone pod nazwą choroby Devica, dziś stanowią odrębne jednostki immunologiczne. Pomylenie NMOSD ze stwardnieniem rozsianym i włączenie leków stosowanych w SM (np. interferonu beta, fingolimodu lub natalizumabu) może wywołać ciężkie, nieodwracalne zaostrzenie choroby.</p>
+
+    <figure class="fig wide" style="margin-bottom:1.2rem">
+      <svg viewBox="0 0 900 260" id="nmosdSvg" role="img" aria-label="Porównanie ognisk rdzeniowych i wzrokowych w SM, NMOSD i MOGAD">
+        <!-- SM -->
+        <rect x="14" y="14" width="284" height="232" rx="14" fill="#DDF1F2" stroke="#0C7A85" stroke-width="2"/>
+        <text x="156" y="40" text-anchor="middle" font-size="14" font-weight="800" fill="#075760">Stwardnienie rozsiane (SM)</text>
+        <rect x="30" y="58" width="24" height="118" rx="10" fill="#FFFFFF" stroke="#44545D" stroke-width="1.6"/>
+        <rect x="43" y="84" width="8" height="22" rx="4" fill="#0C7A85"/>
+        <ellipse cx="42" cy="204" rx="18" ry="13" fill="#FFFFFF" stroke="#44545D" stroke-width="1.5"/>
+        <circle cx="50" cy="200" r="4.5" fill="#0C7A85"/>
+        <text x="68" y="76" font-size="11.5" font-weight="700" fill="#13232C">• Rdzeń: ogniska krótkie (&lt;3 segm.)</text>
+        <text x="68" y="98" font-size="11.5" fill="#13232C">• Przekrój: ekscentryczne (tylno-boczne)</text>
+        <text x="68" y="120" font-size="11.5" fill="#13232C">• ON: jednostronne, pozagałkowe</text>
+        <text x="68" y="142" font-size="11.5" fill="#13232C">• PMR: OCB (+) ~90–95%</text>
+        <text x="68" y="164" font-size="11.5" fill="#13232C">• Patogeneza: demielinizacja</text>
+        <text x="68" y="208" font-size="11" font-weight="700" fill="#075760">Przekrój: obwodowe / klinowe</text>
+
+        <!-- NMOSD -->
+        <rect x="308" y="14" width="284" height="232" rx="14" fill="#FBE6E2" stroke="#A82D1E" stroke-width="2"/>
+        <text x="450" y="40" text-anchor="middle" font-size="14" font-weight="800" fill="#A82D1E">NMOSD (AQP4-IgG)</text>
+        <rect x="324" y="58" width="24" height="118" rx="10" fill="#FFFFFF" stroke="#44545D" stroke-width="1.6"/>
+        <rect x="328" y="68" width="16" height="68" rx="6" fill="#A82D1E"/>
+        <ellipse cx="336" cy="204" rx="18" ry="13" fill="#FFFFFF" stroke="#44545D" stroke-width="1.5"/>
+        <ellipse cx="336" cy="204" rx="10" ry="7" fill="#A82D1E"/>
+        <text x="362" y="76" font-size="11.5" font-weight="800" fill="#A82D1E">• Rdzeń: LETM (≥3 segmenty!)</text>
+        <text x="362" y="98" font-size="11.5" fill="#13232C">• Przekrój: centralne (cały przekrój)</text>
+        <text x="362" y="120" font-size="11.5" fill="#13232C">• ON: ciężkie, obustronne / skrzyż.</text>
+        <text x="362" y="142" font-size="11.5" fill="#13232C">• Area postrema: czkawka, wymioty</text>
+        <text x="362" y="164" font-size="11.5" fill="#13232C">• PMR: OCB (−) w 75–85%!</text>
+        <text x="362" y="208" font-size="11" font-weight="800" fill="#A82D1E">Przekrój: centralna astrocytopatia</text>
+
+        <!-- MOGAD -->
+        <rect x="602" y="14" width="284" height="232" rx="14" fill="#E1ECF9" stroke="#2B63AE" stroke-width="2"/>
+        <text x="744" y="40" text-anchor="middle" font-size="14" font-weight="800" fill="#2B63AE">MOGAD (MOG-IgG)</text>
+        <rect x="618" y="58" width="24" height="118" rx="10" fill="#FFFFFF" stroke="#44545D" stroke-width="1.6"/>
+        <path d="M622 126 L638 126 L636 164 Q630 176 624 164 Z" fill="#2B63AE"/>
+        <ellipse cx="630" cy="204" rx="18" ry="13" fill="#FFFFFF" stroke="#44545D" stroke-width="1.5"/>
+        <path d="M623 198 L623 210 M637 198 L637 210 M623 204 L637 204" stroke="#2B63AE" stroke-width="3.5" stroke-linecap="round"/>
+        <text x="656" y="76" font-size="11.5" font-weight="700" fill="#13232C">• Rdzeń: LETM lub stożek rdzeniowy</text>
+        <text x="656" y="98" font-size="11.5" fill="#13232C">• Przekrój: istota szara („H-sign”)</text>
+        <text x="656" y="120" font-size="11.5" fill="#13232C">• ON: przednie + obrzęk tarczy II</text>
+        <text x="656" y="142" font-size="11.5" fill="#13232C">• Częsty obraz ADEM (u młodszych)</text>
+        <text x="656" y="164" font-size="11.5" fill="#13232C">• PMR: OCB (−) &gt;85% · dobra reakcja GKS</text>
+        <text x="656" y="208" font-size="11" font-weight="700" fill="#2B63AE">Przekrój: „H-sign” + stożek</text>
+      </svg>
+      <figcaption>Zestawienie topografii rdzeniowej, wzrokowej i profilu PMR między SM, AQP4+ NMOSD a MOGAD.</figcaption>
+    </figure>
+
+    <div class="tw" style="margin-bottom:1.2rem">
+      <table>
+        <thead>
+          <tr>
+            <th>Cecha</th>
+            <th>SM</th>
+            <th>NMOSD (AQP4-IgG)</th>
+            <th>MOGAD (MOG-IgG)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>Patomechanizm</b></td>
+            <td>Zapalno-demielinizacyjna choroba OUN (limfocyty T i B)</td>
+            <td><b>Astrocytopatia</b> (przeciwciała przeciw kanałowi wodnemu akwaporyna-4)</td>
+            <td>Demielinizacja zależna od IgG przeciw białku MOG oligodendrocytów</td>
+          </tr>
+          <tr>
+            <td><b>Płeć i przebieg</b></td>
+            <td>K:M ≈ 3:1 · rzuty + progresja (SPMS/PPMS)</td>
+            <td>Wyraźna przewaga kobiet (~9:1) · ciężkie rzuty z niepełnym powrotem (bez cichej progresji)</td>
+            <td>K:M ≈ 1:1 · często po infekcji; monofazowa lub nawrotowa, zwykle dobre zdrowienie</td>
+          </tr>
+          <tr>
+            <td><b>Zapalenie n. wzrokowego</b></td>
+            <td>Jednostronne, pozagałkowe, krótsze</td>
+            <td>Często obustronne, ciężkie, zajmuje tylny odcinek i <b>skrzyżowanie wzrokowe</b></td>
+            <td>Często obustronne, <b>przednie z wyraźnym obrzękiem tarczy</b> i zapaleniem pochewki nerwu</td>
+          </tr>
+          <tr>
+            <td><b>Zapalenie rdzenia (MRI)</b></td>
+            <td>Krótkie (&lt;3 segm.), ekscentryczne</td>
+            <td><b>LETM (≥3 segm.)</b>, centralne, obrzęk, czasem jamistość</td>
+            <td>LETM lub krótkie, częste zajęcie <b>stożka rdzeniowego</b> i istoty szarej (<i>H-sign</i>)</td>
+          </tr>
+          <tr>
+            <td><b>Zespoły mózgowe / pniowe</b></td>
+            <td>Palce Dawsona, MLF (INO), pień, móżdżek</td>
+            <td><b>Area postrema syndrome</b> (uporczywa czkawka, nudności, wymioty), międzymózgowie (narkolepsja)</td>
+            <td><b>ADEM</b> (rozsiane zapalenie mózgu i rdzenia), korowe zapalenie z napadami (FLAMES)</td>
+          </tr>
+          <tr>
+            <td><b>Leczenie rzutu i profilaktyka</b></td>
+            <td>Metyloprednizolon i.v. (ew. PLEX); DMT (IFN-β, DMF, S1P, NTZ, anty-CD20)</td>
+            <td>Pilnie <b>GKS i.v. + wczesna plazmafereza (PLEX)</b>; profilaktyka: <b>ekulizumab, satralizumab, inebilizumab, rytuksymab</b>, AZA/MMF</td>
+            <td>GKS i.v. + <b>powolna redukcja GKS p.o.</b> (ryzyko nawrotu przy szybkim odstawieniu); podtrzymująco IVIG / AZA / MMF / tocilizumab</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout red">
+      <b class="k">Krytyczna pułapka terapeutyczna · Nie lecz NMOSD lekami na SM!</b>
+      Jeśli chory ma LETM (≥3 segmenty), ciężkie obustronne zapalenie nerwów wzrokowych, czkawkę/wymioty (<i>area postrema</i>) lub brak OCB — przed włączeniem terapii SM zawsze oznacz <b>AQP4-IgG i MOG-IgG</b> w teście komórkowym (CBA). <b>Interferon beta, fingolimod, natalizumab, fumaran dimetylu i alemtuzumab mogą wywołać katastrofalne rzuty w NMOSD!</b>
+    </div>
+  </div>
+</section>
+
+<!-- ============ E: ZAPALENIA AUTOIMMUNOLOGICZNE ============ -->
+<section id="zapalenia">
+  <div class="wrap">
+    <div class="eyebrow">Część E · Autoimmunologiczne zapalenie mózgu (AE) i zespoły paranowotworowe</div>
+    <h2>Zapalenia autoimmunologiczne mózgu (anty-NMDAR, LGI1 i in.)</h2>
+    <p class="lead">Podostre zaburzenia pamięci świeżej, psychoza o nagłym początku, napady padaczkowe i dyskinezy powinny budzić podejrzenie autoimmunologicznego zapalenia mózgu. Kluczowy podział rozróżnia przeciwciała przeciw antygenom powierzchniowym (często uleczalne) oraz wewnątrzkomórkowym onkoneuronalnym.</p>
+
+    <div class="grid2" style="margin-bottom:1.2rem">
+      <div class="tcard g" style="margin:0">
+        <span class="pill g">Bezpośrednio patogenne</span>
+        <h3>Przeciwciała powierzchniowe / synaptyczne</h3>
+        <ul>
+          <li><b>Przykłady:</b> <b>anty-NMDAR</b>, <b>anty-LGI1</b>, <b>anty-CASPR2</b>, anty-GABABR, anty-AMPAR.</li>
+          <li><b>Związek z nowotworem:</b> zmienny (od rzadkiego w anty-LGI1 do ~40–50% potworniaka jajnika w anty-NMDAR lub grasiczaka w CASPR2).</li>
+          <li><b>Rokowanie i leczenie:</b> <b>dobra odpowiedź na immunoterapię</b> (I rzut: GKS + IVIG/PLEX; II rzut: rytuksymab/cyklofosfamid) oraz usunięcie guza.</li>
+        </ul>
+      </div>
+      <div class="tcard r" style="margin:0">
+        <span class="pill r">Marker odpowiedzi T-komórkowej</span>
+        <h3>Przeciwciała wewnątrzkomórkowe (onkoneuronalne)</h3>
+        <ul>
+          <li><b>Przykłady:</b> <b>anty-Hu</b> (SCLC), <b>anty-Yo</b> (rak jajnika/piersi — zwyrodnienie móżdżku), <b>anty-Ma2</b> (guz jądra), <b>anty-Ri</b>, <b>anty-amfifizyna</b>.</li>
+          <li><b>Związek z nowotworem:</b> <b>bardzo silny (&gt;80–90%)</b> — często wyprzedzają rozpoznanie raka o miesiące!</li>
+          <li><b>Rokowanie i leczenie:</b> nieodwracalna śmierć neuronów zależna od limfocytów T CD8+ → słabsza odpowiedź na immunoterapię; <b>najważniejsze szybkie znalezienie i leczenie nowotworu</b>.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="dcards" style="margin-bottom:1.2rem">
+      <details class="dc" data-c="i" open>
+        <summary>
+          <span class="em">🧠</span>
+          <span class="t">Zapalenie anty-NMDAR <small>młode kobiety · psychoza · dyskinezy · potworniak jajnika</small></span>
+        </summary>
+        <div class="body">
+          <div class="row"><b>Przebieg</b> (1) prodrom wirusopodobny → (2) ostre objawy psychiatryczne (psychoza, halucynacje, katatonia, bezsenność) → (3) napady padaczkowe i zaburzenia świadomości → (4) <b>dyskinezy ustno-twarzowe</b>, <b>niestabilność autonomiczna</b> (wahania RR/HR, hipertermia) i hipowentylacja.</div>
+          <div class="row"><b>Diagnostyka</b> MRI mózgu prawidłowe w ~50% przypadków (!); EEG: uogólnione zwolnienie lub <b>extreme delta brush</b>; PMR: pleocytoza limfocytarna; <b>przeciwciała anty-NMDAR czulsze w PMR niż w surowicy</b>.</div>
+          <div class="pearl"><b>Nowotwór i leczenie:</b> U dorosłych kobiet pilne USG/TK/MRI miednicy w kierunku <b>potworniaka jajnika (teratoma)</b> — jego usunięcie + GKS i.v. + IVIG/PLEX radykalnie poprawia rokowanie.</div>
+        </div>
+      </details>
+
+      <details class="dc" data-c="s" open>
+        <summary>
+          <span class="em">⚡</span>
+          <span class="t">Zapalenie anty-LGI1 <small>starsi chorzy · amnezja limbiczna · FBDS · hiponatremia</small></span>
+        </summary>
+        <div class="body">
+          <div class="row"><b>Obraz</b> Pacjenci zwykle &gt;50–60 r.ż., podostre zaburzenia pamięci świeżej (zapalenie limbiczne), splątanie i napady skroniowe.</div>
+          <div class="row"><b>Sygnał alarmowy</b> Patognomoniczne <b>napady dystoniczne twarzowo-ramienne (FBDS)</b> — krótkie (1–3 s), częste (kilkadziesiąt razy dziennie!) skurcze połowy twarzy i ipsilateralnej ręki poprzedzające otępienie.</div>
+          <div class="pearl"><b>Laboratorium i MRI:</b> Częsta oporna <b>hiponatremia (SIADH)</b> (~60%); w MRI hiperintensywność T2/FLAIR przyśrodkowych płatów skroniowych (hipokampów). Słaba odpowiedź na leki przeciwpadaczkowe, bardzo dobra na sterydy i immunoterapię!</div>
+        </div>
+      </details>
+
+      <details class="dc" data-c="f">
+        <summary>
+          <span class="em">🌙</span>
+          <span class="t">Zapalenie anty-CASPR2 i zespół Morvana <small>neuromiotonia · agrypnia · grasiczak</small></span>
+        </summary>
+        <div class="body">
+          <div class="row"><b>Obraz</b> Starszy mężczyzna z zapaleniem limbicznym lub zespołem Morvana: <b>neuromiotonia</b> (fascykulacje, skurcze mięśniowe w EMG), ciężka bezsenność (agrypnia), neuropatia obwodowa i dysautonomia.</div>
+          <div class="trap"><b>Onkologia:</b> Poszukaj <b>grasiczaka (thymoma)</b> w TK klatki piersiowej!</div>
+        </div>
+      </details>
+
+      <details class="dc" data-c="e">
+        <summary>
+          <span class="em">🎗️</span>
+          <span class="t">Klasyczne zespoły paranowotworowe (Hu, Yo, Ma2, GAD65) <small>SCLC · rak jajnika · guz jądra</small></span>
+        </summary>
+        <div class="body">
+          <div class="row"><b>Anty-Hu</b> Drobnokomórkowy rak płuca (SCLC) — zapalenie limbiczne, zapalenie pnia, podostra neuronopatia czuciowa (ataksja).</div>
+          <div class="row"><b>Anty-Yo</b> Rak jajnika lub piersi — podostre zwyrodnienie móżdżku (ciężka ataksja, dyzartria, oczopląs).</div>
+          <div class="row"><b>Anty-Ma2 / GAD65</b> Anty-Ma2 u młodych mężczyzn z guzem jądra (zapalenie limbiczne/międzymózgowia). Anty-GAD65 (często bez guza, współistnieje z DM1) lub anty-amfifizyna (rak piersi) → zespół sztywności uogólnionej (<i>stiff-person syndrome</i>).</div>
+        </div>
+      </details>
+    </div>
+
+    <div class="callout blue">
+      <b class="k">Zasada postępowania wg kryteriów Grausa (2016) · Czas ma znaczenie!</b>
+      Po wykluczeniu neuroinfekcji (szczególnie <b>opryszczkowego zapalenia mózgu HSV-1</b> w PCR PMR i ZOMR bakteryjnego — na start często empirycznie acyklowir do wyniku PCR!) <b>NIE czekaj z włączeniem immunoterapii I rzutu (metyloprednizolon i.v. 1000 mg/d przez 3–5 dni + IVIG 2 g/kg lub PLEX)</b> na wynik przeciwciał, który trwa 1–3 tygodnie. Równocześnie prowadź diagnostykę onkologiczną (USG/TK klatki piersiowej, jamy otrzewnej, miednicy, ewentualnie PET-TK).
+    </div>
+  </div>
+</section>
+
+<!-- ============ F: ZADANIA TESTOWE ============ -->
+<section id="zadania">
+  <div class="wrap">
+    <div class="eyebrow">Część F · Trening testowy</div>
+    <h2>Zadania testowe i omówienia</h2>
+    <p class="lead">Zadania opracowane pod egzamin testowy (ET) Kliniki Neurologii PUM 2026/2027 (W03g, Sem TK02, Ćw TK05) oraz wytyczne kliniczne. Wybierz odpowiedź, aby sprawdzić uzasadnienie i porównanie z wytycznymi — wynik zapisuje się w Hubie (prefix <code>auto-q</code>).</p>
+
+    <div class="card" style="margin-bottom:1.2rem">
+      <h3>Rozkład zadań w tym atlasie według działów</h3>
+      <p class="small" style="margin-bottom:.6rem">Wszystkie 7 zadań pokrywa obraz SM i kryteria McDonalda, leczenie rzutu i DMT, NMOSD/MOGAD oraz zapalenia autoimmunologiczne mózgu.</p>
+      <div class="bars" id="barsPool"></div>
+    </div>
+
+    <div class="qtools">
+      <div class="filters" id="qFilters" style="margin:0"></div>
+      <span class="sp"></span>
+      <button type="button" class="btn" id="rand10">🎲 Losuj kolejność</button>
+      <button type="button" class="btn o" id="resetQ">Resetuj</button>
+    </div>
+    <div id="quiz"></div>
+    <div class="score" id="score" role="status">Wynik: 0 / 0</div>
+  </div>
+</section>
+
+<!-- ============ G: KLUCZ VS WYTYCZNE ============ -->
+<section id="klucz">
+  <div class="wrap">
+    <div class="eyebrow">Część G · Podwójna prawda egzaminacyjno-kliniczna</div>
+    <h2>Pod zaliczenie kontra aktualnie klinicznie (wytyczne)</h2>
+    <p class="lead">W neurologii immunologicznej ostatnia dekada zmieniła kryteria rozpoznania i strategię leczenia. Poniższa tabela chroni przed rozbieżnościami pomiędzy starszymi pytaniami testowymi a aktualnymi rekomendacjami.</p>
+
+    <div class="tw">
+      <table>
+        <thead>
+          <tr>
+            <th>Zagadnienie</th>
+            <th>Pod zaliczenie (klasyczne ujęcie testowe)</th>
+            <th>Aktualnie klinicznie (wytyczne EAN / ECTRIMS / IPND / Graus)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>Rola prążków oligoklonalnych (OCB) w kryteriach McDonalda</b></td>
+            <td>Kryteria 2010: OCB wspierają głównie PPMS; w RRMS do DIT konieczne ogniska Gd+ i Gd− lub nowe T2 w kolejnym MRI.</td>
+            <td>Kryteria <b>McDonalda 2017</b>: dodatnie OCB w PMR <b>zastępują DIT</b> przy spełnionym DIS. Propozycje rewizji 2024 dodają nerw wzrokowy jako 5. lokalizację DIS oraz cechy MRI (<i>central vein sign</i>, <i>PRL</i>).</td>
+          </tr>
+          <tr>
+            <td><b>Wybór pierwszej terapii DMT w RRMS</b></td>
+            <td>Tradycyjna eskalacja: zaczynaj niemal zawsze od leku I linii (IFN-β lub octan glatirameru), eskaluj po przełamaniu terapii.</td>
+            <td>Strategia <b>„flip the pyramid”</b>: przy wysokiej aktywności lub czynnikach złego rokowania wczesne włączenie <b>HET</b> (okrelizumab, ofatumumab, natalizumab, kladrybina) od początku istotnie ogranicza niepełnosprawność.</td>
+          </tr>
+          <tr>
+            <td><b>Leczenie postaci pierwotnie postępującej (PPMS)</b></td>
+            <td>Brak swoistego leczenia modyfikującego przebieg — wyłącznie rehabilitacja i terapia objawowa.</td>
+            <td><b>Okrelizumab</b> (anty-CD20) jest zarejestrowany i refundowany w aktywnej postaci wczesnego PPMS (z cechami aktywności zapalnej w MRI).</td>
+          </tr>
+          <tr>
+            <td><b>Spektrum choroby Devica (NMO)</b></td>
+            <td>Jedna jednostka „choroba Devica” (ew. AQP4+ vs seronegatywne NMO).</td>
+            <td>Rozdział na <b>AQP4+ NMOSD</b> (astrocytopatia; leki biologiczne anty-C5, anty-IL-6R, anty-CD19) oraz odrębną jednostkę <b>MOGAD</b> (kryteria międzynarodowe 2023 r.).</td>
+          </tr>
+          <tr>
+            <td><b>Podejrzenie autoimmunologicznego zapalenia mózgu</b></td>
+            <td>Weryfikacja rozpoznania dopiero po uzyskaniu wyniku panelu przeciwciał z laboratorium referencyjnego.</td>
+            <td>Wg <b>kryteriów Grausa</b>: po wykluczeniu infekcji (HSV-1 PCR) i guza/udaru należy <b>od razu wdrożyć GKS i.v. + IVIG/PLEX</b> bez czekania na wynik przeciwciał.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ============ H: PUŁAPKI ============ -->
+<section id="pulapki">
+  <div class="wrap">
+    <div class="eyebrow">Część H · Powiązania i czerwone flagi</div>
+    <h2>Pułapki egzaminacyjne i powiązania międzymodułowe</h2>
+    <p class="lead">Moduł [9] przenika na egzaminie z zaburzeniami świadomości [3], padaczką [4], badaniem nerwów czaszkowych [6], neuralgią nerwu V [7], interną [12] oraz diagnostyką MRI/PMR [16].</p>
+
+    <div class="grid2" style="align-items:start">
+      <figure class="fig wide" style="margin:0">
+        <svg viewBox="0 0 680 470" id="crossSvg" role="img" aria-label="Mapa połączeń modułu 9 z pozostałymi modułami"></svg>
+        <figcaption>Moduł [9] i kluczowe powiązania z pozostałymi modułami sylabusa PUM 2026/2027.</figcaption>
+      </figure>
+      <div class="stack">
+        <div class="callout red">
+          <b class="k">Pułapka 1 · Pseudorzut (Uhthoff / infekcja) ≠ prawdziwy rzut SM</b>
+          Nagłe pogorszenie widzenia lub siły w trakcie gorączki, ZUM lub po gorącej kąpieli trwa zwykle krócej niż 24 h lub ustępuje po schłodzeniu i wyleczeniu zakażenia. Zawsze zrób badanie moczu przed podaniem pulsów metyloprednizolonu!
+        </div>
+        <div class="callout amber">
+          <b class="k">Pułapka 2 · Leki SM pogarszają NMOSD!</b>
+          Jeśli u pacjenta stwierdzasz LETM (≥3 segmenty w rdzeniu), zespół pola najdalszego (czkawka/wymioty) lub ciężkie obustronne ON bez OCB — nigdy nie włączaj IFN-β, fingolimodu ani natalizumabu przed wykluczeniem AQP4-IgG i MOG-IgG.
+        </div>
+        <div class="callout blue">
+          <b class="k">Pułapka 3 · PML udający rzut pod natalizumabem</b>
+          Nowe podostre objawy korowe (afazja, niedowidzenie, deficyty poznawcze) lub móżdżkowe u chorego leczonego natalizumabem &gt;24 mies. z wysokim anty-JCV mogą oznaczać <b>PML</b>, nie rzut SM — natychmiast wykonaj MRI i PCR na JCV-DNA w PMR.
+        </div>
+        <div class="callout red">
+          <b class="k">Pułapka 4 · Anty-NMDAR z prawidłowym MRI i ujemną surowicą</b>
+          Prawidłowy obraz MRI mózgu (~50%) nie wyklucza zapalenia anty-NMDAR! Przy psychozie o nagłym początku z napadami, dyskinezami ustno-twarzowymi lub dysautonomią zbadaj <b>przeciwciała w PMR</b> (czulsze niż surowica) i szukaj <b>potworniaka jajnika</b>.
+        </div>
+        <div class="callout green">
+          <b class="k">Pułapka 5 · Młoda neuralgia V, mielopatia B12 i odruchowa diagnostyka</b>
+          Obustronna lub wczesna (&lt;40 r.ż.) neuralgia n. V wymaga wykluczenia SM w MRI [7]. Natomiast objaw Lhermitte’a i zaburzenia czucia głębokiego bez ognisk korowych w MRI wymagają wykluczenia niedoboru witaminy B12 (zwyrodnienie sznurów tylno-bocznych [12]).
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ I: ŹRÓDŁA ============ -->
+<section id="zrodla">
+  <div class="wrap">
+    <div class="eyebrow">Część I · Literatura i podstawa programowa</div>
+    <h2>Źródła sylabusa PUM 2026/2027 i wytyczne kliniczne</h2>
+    <div class="grid2" style="margin-top:1rem">
+      <div class="card">
+        <h3>📚 Literatura z sylabusa Kliniki Neurologii PUM 2026/2027</h3>
+        <ul class="tight small" style="margin-top:.5rem">
+          <li><b>Literatura podstawowa:</b> Podemski R. (red.), <i>Kompendium Neurologii</i>, Via Medica, Wyd. IV, Gdańsk 2019.</li>
+          <li><b>Literatura uzupełniająca:</b> Fuller G., <i>Badanie neurologiczne – to proste</i>, PZWL, Wyd. V, 2022.</li>
+          <li><b>Literatura uzupełniająca:</b> Stępień A., <i>Neurologia</i>, Tom I, II, III, Medical Tribune Polska, Wyd. II, 2022.</li>
+          <li><b>Literatura uzupełniająca:</b> Kozubski W., Liberski P. (red.), <i>Neurologia. Podręcznik dla studentów medycyny</i>, PZWL, Warszawa, Wyd. 2, 2021.</li>
+          <li><b>Sylabus przedmiotu (6 ECTS · 85 h: W 5 h / S 20 h / Ćw 60 h):</b> Wykład W03g, Seminarium TK02, Ćwiczenie TK05.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>🌐 Aktualne wytyczne i zastrzeżenie dydaktyczne</h3>
+        <ul class="tight small" style="margin-top:.5rem">
+          <li><b>Kryteria McDonalda (Thompson i wsp. 2017; propozycje rewizji 2024)</b> oraz wytyczne <b>EAN / ECTRIMS</b> dotyczące leczenia farmakologicznego SM i monitorowania bezpieczeństwa DMT (PML, ciąża).</li>
+          <li><b>Kryteria diagnostyczne NMOSD (IPND 2015)</b> oraz <b>międzynarodowe kryteria MOGAD (Banwell i wsp., Lancet Neurol 2023)</b>.</li>
+          <li><b>Kryteria Grausa (Lancet Neurol 2016):</b> kliniczne rozpoznawanie i wczesna immunoterapia autoimmunologicznych zapaleń mózgu.</li>
+          <li><b>Zastrzeżenie:</b> Atlas służy nauce do zaliczenia i egzaminu testowego (ET) na V roku kierunku lekarskiego. Kwalifikacja do programów lekowych DMT (NFZ), monitorowanie kardiologiczne/okulistyczne oraz decyzje terapeutyczne wymagają weryfikacji aktualnej ChPL i wytycznych klinicznych.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<script src="../atlas-shared.js"></script>
+<script src="data.js"></script>
+<script src="app.js"></script>
+<script src="../atlas-hub-sync.js"></script>
+</body>
+</html>

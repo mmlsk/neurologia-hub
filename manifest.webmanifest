@@ -1,0 +1,31 @@
+{
+  "name": "Neurologia V · Hub nauki",
+  "short_name": "Neurologia V",
+  "description": "Jeden hub łączący 10 atlasów modułowych z neurologii wg sylabusa PUM 2026/2027: czytanie, badanie U02, trening, diagnostyka, graf wiedzy i egzamin próbny.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#F5F6F2",
+  "theme_color": "#F5F6F2",
+  "lang": "pl",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

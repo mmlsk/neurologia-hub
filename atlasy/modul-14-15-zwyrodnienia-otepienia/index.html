@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<script>
+(function () {
+  function applyTheme(t) {
+    var darkPalettes = { dark: 1, navy: 1, moss: 1, espresso: 1, ochre: 1, purple: 1, ocean: 1 };
+    var isDark = !!darkPalettes[t] || (t === 'auto' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    if (isDark) document.documentElement.dataset.theme = 'dark';
+    else delete document.documentElement.dataset.theme;
+  }
+  try { applyTheme(localStorage.getItem('neurologia_hub_theme') || 'auto'); } catch (e) {}
+  window.addEventListener('storage', function (e) {
+    if (e.key === 'neurologia_hub_theme') applyTheme(e.newValue || 'auto');
+  });
+  window.addEventListener('message', function (e) {
+    if (e.data && e.data.type === 'SET_THEME') applyTheme(e.data.theme || 'auto');
+  });
+})();
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>[14][15] Choroby zwyrodnieniowe OUN i zespoły otępienne – Neurologia V</title>
+<link rel="preconnect" href="https://api.fontshare.com">
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&f[]=cabinet-grotesk@700,800&display=swap" rel="stylesheet" crossorigin="anonymous" media="print" onload="this.media='all'">
+<noscript><link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&f[]=cabinet-grotesk@700,800&display=swap" rel="stylesheet" crossorigin="anonymous"></noscript>
+<link rel="stylesheet" href="../atlas-base.css">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="../atlas-mobile.css">
+</head>
+<body>
+<nav class="nav" aria-label="Nawigacja modułów 14 i 15">
+  <div class="wrap">
+    <a class="hub-back" href="../../index.html">← Hub</a>
+    <div class="brand"><b>[14][15]</b> <span>Parkinson · SLA · Otępienia</span></div>
+    <ul id="navlist">
+      <li><a href="#parkinson">Choroba Parkinsona</a></li>
+      <li><a href="#atypowe">Parkinsonizm atypowy</a></li>
+      <li><a href="#sla">SLA (UMN + LMN)</a></li>
+      <li><a href="#otepienia">Otępienia (AD/FTD/VaD)</a></li>
+      <li><a href="#testy">Skale i odwracalne</a></li>
+      <li><a href="#zadania">Zadania testowe</a></li>
+      <li><a href="#klucz">Klucz vs wytyczne</a></li>
+      <li><a href="#pulapki">Pułapki</a></li>
+      <li><a href="#zrodla">Źródła</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap grid">
+    <div>
+      <span class="tag">MODUŁY [14][15] · Neurologia V rok PUM · W03d, W03f · Sem TK06, TK07</span>
+      <h1>Choroby <span>zwyrodnieniowe</span> OUN<br>i zespoły otępienne</h1>
+      <p class="sub">Atlas przygotowujący do egzaminu testowego (ET) i zaliczenia wg sylabusa PUM 2026/2027 (W03d, W03f, Sem TK06, TK07, Wskazówki #8 i #9): choroba Parkinsona i parkinsonizm atypowy (PSP, MSA, CBD, DLB), stwardnienie zanikowe boczne (UMN + LMN), otępienia pierwotne i naczyniowe (AD, FTD, VaD) oraz przyczyny odwracalne (NPH, B12, tarczyca).</p>
+      <div class="chips">
+        <span class="chip s">⚡ Parkinson: bradykinezja + L-dopa (Wskazówka #8)</span>
+        <span class="chip i">🧬 SLA: UMN + LMN bez czucia i zwieraczy (#9)</span>
+        <span class="chip e">🧠 AD vs bvFTD vs VaD vs DLB</span>
+        <span class="chip f">💧 NPH (triada Hakima): chód + otępienie + mocz</span>
+      </div>
+      <div class="legend">
+        <div><span class="kb src">KLUCZ POTWIERDZONY</span> odpowiedź wprost potwierdzona w sylabusie PUM 2026/2027, wskazówkach #8/#9 i literaturze obowiązkowej</div>
+        <div><span class="kb inf">KLUCZ WNIOSKOWANY</span> odpowiedź wynikająca z topodiagnostyki białkopatii oraz aktualnych wytycznych MDS/EAN/NIA-AA</div>
+        <div><span class="kb unk">KLUCZ NIEPEWNY</span> wariant o niuansie kryteriów lub leczenia wymagający weryfikacji na seminarium i w ChPL</div>
+      </div>
+    </div>
+    <figure class="fig" aria-label="Schemat głównych ognisk zwyrodnień OUN i zespołów otępiennych">
+      <svg viewBox="0 0 420 330" id="heroSvg" role="img" aria-label="Przekrój strzałkowy OUN z pięcioma kluczowymi obszarami zmian w modułach 14 i 15">
+        <!-- Zarys półkuli mózgu -->
+        <path d="M82 152 C74 72 150 24 236 28 C326 32 374 88 370 160 C368 192 336 210 292 210 L182 200 C122 194 88 180 82 152Z" fill="#EEF2F0" stroke="#44545D" stroke-width="2.4"/>
+        <!-- 1. Kora czołowo-skroniowa i hipokamp (AD / FTD) -->
+        <path d="M90 144 C90 88 142 46 210 44 C228 44 238 64 224 96 C206 132 162 178 118 176 C96 174 90 160 90 144Z" fill="#E1ECF9" stroke="#2B63AE" stroke-width="2"/>
+        <!-- 5. Układ komorowy (NPH) -->
+        <path d="M214 82 C248 70 286 84 294 114 C298 128 282 138 264 134 C246 130 232 116 214 118 Z" fill="#DDF1F2" stroke="#0C7A85" stroke-width="2"/>
+        <!-- Móżdżek -->
+        <path d="M258 208 C294 202 332 216 338 242 C342 264 312 278 272 276 C250 274 240 256 244 230 Z" fill="#E1F3E7" stroke="#216B3E" stroke-width="2"/>
+        <!-- 2. Istota czarna / śródmózgowie górne (PD) -->
+        <ellipse cx="222" cy="186" rx="30" ry="16" fill="#FCEFD6" stroke="#8F5808" stroke-width="2"/>
+        <!-- 3. Most i nakrywka pnia (PSP / MSA) -->
+        <path d="M202 204 L244 206 L240 258 L204 256 Z" fill="#E1EFF5" stroke="#245B7A" stroke-width="2"/>
+        <!-- 4. Opuszka i rdzeń kręgowy (SLA: UMN + LMN) -->
+        <path d="M206 256 L238 258 L234 318 L210 318 Z" fill="#FBE6E2" stroke="#A82D1E" stroke-width="2.2"/>
+        <!-- Znaczniki 1-5 -->
+        <g font-size="13" font-weight="800" fill="#FFFFFF" text-anchor="middle">
+          <circle cx="152" cy="108" r="13" fill="#2B63AE"/><text x="152" y="113">1</text>
+          <circle cx="222" cy="186" r="13" fill="#8F5808"/><text x="222" y="191">2</text>
+          <circle cx="222" cy="232" r="13" fill="#245B7A"/><text x="222" y="237">3</text>
+          <circle cx="222" cy="288" r="13" fill="#A82D1E"/><text x="222" y="293">4</text>
+          <circle cx="264" cy="106" r="13" fill="#0C7A85"/><text x="264" y="111">5</text>
+        </g>
+      </svg>
+      <div class="herolist">
+        <div><b style="color:var(--blue)">1 Kora &amp; hipokamp</b> AD (pamięć, ↓Aβ42) · bvFTD (zachowanie)</div>
+        <div><b style="color:var(--amber)">2 Istota czarna</b> PD (α-synukleina, ↓dopaminy)</div>
+        <div><b style="color:var(--violet)">3 Pień mózgu</b> PSP (koliber) · MSA (krzyż w moście)</div>
+        <div><b style="color:var(--red)">4 Drogi &amp; rogi</b> SLA (UMN + LMN bez czucia/zwieraczy)</div>
+        <div><b style="color:var(--teal-d)">5 Komory mózgu</b> NPH (Evans &gt;0,30 · triada Hakima)</div>
+        <div><b>Naczynia istoty białej</b> VaD (przebieg schodkowy, Hachiński ≥7)</div>
+      </div>
+      <figcaption>Topografia białkopatii i zespołów klinicznych modułów [14][15] (W03d, W03f, Wskazówki #8 i #9).</figcaption>
+    </figure>
+  </div>
+</header>
+
+<main>
+<!-- ============ 1. CHOROBA PARKINSONA ============ -->
+<section id="parkinson">
+  <div class="wrap">
+    <div class="eyebrow">Część A · Moduł [14] · W03d · Sem TK06 · Wskazówka PUM #8</div>
+    <h2>Choroba Parkinsona (PD) i pląsawica Huntingtona</h2>
+    <p class="lead">Idiopatyczna choroba Parkinsona wynika ze zwyrodnienia neuronów dopaminergicznych części zbitej istoty czarnej (ciała Lewy’ego z α-synukleiną). Podstawą rozpoznania jest <b>bradykinezja</b> — nie drżenie spoczynkowe — a wybitna odpowiedź na lewodopę potwierdza rozpoznanie.</p>
+
+    <div class="kpis">
+      <div class="kpi"><b>100%</b><span>bradykinezja to warunek konieczny rozpoznania zespołu parkinsonowskiego (MDS)</span></div>
+      <div class="kpi a"><b>~50–70%</b><span>neuronów istoty czarnej ulega utracie przed pojawieniem się pierwszych objawów ruchowych</span></div>
+      <div class="kpi v"><b>4–6 Hz</b><span>asymetryczne drżenie spoczynkowe typu „liczenia pieniędzy” (ustępuje w ruchu)</span></div>
+      <div class="kpi r"><b>&gt;30%</b><span>poprawa w skali UPDRS-III po lewodopie odróżnia PD od parkinsonizmu atypowego</span></div>
+    </div>
+
+    <div class="grid2" style="margin-bottom:1.2rem">
+      <div class="card">
+        <h3>Profil objawów w idiopatycznej chorobie Parkinsona</h3>
+        <p class="small" style="margin-bottom:.6rem">Zwróć uwagę na długą fazę prodromalną (hiposmia, zaburzenia snu REM, zaparcia) oraz brak wczesnych upadków w 1. roku choroby.</p>
+        <div class="bars" id="barsPdSymptoms"></div>
+      </div>
+      <div class="tcard r" style="margin:0">
+        <h3>⚡ Wskazówka PUM #8 · Rozpoznanie i leczenie I rzutu</h3>
+        <ul>
+          <li><b>Kryterium obowiązkowe:</b> <b>bradykinezja</b> (spowolnienie i zmniejszanie amplitudy powtarzanych ruchów, np. stukania palcami)</li>
+          <li><b>+ minimum 1 objaw osiowy:</b> <b>sztywność</b> plastyczna („koło zębate” lub „ołowiana rura”) ALBO <b>drżenie spoczynkowe 4–6 Hz</b> (nawet u ~25% chorych drżenie nie występuje!)</li>
+          <li><b>Cechy wspierające:</b> jednostronny/asymetryczny początek, zachowana wybitna poprawa po <b>lewodopie</b>, hiposmia, dyskinezy polekowe</li>
+          <li><b>Chód i postawa:</b> pochylona sylwetka, brak fizjologicznych współruchów kończyny górnej, szuranie drobnymi krokami, festynacja i zastyganie (<i>freezing</i>)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tabs" role="tablist" aria-label="Aspekty choroby Parkinsona i Huntingtona">
+      <button type="button" role="tab" id="tab-pd-1" aria-controls="panel-pd-1" aria-selected="true">Objawy pozaruchowe i prodromalne</button>
+      <button type="button" role="tab" id="tab-pd-2" aria-controls="panel-pd-2" aria-selected="false">Farmakoterapia i lewodopa</button>
+      <button type="button" role="tab" id="tab-pd-3" aria-controls="panel-pd-3" aria-selected="false">Fluktuacje, dyskinezy i DBS</button>
+      <button type="button" role="tab" id="tab-pd-4" aria-controls="panel-pd-4" aria-selected="false">Choroba Huntingtona (HD)</button>
+    </div>
+
+    <div id="panel-pd-1" class="panel" role="tabpanel" aria-labelledby="tab-pd-1">
+      <div class="grid2">
+        <div class="tcard b">
+          <h3>Objawy prodromalne (wyprzedzają o 5–15 lat)</h3>
+          <ul>
+            <li><b>Zaburzenia zachowania w fazie snu REM (RBD):</b> brak fizjologicznej atonii w REM — pacjent „odgrywa sny”, krzyczy, uderza rękami (wysoka wartość predykcyjna synukleinopatii!).</li>
+            <li><b>Hiposmia / anosmia</b> (nerw I) i przewlekłe <b>zaparcia</b> (zajęcie splotów jelitowych przez α-synukleinę wg hipotezy Braaka).</li>
+            <li><b>Depresja, lęk</b> i zaburzenia poznawcze (w PD otępienie rozwija się późno, zwykle &gt;1 rok po objawach ruchowych — tzw. PDD).</li>
+          </ul>
+        </div>
+        <div class="tcard a">
+          <h3>Objawy ruchowe i autonomiczne w pełnym obrazie</h3>
+          <ul>
+            <li><b>Twarz maskowata (hipomimia)</b>, rzadkie mruganie, ślinotok (rzadsze połykanie), <b>mikrografia</b> (pismo maleje w trakcie linijki).</li>
+            <li><b>Mowa:</b> monotonna, ściszona (<b>hipofonia</b>), przyspieszona (tachylalia).</li>
+            <li><b>Dysautonomia późniejsza niż w MSA:</b> łojotok, zaparcia, umiarkowana hipotonia ortostatyczna (często nasilana przez leki dopaminergiczne).</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div id="panel-pd-2" class="panel" role="tabpanel" aria-labelledby="tab-pd-2" hidden>
+      <div class="tw">
+        <table>
+          <thead>
+            <tr>
+              <th>Grupa / lek</th>
+              <th>Mechanizm i miejsce w terapii</th>
+              <th>Kluczowe uwagi i działania niepożądane</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>Lewodopa + benserazyd / karbidopa</b></td>
+              <td>Prekursor dopaminy + inhibitor obwodowej dekarboksylazy (DDC). <b>Najskuteczniejszy lek objawowy (złoty standard).</b></td>
+              <td>Podawać <b>30–60 min przed posiłkiem</b> (białka konkurują o transport LAT1 w jelicie i BBB!). Po kilku latach fluktuacje i dyskinezy. <b>Nie odstawiać nagle!</b></td>
+            </tr>
+            <tr>
+              <td><b>Agoniści dopaminy</b><br>(pramipeksol, ropinirol, rotygotyna)</td>
+              <td>Bezpośrednia stymulacja receptorów D2/D3; monoterapia w łagodnej PD u młodszych chorych lub lek dodany do L-dopy.</td>
+              <td><b>Zaburzenia kontroli impulsów (ICB):</b> hazard, hiperseksualność, zakupy, objadanie się! Ponadto napady senności, obrzęki podudzi, omamy u starszych.</td>
+            </tr>
+            <tr>
+              <td><b>Inhibitory MAO-B</b><br>(rasagilina, selegilina, safinamid)</td>
+              <td>Hamują rozkład dopaminy w prążkowiu; łagodny efekt w monoterapii lub zmniejszenie czasu „off”.</td>
+              <td>Dobra tolerancja; w selegilinie metabolity amfetaminowe (podawać rano); ostrożność z niektórymi SSRI/SNRI i tramadolem.</td>
+            </tr>
+            <tr>
+              <td><b>Inhibitory COMT</b><br>(entakapon, opikapon, tolkapon)</td>
+              <td>Wydłużają okres półtrwania lewodopy w surowicy (wyłącznie w skojarzeniu z L-dopą przy <i>wearing-off</i>).</td>
+              <td>Entakapon barwi mocz na pomarańczowo i może nasilać dyskinezy (wymaga redukcji dawki L-dopy); tolkapon — kontrola prób wątrobowych.</td>
+            </tr>
+            <tr>
+              <td><b>Amantadyna</b></td>
+              <td>Słaby antagonista NMDA + efekt dopaminergiczny; <b>lek z wyboru na dyskinezy szczytu dawki</b>.</td>
+              <td>Może wywołać sinicę siateczkowatą (<i>livedo reticularis</i>), obrzęki kostek i splątanie u starszych.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="panel-pd-3" class="panel" role="tabpanel" aria-labelledby="tab-pd-3" hidden>
+      <div class="grid2">
+        <div class="tcard v">
+          <h3>Powikłania przewlekłego leczenia L-dopą</h3>
+          <ul>
+            <li><b>Wearing-off (zjawisko końca dawki):</b> skracanie czasu dobrego działania przed kolejną dawką → dzielenie dawek, dodanie iCOMT, iMAO-B lub agonisty DA.</li>
+            <li><b>Zjawisko „on–off”:</b> nieprzewidywalne wahania między pełną sprawnością a ciężką akinezą.</li>
+            <li><b>Dyskinezy szczytu dawki:</b> pląsawicze ruchy mimowolne w szczycie stężenia leku → obniżyć pojedynczą dawkę L-dopy, dodać <b>amantadynę</b>.</li>
+          </ul>
+        </div>
+        <div class="tcard g">
+          <h3>Głęboka stymulacja mózgu (DBS · STN / GPi) i terapie infuzyjne</h3>
+          <ul>
+            <li><b>Kwalifikacja do DBS:</b> pewna idiopatyczna PD (zwykle ≥4–5 lat choroby), <b>zachowana wyraźna odpowiedź na L-dopę</b>, uciążliwe fluktuacje/dyskinezy lub drżenie oporne na leki.</li>
+            <li><b>Przeciwwskazania do DBS:</b> <b>otępienie</b>, ciężka niestabilna depresja/psychoza, parkinsonizm atypowy (brak poprawy po L-dopie = brak korzyści z DBS!).</li>
+            <li><b>Terapie infuzyjne:</b> dojelitowy żel lewodopy/karbidopy (LCIG), wlew podskórny apomorfiny lub foslewodopy/foskarbidopy.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div id="panel-pd-4" class="panel" role="tabpanel" aria-labelledby="tab-pd-4" hidden>
+      <div class="grid2">
+        <div class="tcard b">
+          <h3>Choroba Huntingtona (HD) · Pląsawica dziedziczna</h3>
+          <ul>
+            <li><b>Genetyka:</b> mutacja dynamiczna (ekspansja powtórzeń <b>CAG &ge;36–40</b>) w genie <i>HTT</i> (huntingtyna) na chromosomie <b>4p16.3</b>.</li>
+            <li><b>Dziedziczenie:</b> <b>autosomalnie dominujące (AD)</b> z pełną penetracją oraz zjawiskiem <b>antycypacji</b> (wcześniejszy i cięższy początek w kolejnych pokoleniach, zwłaszcza przy dziedziczeniu od ojca!).</li>
+            <li><b>Triada objawów:</b> (1) ruchy <b>pląsawicze</b> (krótkie, nieregularne, „taneczne” + impersystencja ruchowa), (2) postępujące <b>otępienie</b> (podkorowe), (3) zaburzenia psychiczne (depresja, drażliwość, wysokie ryzyko samobójstwa).</li>
+          </ul>
+        </div>
+        <div class="tcard a">
+          <h3>Diagnostyka i postępowanie w HD</h3>
+          <ul>
+            <li><b>MRI / TK głowy:</b> charakterystyczny obustronny <b>zanik głów jąder ogoniastych</b> prowadzący do poszerzenia i „skwadratowienia” rogów czołowych komór bocznych.</li>
+            <li><b>Leczenie objawowe pląsawicy:</b> inhibitory VMAT2 (<b>tetrabenazyna, deutetrabenazyna</b> — uwaga na depresję i parkinsonizm!) lub neuroleptyki atypowe (rysperydon, tiapryd, olanzapina).</li>
+            <li><b>Pułapka:</b> młodzieńcza postać Westphala (dziedziczenie od ojca, bardzo długie CAG) może przebiegać jako zespół sztywno-hipokinetyczny zamiast pląsawicy!</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 2. PARKINSONIZM ATYPOWY ============ -->
+<section id="atypowe">
+  <div class="wrap">
+    <div class="eyebrow">Część B · Moduł [14] · Zespoły „Parkinson-plus” i wtórne</div>
+    <h2>Parkinsonizm atypowy (PSP, MSA, CBD, DLB) i wtórny</h2>
+    <p class="lead">Symetryczny początek, wczesne upadki w 1. roku, wczesna ciężka dysautonomia, porażenie spojrzenia w pionie lub brak trwałej odpowiedzi na lewodopę wymagają odróżnienia idiopatycznej PD od zespołów Parkinson-plus oraz postaci wtórnych (polekowych i naczyniowych).</p>
+
+    <div class="flow" style="margin-bottom:1.5rem">
+      <div class="fn start">Pacjent z zespołem parkinsonowskim (bradykinezja + sztywność / drżenie / zaburzenia postawy)</div>
+      <div class="ar">↓</div>
+      <div class="branch br3">
+        <div>
+          <div class="fn amber"><b>Wywiad lekowy i TK/MRI</b><br>blokery D2 lub zmiany naczyniowe?</div>
+          <div class="ar">↓</div>
+          <div class="fn"><b>Parkinsonizm wtórny</b><br>polekowy (symetria, akatyzja) lub naczyniowy (dolna połowa ciała)</div>
+        </div>
+        <div>
+          <div class="fn red"><b>Czerwone flagi &lt; 1–3 lat</b><br>upadki do tyłu, ortostaza, spojrzenie pionowe, otępienie &le;1 r., obca ręka</div>
+          <div class="ar">↓</div>
+          <div class="fn red"><b>Parkinsonizm atypowy</b><br>PSP · MSA · CBD · DLB (słaba odpowiedź na L-dopę!)</div>
+        </div>
+        <div>
+          <div class="fn green"><b>Asymetria + brak flag</b><br>hiposmia / RBD + drżenie 4–6 Hz + poprawa &gt;30% po L-dopie</div>
+          <div class="ar">↓</div>
+          <div class="fn green"><b>Idiopatyczna choroba Parkinsona</b><br>dobre rokowanie na terapię L-dopą i kwalifikację do DBS</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="filters" id="atypFilters" role="group" aria-label="Filtruj zespoły parkinsonowskie według grupy">
+      <button type="button" data-grp="all" aria-pressed="true">Wszystkie jednostki (6)</button>
+      <button type="button" data-grp="tau" aria-pressed="false">Taupatie (PSP, CBD)</button>
+      <button type="button" data-grp="syn" aria-pressed="false">α-Synukleinopatie (PD, MSA, DLB)</button>
+      <button type="button" data-grp="sec" aria-pressed="false">Wtórne (polekowy / naczyniowy)</button>
+    </div>
+
+    <div class="tw">
+      <table>
+        <thead>
+          <tr>
+            <th>Jednostka</th>
+            <th>Białkopatia / etiologia</th>
+            <th>Objawy osiowe i „hasło egzaminacyjne”</th>
+            <th>Reakcja na L-dopę i obraz MRI</th>
+          </tr>
+        </thead>
+        <tbody id="atypTableBody">
+          <tr data-grp="syn">
+            <td><b>Choroba Parkinsona (PD)</b></td>
+            <td><span class="pill g">α-synukleina</span> (ciała Lewy’ego)</td>
+            <td>Asymetryczna bradykinezja + spoczynkowe drżenie 4–6 Hz i sztywność; prodromalnie hiposmia i RBD; upadki późno.</td>
+            <td><b>Wybitna, trwała odpowiedź</b>; klasyczne MRI T1/T2 zwykle prawidłowe (brak zaniku pnia).</td>
+          </tr>
+          <tr data-grp="tau">
+            <td><b>Postępujące porażenie nadjądrowe (PSP)</b></td>
+            <td><span class="pill r">Taupatia 4R</span> (zespół Steele’a-Richardsona-Olszewskiego)</td>
+            <td><b>Wczesne upadki do tyłu (&lt;1 r.)</b>, <b>porażenie spojrzenia w pionie (głównie w dół)</b>, retrocollis, „zdziwiona” mimika, pseudobulbarna dysfagia.</td>
+            <td><b>Brak lub minimalna</b>; w strzałkowym MRI zanik nakrywki śródmózgowia — <b>„objaw kolibra”</b> (i „myszki Miki” w osiowym).</td>
+          </tr>
+          <tr data-grp="syn">
+            <td><b>Zanik wieloukładowy (MSA)</b></td>
+            <td><span class="pill b">α-synukleina</span> (wtręty w oligodendrocytach!)</td>
+            <td><b>Wczesna ciężka dysautonomia:</b> hipotonia ortostatyczna, wczesne nietrzymanie moczu, zaburzenia erekcji, stridor krtaniowy; anteocollis; typ MSA-P lub móżdżkowy MSA-C.</td>
+            <td><b>Słaba / przemijająca</b> (dyskinezy ustno-twarzowe); w MRI T2 mostu <b>„objaw krzyża” (<i>hot cross bun</i>)</b>, zanik skorupy.</td>
+          </tr>
+          <tr data-grp="tau">
+            <td><b>Zwyrodnienie korowo-podstawne (CBD)</b></td>
+            <td><span class="pill v">Taupatia 4R</span></td>
+            <td><b>Skrajnie asymetryczny</b> zespół akinetyczno-sztywny, <b>zjawisko obcej ręki (<i>alien limb</i>)</b>, apraksja kończyny, dystonia, mioklonie ogniskowe, zaburzenia czucia korowego.</td>
+            <td><b>Oporny na L-dopę</b>; w MRI asymetryczny zanik kory ciemieniowo-czołowej przeciwległej do bardziej zajętej kończyny.</td>
+          </tr>
+          <tr data-grp="syn">
+            <td><b>Otępienie z ciałami Lewy’ego (DLB)</b></td>
+            <td><span class="pill a">α-synukleina</span> (kora + pień)</td>
+            <td><b>„Reguła 1 roku”:</b> otępienie przed lub &le;1 r. od parkinsonizmu; <b>fluktuacje uwagi</b>, wczesne żywe <b>omamy wzrokowe</b>, RBD, skrajna nadwrażliwość na neuroleptyki!</td>
+            <td><b>Częściowa na L-dopę</b> (ryzyko nasilenia omamów); w MRI relatywne oszczędzenie hipokampów względem AD.</td>
+          </tr>
+          <tr data-grp="sec">
+            <td><b>Parkinsonizm polekowy i naczyniowy</b></td>
+            <td><span class="pill a">Blokada D2 / lakuny</span></td>
+            <td><b>Polekowy:</b> haloperidol, rysperydon, chlorpromazyna, metoklopramid, flunaryzyna/cynaryzyna, walproinian — symetria, brak drżenia, akatyzja. <b>Naczyniowy:</b> chód magnetyczny („dolna połowa ciała”), Babiński (+).</td>
+            <td><b>Brak poprawy po L-dopie</b>; leczeniem polekowego jest odstawienie winnego leku (poprawa w tygodnie–miesiące); w naczyniowym liczne ogniska w jądrach podstawy.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+<!-- ============ 3. SLA (UMN + LMN) ============ -->
+<section id="sla">
+  <div class="wrap">
+    <div class="eyebrow">Część C · Moduł [14] · W03d · Wskazówka egzaminacyjna PUM #9</div>
+    <h2>Stwardnienie zanikowe boczne (SLA / ALS: UMN + LMN)</h2>
+    <p class="lead">Stwardnienie zanikowe boczne to postępujące zwyrodnienie zarówno <b>górnego (UMN)</b>, jak i <b>dolnego (LMN)</b> neuronu ruchowego. Wskazówka egzaminacyjna PUM #9: objawy piramidowe (wygórowane odruchy, Babiński +) współistnieją z zanikiem i fascykulacjami mięśni <b>bez zaburzeń czucia i funkcji zwieraczy</b>.</p>
+
+    <div class="kpis">
+      <div class="kpi"><b>UMN + LMN</b><span>jednoczesne objawy obu neuronów ruchowych w tej samej okolicy ciała</span></div>
+      <div class="kpi r"><b>0</b><span>zaburzeń czucia, zwieraczy i ruchów gałek ocznych w klasycznym SLA</span></div>
+      <div class="kpi a"><b>3–5 lat</b><span>mediana przeżycia od pierwszych objawów (najczęstsza przyczyna zgonu: niewydolność oddechowa)</span></div>
+      <div class="kpi v"><b>Ryluzol</b><span>2×50 mg p.o. + wczesna wentylacja nieinwazyjna (NIV) wydłużają przeżycie</span></div>
+    </div>
+
+    <div class="map" style="margin:1.4rem 0">
+      <figure class="fig" style="margin:0">
+        <svg viewBox="0 0 400 340" id="alsSvg" role="img" aria-label="Interaktywny schemat zajętych i zaoszczędzonych struktur w stwardnieniu zanikowym bocznym">
+          <!-- Kora i droga piramidowa (UMN) -->
+          <g class="reg on" data-reg="umn" tabindex="0" role="button" aria-pressed="true">
+            <rect x="30" y="18" width="340" height="64" rx="12" fill="#E1ECF9" stroke="#2B63AE" stroke-width="2"/>
+            <text x="200" y="45" text-anchor="middle" font-size="13.5" font-weight="800" fill="#13232C">1. UMN: Kora ruchowa M1 + droga korowo-rdzeniowa</text>
+            <text x="200" y="65" text-anchor="middle" font-size="11.5" fill="#44545D">Spastyczność · hiperrefleksja · Babiński (+) · zespół rzekomoopuszkowy</text>
+          </g>
+          <path d="M200 82 L200 100" stroke="#44545D" stroke-width="2" marker-end="none"/>
+          <!-- Opuszka LMN -->
+          <g class="reg" data-reg="bulbar" tabindex="0" role="button" aria-pressed="false">
+            <rect x="30" y="100" width="340" height="64" rx="12" fill="#FBE6E2" stroke="#A82D1E" stroke-width="2"/>
+            <text x="200" y="127" text-anchor="middle" font-size="13.5" font-weight="800" fill="#13232C">2. LMN opuszkowe: Jądra nerwów IX, X, XII</text>
+            <text x="200" y="147" text-anchor="middle" font-size="11.5" fill="#44545D">Dyzartria · dysfagia · zanik i fascykulacje języka</text>
+          </g>
+          <!-- Rogi przednie rdzenia LMN -->
+          <g class="reg" data-reg="lmn" tabindex="0" role="button" aria-pressed="false">
+            <rect x="30" y="182" width="340" height="64" rx="12" fill="#FCEFD6" stroke="#8F5808" stroke-width="2"/>
+            <text x="200" y="209" text-anchor="middle" font-size="13.5" font-weight="800" fill="#13232C">3. LMN rdzeniowe: Rogi przednie rdzenia i mięśnie</text>
+            <text x="200" y="229" text-anchor="middle" font-size="11.5" fill="#44545D">Zanik asymetryczny („split hand”) · fascykulacje · kurcze · EMG odnerwienie</text>
+          </g>
+          <!-- Zaoszczędzone -->
+          <g class="reg" data-reg="spared" tabindex="0" role="button" aria-pressed="false">
+            <rect x="30" y="264" width="340" height="60" rx="12" fill="#E1F3E7" stroke="#216B3E" stroke-width="2"/>
+            <text x="200" y="289" text-anchor="middle" font-size="13.5" font-weight="800" fill="#13232C">4. Struktury ZAOSZCZĘDZONE w klasycznym SLA</text>
+            <text x="200" y="308" text-anchor="middle" font-size="11.5" fill="#44545D">Czucie (sznury tylne) · zwieracze (jądro Onufa) · gałki oczne (III, IV, VI)</text>
+          </g>
+        </svg>
+        <figcaption>Kliknij dowolne piętro schematu, aby wyświetlić szczegóły objawów i pułapki diagnostyczne SLA.</figcaption>
+      </figure>
+      <div id="alsInfo"></div>
+    </div>
+
+    <div class="grid2">
+      <div class="card">
+        <h3>Diagnostyka SLA: kryteria Gold Coast, EMG i wykluczanie mimików</h3>
+        <ul class="tight" style="margin-top:.5rem">
+          <li><b>Kryteria Gold Coast:</b> postępujące upośledzenie ruchowe z zajęciem <b>UMN + LMN w &ge;1 okolicy</b> (opuszkowa, szyjna, piersiowa, lędźwiowo-krzyżowa) ALBO <b>LMN w &ge;2 okolicach</b>, po wykluczeniu innych chorób.</li>
+          <li><b>EMG / ENG:</b> aktywne odnerwienie (fibrylacje, dodatnie fale ostre) + przewlekła reinerwacja (wysokie, poszerzone potencjały jednostek ruchowych) w &ge;2 okolicach przy <b>prawidłowym przewodnictwie czuciowym</b>!</li>
+          <li><b>MRI szyjne i mózgu:</b> obowiązkowe wykluczenie <b>mielopatii szyjnej</b> (może dawać LMN w rękach + UMN w nogach, ale zwykle z bólem szyi i zaburzeniami czucia!).</li>
+          <li><b>Mimiki do wykluczenia:</b> wieloogniskowa neuropatia ruchowa (<b>MMN</b> — blok przewodzenia, anty-GM1, leczona IVIG!), choroba Kennedy’ego (SBMA — recesywna X, ginekomastia, drżenie, zab. czucia!), miastenia opuszkowa, zatrucie ołowiem.</li>
+          <li><b>Genetyka (5–10% rodzinne fALS):</b> <i>C9orf72</i> (najczęstsza w Europie — związek SLA z FTD!), <i>SOD1</i> (celowany lek antysensowny <b>tofersen</b>), <i>TARDBP</i>, <i>FUS</i>.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Czego NIE ma w klasycznym SLA (lista kontrolna #9)</h3>
+        <ul class="chk no" style="margin-top:.5rem;margin-bottom:.9rem">
+          <li><b>Brak obiektywnych zaburzeń czucia</b> (dotyku, bólu, temperatury, wibracji i ułożenia)</li>
+          <li><b>Brak zaburzeń czynności zwieraczy</b> pęcherza moczowego i odbytu (oszczędzenie jądra Onufa)</li>
+          <li><b>Brak porażenia mięśni okoruchowych</b> (nerwy III, IV, VI zachowane do późna)</li>
+          <li><b>Brak odleżyn</b> we wczesnym i średniozaawansowanym okresie choroby</li>
+        </ul>
+        <div class="callout blue">
+          <b class="k">Leczenie SLA: farmakoterapia + opieka wielospecjalistyczna</b>
+          <b>Ryluzol</b> 2×50 mg p.o. (monitoruj AlAT/AspAT) + <b>edarawon</b> / <b>tofersen</b> (w mutacji <i>SOD1</i>). Największy wpływ na przeżycie ma <b>wczesna wentylacja nieinwazyjna (NIV)</b> przy spadku FVC / hiperkapnii nocnej oraz <b>gastrostomia (PEG)</b> przy dysfagii i utracie &gt;10% masy ciała.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 4. OTĘPIENIA (AD/FTD/VaD/DLB) ============ -->
+<section id="otepienia">
+  <div class="wrap">
+    <div class="eyebrow">Część D · Moduł [15] · W03f · Sem TK07</div>
+    <h2>Zespoły otępienne: Alzheimer, FTD, VaD i DLB</h2>
+    <p class="lead">Otępienie to nabyte, przewlekłe upośledzenie &ge;1–2 domen poznawczych (pamięć, funkcje wykonawcze, język, praksja, funkcje wzrokowo-przestrzenne) upośledzające samodzielność w codziennym funkcjonowaniu, przy zachowanej przytomności (w odróżnieniu od majaczenia!).</p>
+
+    <div class="grid2" style="margin-bottom:1.2rem">
+      <div class="card">
+        <h3>Rozkład etiologiczny zespołów otępiennych</h3>
+        <p class="small" style="margin-bottom:.6rem">Choroba Alzheimera dominuje (~60–70%), często współistnieje z komponentą naczyniową (otępienie mieszane). Zawsze wyklucz przyczyny odwracalne!</p>
+        <div class="bars" id="barsDementiaShare"></div>
+      </div>
+      <div class="callout red" style="margin:0;align-self:stretch">
+        <b class="k">Majaczenie (delirium) vs Otępienie — pierwsza kontrola na dyżurze!</b>
+        <ul class="tight" style="margin-top:.3rem">
+          <li><b>Majaczenie:</b> <b>nagły początek</b> (godziny–dni), <b>fluktuujące zaburzenia świadomości i uwagi</b>, zaburzony rytm snu i czuwania, odwracalna przyczyna (infekcja ZUM/płuca, odwodnienie, leki antycholinergiczne, odstawienie BZD/alkoholu).</li>
+          <li><b>Otępienie:</b> przewlekły, postępujący przebieg (miesiące–lata) przy <b>zachowanej przytomności</b> (wyjątek: wahania uwagi w DLB!).</li>
+          <li><b>Uwaga:</b> nałożenie ostrej infekcji u chorego z AD gwałtownie nasila objawy poznawcze (majaczenie nałożone na otępienie).</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tabs" role="tablist" aria-label="Główne zespoły otępienne">
+      <button type="button" role="tab" id="tab-dem-1" aria-controls="panel-dem-1" aria-selected="true">Choroba Alzheimera (AD)</button>
+      <button type="button" role="tab" id="tab-dem-2" aria-controls="panel-dem-2" aria-selected="false">Czołowo-skroniowe (FTD)</button>
+      <button type="button" role="tab" id="tab-dem-3" aria-controls="panel-dem-3" aria-selected="false">Naczyniopochodne (VaD)</button>
+      <button type="button" role="tab" id="tab-dem-4" aria-controls="panel-dem-4" aria-selected="false">Ciała Lewy’ego (DLB)</button>
+    </div>
+
+    <div id="panel-dem-1" class="panel" role="tabpanel" aria-labelledby="tab-dem-1">
+      <div class="grid2">
+        <div class="tcard b">
+          <h3>Choroba Alzheimera (AD · ~60–70% otępień)</h3>
+          <ul>
+            <li><b>Neuropatologia:</b> zewnątrzkomórkowe <b>blaszki amyloidowe (Aβ42)</b> oraz wewnątrzkomórkowe <b>sploty neurofibrylarne (hiperfosforylowane białko tau)</b>; ubytek neuronów cholinergicznych jądra podstawnego Meynerta.</li>
+            <li><b>Klinika:</b> powolny, jednostajny początek od <b>zaburzeń pamięci epizodycznej (świeżej)</b> — wielokrotne pytania, zapominanie świeżych rozmów (prawo Ribota: pamięć dawna dłużej zachowana), następnie afazja anomiczna, apraksja, agnozja i zaburzenia wzrokowo-przestrzenne.</li>
+            <li><b>Genetyka:</b> większość sporadyczna (czynnik ryzyka <b><i>APOE</i> ε4</b>); wczesna postać rodzinna AD (&lt;65 r.ż.): <i>PSEN1</i>, <i>PSEN2</i>, <i>APP</i>.</li>
+          </ul>
+        </div>
+        <div class="tcard g">
+          <h3>Biomarkery ATN i leczenie AD</h3>
+          <ul>
+            <li><b>MRI:</b> zanik przyśrodkowych części płatów skroniowych (hipokamp — skala MTA) i kory ciemieniowej.</li>
+            <li><b>PMR (profil ATN):</b> <b>↓ Aβ42</b> (oraz ↓ stosunku Aβ42/40), <b>↑ p-tau</b> i <b>↑ t-tau</b>; wspomagająco PET amyloidowy i FDG-PET (hipometabolizm skroniowo-ciemieniowy).</li>
+            <li><b>Leczenie objawowe:</b> w łagodnym–umiarkowanym AD <b>inhibitory AChE</b> (donepezil, rywastygmina, galantamina); w umiarkowanym–ciężkim dołączenie <b>memantyny</b> (antagonista NMDA).</li>
+            <li><b>Terapie przyczynowe anty-amyloidowe:</b> przeciwciała monoklonalne <b>lekanemab, donanemab</b> we wczesnym stadium (wymagają oceny ryzyka ARIA w MRI).</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div id="panel-dem-2" class="panel" role="tabpanel" aria-labelledby="tab-dem-2" hidden>
+      <div class="grid2">
+        <div class="tcard v">
+          <h3>Otępienie czołowo-skroniowe (FTD · zwykle 45–65 lat)</h3>
+          <ul>
+            <li><b>Wariant behawioralny (bvFTD):</b> wczesna głęboka zmiana osobowości, <b>odhamowanie społeczne</b>, utrata empatii, apatia, zachowania stereotypowe i <b>hiperoralność</b> (objadanie słodyczami), brak wglądu.</li>
+            <li><b>Klucz różnicowy:</b> <b>pamięć epizodyczna i orientacja przestrzenna są na początku zachowane!</b> Chory może mieć 27–30/30 w MMSE!</li>
+            <li><b>Pierwotne postępujące afazje (PPA):</b> wariant niepłynny/agramatyczny (<b>nfvPPA</b>) oraz semantyczny (<b>svPPA</b> — utrata znaczenia słów przy płynnej mowie).</li>
+          </ul>
+        </div>
+        <div class="tcard a">
+          <h3>Patologia i pułapka terapeutyczna FTD</h3>
+          <ul>
+            <li><b>Patologia i genetyka:</b> taupatie (ciałka Picka) lub białko TDP-43; częsty wywiad rodzinny (mutacje <i>MAPT</i>, <i>GRN</i>, <i>C9orf72</i> — częste współistnienie <b>FTD + SLA</b>!).</li>
+            <li><b>MRI / FDG-PET:</b> asymetryczny zanik i hipometabolizm płatów czołowych oraz przednich części płatów skroniowych (zaoszczędzona kora ciemieniowo-potyliczna).</li>
+            <li><b>Leczenie:</b> <b>inhibitory AChE (donepezil, rywastygmina) NIE działają i mogą nasilać pobudzenie/drażliwość!</b> W kontroli objawów zachowania stosuje się <b>SSRI lub trazodon</b>.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div id="panel-dem-3" class="panel" role="tabpanel" aria-labelledby="tab-dem-3" hidden>
+      <div class="grid2">
+        <div class="tcard r">
+          <h3>Otępienie naczyniopochodne (VaD · ~15–20%)</h3>
+          <ul>
+            <li><b>Przebieg:</b> <b>nagły początek lub skokowe (schodkowe) pogarszanie</b> po kolejnych incydentach naczyniowych albo stopniowy w chorobie małych naczyń (otępienie podkorowe Binswangera).</li>
+            <li><b>Obraz kliniczny:</b> wiodące <b>spowolnienie psychoruchowe i deficyt funkcji wykonawczych</b>, chwiejność emocjonalna (płaczliwość rzekomoopuszkowa), zaburzenia chodu, częsty <b>zachowany wgląd</b> we wczesnej fazie oraz <b>ogniskowe objawy neurologiczne</b> (niedowład, Babiński +).</li>
+          </ul>
+        </div>
+        <div class="tcard b">
+          <h3>Skala Hachińskiego, MRI i profilaktyka</h3>
+          <ul>
+            <li><b>Skala niedokrwienna Hachińskiego:</b> <b>&ge;7 pkt</b> przemawia za VaD; &le;4 pkt za chorobą Alzheimera; 5–6 pkt za postacią mieszaną.</li>
+            <li><b>MRI głowy:</b> liczne zawały lakunarne w jądrach podstawy/wzgórzu, udary strategiczne (wzgórze, zakręt kątowy) lub rozległa leukoarajoza (Fazekas 3).</li>
+            <li><b>Postępowanie:</b> agresywna profilaktyka wtórna czynników ryzyka (RR, statyna, p/płytkowe lub antykoagulant w AF). Same iAChE mają korzyść głównie w otępieniu mieszanym (AD + VaD).</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div id="panel-dem-4" class="panel" role="tabpanel" aria-labelledby="tab-dem-4" hidden>
+      <div class="grid2">
+        <div class="tcard a">
+          <h3>Otępienie z ciałami Lewy’ego (DLB · ~10–15%)</h3>
+          <ul>
+            <li><b>Cechy główne:</b> (1) wyraźne <b>fluktuacje funkcji poznawczych i uwagi</b> w ciągu dnia, (2) wczesne, powtarzające się <b>szczegółowe omamy wzrokowe</b> (ludzie, zwierzęta), (3) <b>parkinsonizm</b> (sztywność, bradykinezja), (4) zaburzenia snu <b>RBD</b>.</li>
+            <li><b>„Reguła 1 roku”:</b> w DLB otępienie występuje przed parkinsonizmem lub w ciągu &le;1 roku od jego początku; w otępieniu w PD (PDD) parkinsonizm wyprzedza otępienie o &gt;1 rok.</li>
+          </ul>
+        </div>
+        <div class="tcard r">
+          <h3>Klucz bezpieczeństwa i leczenie w DLB</h3>
+          <ul>
+            <li><b>SKRAJNA NADWRAŻLIWOŚĆ NA NEUROLEPTYKI:</b> podanie haloperidolu, rysperydonu lub olanzapiny grozi ciężkim zespołem akinetyczno-sztywnym, złośliwym zespołem neuroleptycznym i zgonem!</li>
+            <li><b>Leczenie z wyboru:</b> <b>rywastygmina lub donepezil</b> (często wyraźniejsza poprawa funkcji poznawczych i zmniejszenie omamów niż w AD!).</li>
+            <li><b>W ciężkiej psychozie/pobudzeniu (gdy konieczne):</b> wyłącznie bardzo małe dawki <b>kwetiapiny</b> lub <b>klozapiny</b> (ew. pimawanseryna).</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="tw" style="margin-top:1.2rem">
+      <table>
+        <thead>
+          <tr>
+            <th>Cecha różnicująca</th>
+            <th>Choroba Alzheimera (AD)</th>
+            <th>Czołowo-skroniowe (bvFTD)</th>
+            <th>Naczyniopochodne (VaD)</th>
+            <th>Ciała Lewy’ego (DLB)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>Typowy przebieg</b></td>
+            <td>Powolny, jednostajny, &gt;65 r.ż.</td>
+            <td>Powolny, młodszy wiek (45–65 lat)</td>
+            <td>Nagły / schodkowy (skokowy)</td>
+            <td>Postępujący z wyraźnymi fluktuacjami</td>
+          </tr>
+          <tr>
+            <td><b>Pierwszy objaw wiodący</b></td>
+            <td>Utrata pamięci epizodycznej</td>
+            <td>Odhamowanie, apatia, utrata empatii</td>
+            <td>Deficyt wykonawczy, spowolnienie, chód</td>
+            <td>Fluktuacje uwagi, omamy wzrokowe, RBD</td>
+          </tr>
+          <tr>
+            <td><b>Pamięć na początku</b></td>
+            <td><span class="pill r">Głęboko zaburzona</span></td>
+            <td><span class="pill g">Względnie zachowana</span></td>
+            <td>Zmienna (lepsze przypominanie po podpowiedzi)</td>
+            <td>Zaburzona uwaga &gt; pamięć epizodyczna</td>
+          </tr>
+          <tr>
+            <td><b>Objawy ruchowe wczesne</b></td>
+            <td>Brak (późno apraksja/mioklonie)</td>
+            <td>Zwykle brak (lub współistniejące SLA)</td>
+            <td>Ogniskowy niedowład, Babiński (+), dysfagia</td>
+            <td>Symetryczny parkinsonizm (&le;1 rok)</td>
+          </tr>
+          <tr>
+            <td><b>Leczenie / pułapka</b></td>
+            <td>iAChE + memantyna (PMR: ↓Aβ42, ↑p-tau)</td>
+            <td>SSRI/trazodon · <b>iAChE mogą szkodzić!</b></td>
+            <td>Kontrola RR/udaru · Hachiński &ge;7</td>
+            <td>Rywastygmina · <b>ZAKAZ haloperidolu!</b></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 5. SKALE I ODWRACALNE ============ -->
+<section id="testy">
+  <div class="wrap">
+    <div class="eyebrow">Część E · Moduł [15] · Sem TK07 · Przesiew i przyczyny uleczalne</div>
+    <h2>Skale przesiewowe i otępienia odwracalne (NPH, B12, TSH)</h2>
+    <p class="lead">Każdy pacjent z podejrzeniem otępienia wymaga wykluczenia przyczyn odwracalnych. Szczególną wagę egzaminacyjną ma <b>wodogłowie normotensyjne (NPH — triada Hakima)</b> oraz <b>zespół rzekomootępienny w depresji</b>.</p>
+
+    <div class="grid2" style="margin-bottom:1.3rem">
+      <div class="card">
+        <h3>Kalkulator podejrzenia wodogłowia normotensyjnego (NPH)</h3>
+        <p class="small" style="margin-bottom:.7rem">Zaznacz objawy obecne u pacjenta (triada Hakima + obrazowanie + test upustowy PMR):</p>
+        <div class="pas" id="nphChecks" style="display:grid;gap:.45rem">
+          <label><input type="checkbox" value="2"> Chód magnetyczny („stopy przyklejone do podłogi”, szeroka podstawa) <b>+2 pkt</b></label>
+          <label><input type="checkbox" value="1"> Otępienie podkorowe (spowolnienie psychoruchowe, apatia) <b>+1 pkt</b></label>
+          <label><input type="checkbox" value="1"> Naglące parcia lub nietrzymanie moczu <b>+1 pkt</b></label>
+          <label><input type="checkbox" value="2"> TK/MRI: wskaźnik Evansa &gt; 0,30 + wąskie bruzdy na sklepistości (DESH) <b>+2 pkt</b></label>
+          <label><input type="checkbox" value="3" data-tap="1"> Poprawa chodu po tap-teście (upust 30–50 ml PMR przy norm. ciśnieniu) <b>+3 pkt</b></label>
+        </div>
+        <div class="callout" id="nphOut" style="margin-top:.8rem"></div>
+      </div>
+
+      <div class="tcard a" style="margin:0">
+        <h3>📋 Obowiązkowy panel przesiewowy otępień odwracalnych</h3>
+        <ul style="margin-top:.4rem">
+          <li><b>Witamina B12 i kwas foliowy:</b> niedobór B12 powoduje otępienie + zwyrodnienie powrózkowe rdzenia (ataksja sznurów tylnych + Babiński +) + polineuropatię!</li>
+          <li><b>TSH i fT4:</b> niedoczynność tarczycy (spowolnienie, obrzęk śluzowaty, bradykardia — pełne wycofanie po L-tyroksynie).</li>
+          <li><b>Elektrolity (Na, Ca), glukoza, mocznik/kreatynina, próby wątrobowe, morfologia:</b> hiponatremia, hiperkalcemia, encefalopatia wątrobowa/mocznicowa.</li>
+          <li><b>TK lub MRI głowy (obowiązkowo min. raz!):</b> wykluczenie <b>przewlekłego krwiaka podtwardówkowego</b>, <b>guza płata czołowego</b> (np. oponiak rynienki węchowej!) oraz <b>NPH (wskaźnik Evansa &gt;0,30)</b>.</li>
+          <li><b>Przegląd leków i infekcje:</b> leki antycholinergiczne (trójpierścieniowe, oksybutynina, hydroksyzyna!), BZD, opioidy; w grupach ryzyka <b>kiła (VDRL) i HIV</b>.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="grid2">
+      <div class="tw" style="margin:0">
+        <table>
+          <thead>
+            <tr>
+              <th>Narzędzie przesiewowe</th>
+              <th>Zakres i progi</th>
+              <th>Zastosowanie i ograniczenia</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>MMSE</b><br>(Krótka Skala Oceny Stanu Umysłowego)</td>
+              <td><b>0–30 pkt</b><br>&ge;27 norma · 24–26 MCI · 19–23 lekkie · 11–18 umiarkowane · &le;10 głębokie</td>
+              <td>Zależna od wieku i wykształcenia; <b>niska czułość w wczesnym FTD, VaD i MCI</b> (brak testów wykonawczych!).</td>
+            </tr>
+            <tr>
+              <td><b>MoCA</b><br>(Montrealska Skala Oceny Funkcji Poznawczych)</td>
+              <td><b>0–30 pkt</b><br>Norma <b>&ge;26 pkt</b> (+1 pkt przy &le;12 latach edukacji)</td>
+              <td><b>Najlepsza do wczesnego MCI, VaD, FTD oraz PD/DLB</b> — zawiera zadania wykonawcze (TMT-B, zegar, fluencja, abstrakcja).</td>
+            </tr>
+            <tr>
+              <td><b>Test Rysowania Zegara (CDT)</b></td>
+              <td>Narysowanie tarczy, cyfr i wskazówek („11:10”)</td>
+              <td>Błyskawiczny test przesiewowy funkcji wykonawczych i wzrokowo-przestrzennych.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tw" style="margin:0">
+        <table>
+          <thead>
+            <tr>
+              <th>Cecha</th>
+              <th>Depresja (pseudootępienie)</th>
+              <th>Choroba Alzheimera (AD)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>Początek i czas trwania</b></td>
+              <td>Względnie szybki (tygodnie–miesiące), uchwytny początek</td>
+              <td>Podstępny, powolny (miesiące–lata), trudny do ustalenia</td>
+            </tr>
+            <tr>
+              <td><b>Postawa wobec deficytu</b></td>
+              <td><b>Skarży się i wyolbrzymia braki pamięci!</b></td>
+              <td>Bagatelizuje, maskuje błędy lub brak wglądu</td>
+            </tr>
+            <tr>
+              <td><b>Typowe odpowiedzi w teście</b></td>
+              <td>Często odpowiada <b>„nie wiem”</b> bez próby (poprawa przy zachęcie!)</td>
+              <td>Konfabuluje, podaje odpowiedzi przybliżone („bliskie błędy”)</td>
+            </tr>
+            <tr>
+              <td><b>Afazja / apraksja / agnozja</b></td>
+              <td>Brak</td>
+              <td>Częste w miarę postępu choroby</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 6. ZADANIA TESTOWE ============ -->
+<section id="zadania">
+  <div class="wrap">
+    <div class="eyebrow">Część F · Trening egzaminacyjny · ET PUM</div>
+    <h2>Zadania testowe i omówienia</h2>
+    <p class="lead">7 zadań egzaminacyjnych opracowanych na podstawie sylabusa Kliniki Neurologii PUM 2026/2027 (W03d, W03f, Sem TK06, TK07, Wskazówki #8 i #9). Po wyborze odpowiedzi zobaczysz uzasadnienie, wskazówkę oraz ewentualne porównanie „Pod zaliczenie vs wytyczne” — wynik zapisuje się w Hubie (prefix <code>zwyr-q</code>).</p>
+
+    <div class="qtools">
+      <div class="filters" id="qFilters" role="group" aria-label="Filtruj zadania według działu"></div>
+      <span class="sp"></span>
+      <button type="button" class="btn" id="rand10">🎲 Losuj kolejność</button>
+      <button type="button" class="btn o" id="resetQ">Resetuj</button>
+    </div>
+
+    <div id="quiz"></div>
+    <div class="score" id="score" role="status" aria-live="polite">Wynik: 0 / 0</div>
+
+    <div class="card" style="margin-top:1.4rem">
+      <h3>Rozkład zadań w puli modułów [14][15]</h3>
+      <p class="small" style="margin-bottom:.6rem">Pytania obejmują chorobę Parkinsona i atypowe (Wskazówka #8), SLA (Wskazówka #9), otępienia AD/FTD/DLB oraz odwracalne NPH.</p>
+      <div class="bars" id="barsPool"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 7. KLUCZ VS WYTYCZNE ============ -->
+<section id="klucz">
+  <div class="wrap">
+    <div class="eyebrow">Część G · Rozbieżności egzaminacyjne</div>
+    <h2>Pod zaliczenie kontra aktualnie klinicznie (wytyczne)</h2>
+    <p class="lead">Zestawienie klasycznych sformułowań podręcznikowych (Podemski, Kozubski) ze współczesnymi kryteriami i wytycznymi (MDS, Gold Coast, NIA-AA, EAN).</p>
+
+    <div class="tw">
+      <table>
+        <thead>
+          <tr>
+            <th>Zagadnienie</th>
+            <th>Pod zaliczenie (klasyczne ujęcie testowe)</th>
+            <th>Aktualnie klinicznie (wytyczne MDS / EAN / NIA-AA)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>Włączenie lewodopy w PD u młodszych chorych</b></td>
+            <td>Oszczędzanie lewodopy u młodszych (&lt;65 r.ż.) i rozpoczynanie od agonistów dopaminy lub MAO-B, aby opóźnić dyskinezy.</td>
+            <td>Nie wstrzymuje się lewodopy u chorych z objawami upośledzającymi funkcjonowanie w żadnym wieku; o dyskinezach decyduje czas choroby i pulsacyjna stymulacja.</td>
+          </tr>
+          <tr>
+            <td><b>Kryteria i leki celowane w SLA</b></td>
+            <td>Kryteria El Escorial (pewne, prawdopodobne, możliwe) oraz wyłącznie ryluzol jako lek modyfikujący przebieg.</td>
+            <td>Uproszczone kryteria Gold Coast, rutynowa diagnostyka genetyczna (<i>C9orf72</i>, <i>SOD1</i>), terapia ASO (<b>tofersen</b> w <i>SOD1</i>-SLA), edarawon oraz wczesna NIV i PEG.</td>
+          </tr>
+          <tr>
+            <td><b>Rozpoznanie i leczenie choroby Alzheimera</b></td>
+            <td>Rozpoznanie kliniczne po wykluczeniu innych przyczyn oraz leczenie wyłącznie objawowe: iAChE + memantyna.</td>
+            <td>Diagnostyka biologiczna oparta na biomarkerach ATN (PMR Aβ42/40, p-tau, PET) oraz przeciwciała anty-amyloidowe (<b>lekanemab, donanemab</b>) we wczesnej AD z kontrolą ARIA.</td>
+          </tr>
+          <tr>
+            <td><b>Kwalifikacja do zastawki w NPH</b></td>
+            <td>Obecność klasycznej triady Hakima i poszerzonych komór w TK głowy jako podstawa rozpoznania NPH.</td>
+            <td>Ocenę poszerzenia komór (Evans &gt;0,30, DESH) łączy się z testem upustowym PMR (30–50 ml) lub drenażem zewnętrznym — obiektywna poprawa chodu kwalifikuje do VPS.</td>
+          </tr>
+          <tr>
+            <td><b>Psychoza i pobudzenie w DLB i PD</b></td>
+            <td>W majaczeniu i omamach u starszych osób tradycyjnie podawano klasyczne neuroleptyki (np. haloperidol).</td>
+            <td>W DLB i PD klasyczne neuroleptyki oraz rysperydon/olanzapina są <b>przeciwwskazane</b> (ryzyko ciężkiej akinezy/zgonu); preferuje się iAChE, a doraźnie tylko kwetiapinę lub klozapinę.</td>
+          </tr>
+          <tr>
+            <td><b>Przesiew poznawczy: MMSE vs MoCA</b></td>
+            <td>MMSE (próg &lt;24 pkt) traktowane jako uniwersalny przesiew otępienia.</td>
+            <td><b>MoCA (&ge;26 pkt)</b> ma wyższą czułość w MCI, VaD, FTD i PDD/DLB dzięki ocenie funkcji wykonawczych; MMSE bywa fałszywie prawidłowe we wczesnym FTD.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 8. PUŁAPKI ============ -->
+<section id="pulapki">
+  <div class="wrap">
+    <div class="eyebrow">Część H · Najczęstsze błędy i powiązania międzymodułowe</div>
+    <h2>Pułapki egzaminacyjne i mapa powiązań [14][15]</h2>
+    <p class="lead">Najważniejsze pułapki z Wskazówek PUM #8 i #9 oraz powiązania z badaniem neurologicznym [5][6], interną [12], guzami [13] i diagnostyką [16].</p>
+
+    <div class="grid2" style="align-items:start">
+      <figure class="fig wide" style="margin:0">
+        <svg viewBox="0 0 680 470" id="crossSvg" role="img" aria-label="Mapa połączeń modułów 14 i 15 z pozostałymi modułami sylabusa"></svg>
+        <figcaption>Moduły [14][15] i kluczowe powiązania z pozostałymi modułami sylabusa PUM 2026/2027.</figcaption>
+      </figure>
+
+      <div class="stack">
+        <div class="callout red">
+          <b class="k">Pułapka 1 (Wskazówka #8) · Nagłe odstawienie L-dopy, białka i ukryte blokery D2</b>
+          Nigdy nie odstawiaj nagle lewodopy (grozi złośliwym zespołem akinezy-hipertermii!). Podawaj ją 30–60 min przed posiłkiem białkowym. Przy nudnościach u chorego z PD <b>nie podawaj metoklopramidu</b> (przenika barierę krew–mózg i blokuje D2) — wybierz domperydon lub ondansetron.
+        </div>
+        <div class="callout amber">
+          <b class="k">Pułapka 2 (Wskazówka #9) · SLA bez czucia i zwieraczy — wyklucz mielopatię szyjną!</b>
+          Jeśli u pacjenta z zanikami rąk (LMN) i Babińskim w nogach (UMN) występują zaburzenia czucia wibracji, poziom czucia lub zatrzymanie moczu — <b>to NIE jest klasyczne SLA</b>! Pilnie wykonaj MRI kręgosłupa szyjnego (mielopatia spondylotyczna) i oznacz witaminę B12.
+        </div>
+        <div class="callout red">
+          <b class="k">Pułapka 3 · Haloperidol w DLB i PDD to śmiertelny błąd dyżurowy</b>
+          Pacjent w podeszłym wieku z żywymi omamami wzrokowymi, wahaniami sprawności i sztywnością ruchową (DLB lub PDD) może po jednej ampułce haloperidolu rozwinąć katastrofalną sztywność lub złośliwy zespół neuroleptyczny.
+        </div>
+        <div class="callout blue">
+          <b class="k">Pułapka 4 · Prawidłowe MMSE nie wyklucza bvFTD ani wczesnego VaD</b>
+          Wariant behawioralny otępienia czołowo-skroniowego (odhamowanie, utrata empatii) na początku oszczędza pamięć epizodyczną, dając wynik 27–30/30 w MMSE. Użyj skali MoCA i wywiadu od opiekuna — pamiętaj też, że iAChE nie pomagają w FTD.
+        </div>
+        <div class="callout green">
+          <b class="k">Pułapka 5 · Odwracalne „otępienie”: NPH, B12, TSH i krwiak podtwardówkowy</b>
+          Zanim rozpoznasz AD u starszego chorego z wolnym chodem i nietrzymaniem moczu, sprawdź wskaźnik Evansa (&gt;0,30 → NPH) i wyklucz przewlekły krwiak podtwardówkowy, guz czołowy, niedobór B12 oraz niedoczynność tarczycy.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 9. ŹRÓDŁA ============ -->
+<section id="zrodla">
+  <div class="wrap">
+    <div class="eyebrow">Część I · Literatura i podstawa programowa</div>
+    <h2>Źródła sylabusa PUM 2026/2027 i wytyczne kliniczne</h2>
+    <div class="grid2" style="margin-top:1rem">
+      <div class="card">
+        <h3>📚 Literatura z sylabusa Kliniki Neurologii PUM 2026/2027</h3>
+        <ul class="tight small" style="margin-top:.5rem">
+          <li><b>Literatura podstawowa:</b> Podemski R. (red.), <i>Kompendium Neurologii</i>, Via Medica, Wyd. IV, Gdańsk 2019.</li>
+          <li><b>Literatura uzupełniająca:</b> Fuller G., <i>Badanie neurologiczne – to proste</i>, PZWL, Wyd. V, Warszawa 2022.</li>
+          <li><b>Literatura uzupełniająca:</b> Stępień A., <i>Neurologia</i>, Tom I, II, III, Medical Tribune Polska, Wyd. II, 2022.</li>
+          <li><b>Literatura uzupełniająca:</b> Kozubski W., Liberski P. (red.), <i>Neurologia. Podręcznik dla studentów medycyny</i>, PZWL, Warszawa, Wyd. 2, 2021.</li>
+          <li><b>Sylabus przedmiotu (6 ECTS · 85 h: W 5 h / S 20 h / Ćw 60 h):</b> Wykłady W03d, W03f; Seminaria TK06, TK07; Wskazówki egzaminacyjne PUM #8 i #9.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>🌐 Wytyczne kliniczne i zastrzeżenie dydaktyczne</h3>
+        <ul class="tight small" style="margin-top:.5rem">
+          <li><b>MDS / EAN:</b> kryteria rozpoznania i wytyczne leczenia choroby Parkinsona oraz parkinsonizmów atypowych (PSP, MSA, CBD, DLB).</li>
+          <li><b>EAN / Gold Coast Consensus:</b> kryteria diagnostyczne i wytyczne postępowania w stwardnieniu zanikowym bocznym (SLA/ALS).</li>
+          <li><b>NIA-AA / EAN:</b> kryteria biomarkerowe ATN choroby Alzheimera, diagnostyka FTD/VaD/DLB oraz postępowanie w wodogłowiu normotensyjnym (NPH).</li>
+          <li><b>Zastrzeżenie:</b> Atlas służy nauce do egzaminu testowego (ET) na V roku kierunku lekarskiego. W praktyce klinicznej dawkowanie leków (lewodopa, ryluzol, donepezil, memantyna, leki przeciwpsychotyczne) zawsze weryfikuj z ChPL i dokumentacją chorego.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer><div class="wrap">
+  <p><b>Neurologia V · Hub nauki</b> · Atlas modułów [14][15]: Choroby zwyrodnieniowe OUN i zespoły otępienne. <a href="../../index.html">Powrót do Hubu</a></p>
+</div></footer>
+
+<script src="../atlas-shared.js"></script>
+<script src="data.js"></script>
+<script src="app.js"></script>
+<script src="../atlas-hub-sync.js"></script>
+</body>
+</html>

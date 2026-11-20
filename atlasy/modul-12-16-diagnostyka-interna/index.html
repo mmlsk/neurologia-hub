@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<script>
+try{
+  if(window.self!==window.top)document.documentElement.classList.add('hub-embedded');
+  const darkThemes={dark:1,navy:1,moss:1,espresso:1,ochre:1,purple:1,ocean:1};
+  const isDark=v=>!!darkThemes[v]||(v==='auto'&&window.matchMedia('(prefers-color-scheme: dark)').matches);
+  const t=localStorage.getItem('neurologia_hub_theme')||'auto';
+  if(isDark(t))document.documentElement.dataset.theme='dark';
+  window.addEventListener('storage',e=>{
+    if(e.key==='neurologia_hub_theme'){
+      if(isDark(e.newValue||'auto'))document.documentElement.dataset.theme='dark';
+      else delete document.documentElement.dataset.theme;
+    }
+  });
+  window.addEventListener('message',e=>{
+    if(e.data&&e.data.type==='SET_THEME'){
+      if(e.data.theme==='dark'||darkThemes[e.data.theme])document.documentElement.dataset.theme='dark';
+      else delete document.documentElement.dataset.theme;
+    }
+  });
+}catch(e){}
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>[12][16] Badania dodatkowe w neurologii i zespoły w chorobach wewnętrznych – Neurologia V Hub</title>
+<link rel="preconnect" href="https://api.fontshare.com">
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&f[]=cabinet-grotesk@700,800&display=swap" rel="stylesheet" crossorigin="anonymous" media="print" onload="this.media='all'"><noscript><link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&f[]=cabinet-grotesk@700,800&display=swap" rel="stylesheet" crossorigin="anonymous"></noscript>
+<link rel="stylesheet" href="../atlas-base.css">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="../atlas-mobile.css">
+</head>
+<body>
+<nav class="nav" aria-label="Nawigacja sekcji"><div class="wrap">
+  <a class="hub-back" href="../../index.html">← Hub</a>
+  <div class="brand"><b>[12][16]</b> <span>Diagnostyka &amp; Interna</span></div>
+  <ul id="navlist">
+    <li><a href="#obrazowanie">TK i MRI mózgu</a></li>
+    <li><a href="#pmr">Nakłucie i PMR</a></li>
+    <li><a href="#elektro">EEG i EMG/ENG</a></li>
+    <li><a href="#interna">Neurologia w internie</a></li>
+    <li><a href="#niedobory">Niedobory i toksyny</a></li>
+    <li><a href="#zadania">Zadania testowe</a></li>
+    <li><a href="#klucz">Klucz vs wytyczne</a></li>
+    <li><a href="#pulapki">Pułapki</a></li>
+    <li><a href="#zrodla">Źródła</a></li>
+  </ul>
+</div></nav>
+
+<header class="hero"><div class="wrap grid">
+  <div>
+    <span class="tag">MODUŁY [12][16] · Neurologia V rok · Sylabus PUM 2026/2027</span>
+    <h1>Badania <span>dodatkowe</span><br>i zespoły w internie</h1>
+    <p class="sub">Kompendium do zaliczenia (Wykład TK04, TK05, ćwiczenia U11, U12, U13, Wskazówka PUM #10): TK i sekwencje MRI (DWI/ADC, FLAIR, SWI), USG Doppler, nakłucie lędźwiowe i profile PMR, EEG oraz ENG/EMG, encefalopatie narządowe, cukrzyca, niedobory B₁ i B₁₂ oraz zespoły paranowotworowe.</p>
+    <div class="chips">
+      <span class="chip s">💉 Wernicke (B₁): tiamina PRZED glukozą!</span>
+      <span class="chip i">🧲 MRI: DWI(+)/FLAIR(−) &lt;4,5 h · SWI = krew</span>
+      <span class="chip e">🧪 PMR: ZOMR · GBS rozszczepienie · SAH ksantochromia</span>
+      <span class="chip f">🧭 Wskazówka #10: Romberg (+) = sznury tylne (B₁₂)</span>
+    </div>
+    <div class="legend">
+      <div><span class="kb src">KLUCZ POTWIERDZONY</span> odpowiedź potwierdzona w materiale wykładowym / podręczniku sylabusowym PUM</div>
+      <div><span class="kb inf">KLUCZ WNIOSKOWANY</span> odpowiedź wynikająca z zasad patofizjologii i aktualnych wytycznych klinicznych</div>
+      <div><span class="kb unk">KLUCZ NIEPEWNY</span> pytanie o możliwym rozbieżnym wariancie sformułowania; sprawdź porównanie wytycznych</div>
+    </div>
+  </div>
+  <figure class="fig" aria-label="Schemat diagnostyki dodatkowej oraz powikłań neurologicznych chorób wewnętrznych">
+    <svg viewBox="0 0 640 360" id="heroSvg" role="img" aria-label="Podsumowanie modułu 16 (TK, MRI, PMR, EEG, EMG, Doppler) i modułu 12 (encefalopatie, cukrzyca, niedobory B1 i B12, paranowotworowe)">
+      <!-- Lewy panel: Diagnostyka [16] -->
+      <rect x="10" y="10" width="302" height="340" rx="14" fill="#EEF2F0" stroke="#DCE2E0" stroke-width="1.5"/>
+      <text x="161" y="34" text-anchor="middle" font-size="13.5" font-weight="800" fill="#13232C">Diagnostyka dodatkowa · Moduł [16]</text>
+
+      <rect x="24" y="48" width="274" height="62" rx="10" fill="#FBE6E2" stroke="#A82D1E" stroke-width="1.8"/>
+      <text x="36" y="69" font-size="12" font-weight="800" fill="#A82D1E">1. TK bez kontrastu + angio-TK (U11)</text>
+      <text x="36" y="86" font-size="10.5" fill="#13232C">Krew jasna (hiperdensyjna) · wyklucz ICH przed rtPA</text>
+      <text x="36" y="100" font-size="10" fill="#44545D">Uwaga: po &gt;6 h ujemne TK nie wyklucza SAH!</text>
+
+      <rect x="24" y="120" width="274" height="64" rx="10" fill="#E1ECF9" stroke="#2B63AE" stroke-width="1.8"/>
+      <text x="36" y="141" font-size="12" font-weight="800" fill="#2B63AE">2. MRI: DWI/ADC · FLAIR · T1+Gd · SWI</text>
+      <text x="36" y="158" font-size="10.5" fill="#13232C">DWI(+)/ADC(−) = świeże niedokrwienie (&lt;4,5 h bez FLAIR)</text>
+      <text x="36" y="172" font-size="10" fill="#44545D">FLAIR: SM, HSV, PRES · SWI: mikrokrwawienia/żyły</text>
+
+      <rect x="24" y="194" width="274" height="64" rx="10" fill="#DDF1F2" stroke="#0C7A85" stroke-width="1.8"/>
+      <text x="36" y="215" font-size="12" font-weight="800" fill="#075760">3. Nakłucie lędźwiowe L3–L5 i PMR (U12)</text>
+      <text x="36" y="232" font-size="10.5" fill="#13232C">Norma: 0–5/µl · białko 15–45 mg/dl · glukoza ≥60%</text>
+      <text x="36" y="246" font-size="10" fill="#44545D">ZOMR · GBS (rozszczepienie) · SAH (ksantochromia) · SM</text>
+
+      <rect x="24" y="268" width="274" height="68" rx="10" fill="#FCEFD6" stroke="#8F5808" stroke-width="1.8"/>
+      <text x="36" y="289" font-size="12" font-weight="800" fill="#8F5808">4. EEG · ENG/EMG · USG Doppler (U13)</text>
+      <text x="36" y="306" font-size="10.5" fill="#13232C">EEG: 3 Hz (absence), trójfazowe (wątroba/nerki)</text>
+      <text x="36" y="320" font-size="10" fill="#44545D">ENG: amplituda↓ (akson) vs NCV↓ (demielinizacja)</text>
+
+      <!-- Prawy panel: Interna i niedobory [12] -->
+      <rect x="328" y="10" width="302" height="340" rx="14" fill="#EEF2F0" stroke="#DCE2E0" stroke-width="1.5"/>
+      <text x="479" y="34" text-anchor="middle" font-size="13.5" font-weight="800" fill="#13232C">Neurologia w internie · Moduł [12]</text>
+
+      <rect x="342" y="48" width="274" height="66" rx="10" fill="#FBE6E2" stroke="#A82D1E" stroke-width="1.8"/>
+      <text x="354" y="69" font-size="12" font-weight="800" fill="#A82D1E">Niedobór wit. B₁ — Encefalopatia Wernickego</text>
+      <text x="354" y="86" font-size="10.5" fill="#13232C">Splątanie + oftalmoplegia/oczopląs + ataksja</text>
+      <text x="354" y="101" font-size="10.5" font-weight="700" fill="#A82D1E">ALARM: Tiamina i.v. PRZED podaniem glukozy!</text>
+
+      <rect x="342" y="124" width="274" height="72" rx="10" fill="#E1EFF5" stroke="#245B7A" stroke-width="1.8"/>
+      <text x="354" y="145" font-size="12" font-weight="800" fill="#245B7A">Niedobór wit. B₁₂ — Zwyrodnienie powrózkowe</text>
+      <text x="354" y="162" font-size="10.5" fill="#13232C">Sznury tylne (wibracja/ułożenie) + boczne (Babiński)</text>
+      <text x="354" y="177" font-size="10" fill="#44545D">Romberg (+) przy zamkniętych oczach (Wskazówka #10)</text>
+      <text x="354" y="190" font-size="9.5" fill="#44545D">Uwaga na N₂O, metformina, IPP i maskowanie folianem</text>
+
+      <rect x="342" y="206" width="274" height="64" rx="10" fill="#E1F3E7" stroke="#216B3E" stroke-width="1.8"/>
+      <text x="354" y="227" font-size="12" font-weight="800" fill="#216B3E">Wątroba · Nerka · Cukrzyca</text>
+      <text x="354" y="244" font-size="10.5" fill="#13232C">Asterixis, amoniak (laktuloza) · mioklonie mocznicowe</text>
+      <text x="354" y="258" font-size="10" fill="#44545D">Hipoglikemia udaje udar! · n. III bez źrenicy = DM</text>
+
+      <rect x="342" y="280" width="274" height="56" rx="10" fill="#fff" stroke="#44545D" stroke-width="1.6"/>
+      <text x="354" y="300" font-size="11.5" font-weight="800" fill="#13232C">Na⁺ (ODS) · PRES · Paranowotworowe</text>
+      <text x="354" y="317" font-size="10" fill="#44545D">Korekcja Na⁺ ≤8 mmol/d · anty-Hu/Yo/NMDA-R/VGCC</text>
+    </svg>
+    <div class="herolist">
+      <div><b style="color:#A82D1E">TK vs MRI</b> krew szybko w TK; wczesne niedokrwienie w DWI</div>
+      <div><b style="color:#075760">PMR</b> wyklucz masę/ICP przed LP, ale nie opóźniaj leków</div>
+      <div><b style="color:#A82D1E">Wernicke (B₁)</b> podaj tiaminę i.v. przed wlewem glukozy</div>
+      <div><b style="color:#245B7A">Sznury tylne (B₁₂)</b> Romberg (+) po zamknięciu oczu</div>
+    </div>
+    <figcaption>Architektura modułów [16] i [12]: dobór metod diagnostycznych (TK/MRI, PMR, EEG, EMG/ENG, Doppler) oraz neurologiczne manifestacje chorób wewnętrznych i niedoborów.</figcaption>
+  </figure>
+</div></header>
+
+<main>
+<!-- ============ 1. OBRAZOWANIE: TK, MRI I DOPPLER ============ -->
+<section id="obrazowanie"><div class="wrap">
+  <div class="eyebrow">Część A · Moduł [16] · Wykład TK04 / Ćw U11 · Neuroobrazowanie i ultrasonografia</div>
+  <h2>TK bez kontrastu, sekwencje MRI mózgu i USG Doppler</h2>
+  <p class="lead">Wybór badania obrazowego w neurologii zależy od pytania klinicznego: w stanach nagłych liczy się szybkość wykluczenia krwi i dużego zakrzepu (TK + angio-TK), natomiast w diagnostyce wczesnego niedokrwienia, demielinizacji, zapaleń mózgu i guzów rozstrzyga wieloparametryczny rezonans magnetyczny (MRI).</p>
+
+  <div class="kpis">
+    <div class="kpi r"><b>TK głowy</b><span>badanie I rzutu w ostrym udarze i urazie — w 2–3 minuty wyklucza krwotok (krew hiperdensyjna)</span></div>
+    <div class="kpi"><b>DWI / ADC</b><span>najczulsza sekwencja MRI w ostrym niedokrwieniu (ograniczenie dyfuzji w minutach)</span></div>
+    <div class="kpi a"><b>6 h</b><span>granica ~99–100% czułości TK w SAH — po &gt;6 h ujemne TK wymaga LP lub angio-TK</span></div>
+    <div class="kpi v"><b>≥ 70%</b><span>objawowe zwężenie ICA (NASCET) w USG Doppler / CTA — kwalifikacja do CEA/CAS (&lt;14 dni)</span></div>
+  </div>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Metoda / sekwencja</th><th>Wygląd PMR i podstawowych tkanek</th><th>Co „świeci” (hiperintensywne / hiperdensyjne)?</th><th>Główne zastosowanie kliniczne (U11)</th></tr></thead>
+      <tbody>
+        <tr><td><b>TK bez kontrastu</b></td><td>PMR ciemny (hipodensyjny), kość biała</td><td><b>Świeża krew</b> (ICH, SAH, EDH, SDH), zwapnienia, hiperdensyjna MCA („dense artery sign”)</td><td>Natychmiastowe różnicowanie krwotoku i udaru niedokrwiennego przed rtPA, uraz czaszkowo-mózgowy, wodogłowie</td></tr>
+        <tr><td><b>Angio-TK (CTA) i perfuzja (CTP)</b></td><td>Kontrast jodowy w świetle naczyń</td><td>Zator/zwężenie tętnicy (ICA, M1, BA), mapa rdzenia (CBF/CBV) vs penumbra (Tmax)</td><td>Kwalifikacja do trombektomii mechanicznej (LVO 6–24 h), wykrywanie tętniaków i rozwarstwień</td></tr>
+        <tr><td><b>MRI T1 (i T1 + Gd)</b></td><td><b>PMR ciemny</b>, istota biała jaśniejsza od szarej</td><td><b>T1 bez Gd:</b> tłuszcz, podostry krwiak (methemoglobina), mangan (wątroba). <b>T1+Gd:</b> przerwanie bariery krew–mózg</td><td>Aktywne plaki SM (DIS/DIT), glejaki, oponiaki („ogon oponowy”), przerzuty, ropnie (wzmocnienie obrączkowate)</td></tr>
+        <tr><td><b>MRI T2 i FLAIR</b></td><td><b>T2:</b> PMR jasny · <b>FLAIR:</b> PMR stłumiony (ciemny)</td><td>Obrzęk, glioza, plaki demielinizacyjne (SM), zawał &gt;4,5 h, zapalenie HSV w płatach skroniowych, PRES</td><td>Ocena zmian przykomorowych (palce Dawsona w SM), zapaleń mózgu, leukoencefalopatii i strefy okołokomorowej</td></tr>
+        <tr><td><b>MRI DWI + mapa ADC</b></td><td>Ocena ruchu dyfuzyjnego cząsteczek wody</td><td><b>DWI jasne + ADC ciemne</b> = prawdziwa restrykcja dyfuzji (obrzęk cytotoksyczny)</td><td>Ostry zawał niedokrwienny (już po minutach), protokół WAKE-UP <b>DWI(+)/FLAIR(−)</b>, treść ropnia mózgu, CJD (wstęga korowa)</td></tr>
+        <tr><td><b>MRI T2* / SWI</b></td><td>Wrażliwe na produkty rozpadu hemoglobiny</td><td>Czarne artefakty zakwitu (<em>blooming</em>) dla krwi, hemosyderyny, wapnia i zakrzepów żylnych</td><td>Mikrokrwawienia (angiopatia amyloidowa CAA, nadciśnienie), naczyniaki jamiste, zakrzepica żył korowych</td></tr>
+        <tr><td><b>Wenografia (MRV / CTV)</b></td><td>Obrazuje przepływ w zatokach żylnych opony twardej</td><td>Ubytek wypełnienia / brak sygnału w zatoce strzałkowej górnej lub poprzecznej</td><td>Podejrzenie zakrzepicy zatok żylnych mózgu (CVST) — samo TK bez kontrastu często bywa ujemne!</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="grid2" style="margin-top:1.2rem">
+    <div class="card">
+      <h3>Czułość TK bez kontrastu w SAH w funkcji czasu</h3>
+      <p class="small" style="margin-bottom:.6rem">Dlaczego po upływie 6 godzin od początku piorunującego bólu głowy prawidłowy wynik TK nie zwalnia z nakłucia lędźwiowego.</p>
+      <div class="bars" id="barsSahCT"></div>
+    </div>
+    <div class="tcard b">
+      <h3>🔊 USG Doppler domózgowy i TCD (U11)</h3>
+      <ul>
+        <li><b>Doppler tętnic szyjnych i kręgowych (CDU):</b> badanie przesiewowe w TIA i udarze; pomiar prędkości skurczowej (PSV) wg kryteriów <b>NASCET</b> — objawowe zwężenie ICA <b>70–99%</b> (a wybrane 50–69%) to wskazanie do pilnej endarterektomii (CEA) lub stentowania (CAS).</li>
+        <li><b>Zespół podkradania tętnicy podobojczykowej:</b> odwrócenie kierunku przepływu w tętnicy kręgowej podczas pracy kończyny górnej (różnica RR między ramionami &gt;20 mmHg).</li>
+        <li><b>Przezczaszkowy Doppler (TCD):</b> monitorowanie skurczu naczyniowego po SAH (wzrost V<sub>mean</sub> w MCA &gt;120–200 cm/s), wykrywanie PFO testem z kontrastem pęcherzykowym oraz potwierdzanie zatrzymania krążenia mózgowego (przepływ wahadłowy / szpilkowy).</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="grid2" style="margin-top:1.2rem">
+    <div class="tcard r">
+      <h3>⚠️ Bezpieczeństwo i przeciwwskazania (TK / MRI / kontrast)</h3>
+      <ul>
+        <li><b>Przeciwwskazania do MRI:</b> niekompatybilne stymulatory serca i ICD (niespełniające standardu MR-conditional), neurostymulatory, implanty ślimakowe, starsze ferromagnetyczne klipsy naczyniowe i opiłki metalowe w gałce ocznej (przed MRI w wątpliwościach zrób RTG oczodołów!).</li>
+        <li><b>Kontrast jodowy (TK):</b> oceń eGFR (ostrożność przy eGFR &lt;30 ml/min/1,73 m² — nawodnienie i.v.), alergię na jod/środki cieniujące; metforminy przy prawidłowym eGFR nie trzeba rutynowo odstawiać, ale przy eGFR &lt;30–45 należy ją wstrzymać na 48 h.</li>
+        <li><b>Gadolin (MRI):</b> w ciężkiej niewydolności nerek (eGFR &lt;30) stosuj wyłącznie środki makrocykliczne o niskim ryzyku NSF; w ciąży unikaj gadolinu i promieniowania jonizującego TK (bezpieczne MRI bez Gd w stanach pilnych).</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Dobór badania obrazowego w typowych scenariuszach (U11)</h3>
+      <ul class="chk" style="margin-top:.6rem">
+        <li><b>Ostry deficyt ogniskowy &lt;4,5–24 h:</b> natychmiastowe TK bez kontrastu + angio-TK (ew. perfuzja TK).</li>
+        <li><b>Udar przy przebudzeniu / nieznany czas:</b> pilne MRI z sekwencjami DWI/ADC i FLAIR (lub CTP).</li>
+        <li><b>Podejrzenie SM, zapalenia mózgu (HSV), guza tylnej jamy lub rdzenia:</b> MRI z kontrastem (gadolin) — TK ma niską czułość w pniu, móżdżku i istocie białej.</li>
+        <li><b>Ból głowy u ciężarnej / połogowej lub z obrzękiem tarczy n. II:</b> MRI + wenografia MRV (wykluczenie zakrzepicy zatok żylnych CVST).</li>
+      </ul>
+    </div>
+  </div>
+</div></section>
+
+<!-- ============ 2. NAKLUCIE LEDZWIOWE I PMR ============ -->
+<section id="pmr"><div class="wrap">
+  <div class="eyebrow">Część B · Moduł [16] · Wykład TK05 / Ćw U12 · Płyn mózgowo-rdzeniowy</div>
+  <h2>Nakłucie lędźwiowe (LP) i interpretacja profilów PMR</h2>
+  <p class="lead">Nakłucie wykonuje się między wyrostkami kolczystymi kręgów <b>L3–L4 lub L4–L5</b> (poniżej końca stożka rdzeniowego na poziomie L1–L2, na linii grzebieni biodrowych — linia Tuffiera). Prawidłowe ciśnienie otwarcia w pozycji leżącej na boku wynosi <b>6–20 cm H₂O (70–180 mm H₂O)</b>.</p>
+
+  <div class="grid2">
+    <div class="flow">
+      <div class="fn start">Wskazanie do LP: podejrzenie ZOMR, SAH (&gt;6 h), GBS/CIDP, SM, neuroboreliozy lub IIH</div>
+      <div class="ar">↓</div>
+      <div class="fn amber"><b>Przesiew czerwonych flag przed nakłuciem:</b>obrzęk tarczy n. II · deficyt ogniskowy · GCS &lt;12–13 · świeży napad · ciężka immunosupresja</div>
+      <div class="branch">
+        <div>
+          <div class="fn red"><b>TAK — obecna choćby 1 flaga</b>Wykonaj najpierw TK głowy!</div>
+          <div class="ar">↓</div>
+          <div class="fn"><b>Jeśli podejrzenie bakteryjnego ZOMR:</b>posiewy krwi + antybiotyk i.v. + deksametazon <b>PRZED TK</b>!</div>
+        </div>
+        <div>
+          <div class="fn green"><b>NIE — brak objawów masy/ICP</b>Bezpieczne LP (L3–L4 / L4–L5)</div>
+          <div class="ar">↓</div>
+          <div class="fn"><b>Pomiar ciśnienia + 3–4 probówki</b>Równoczesne oznaczenie glukozy we krwi!</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Przeciwwskazania do LP i powikłania popunkcyjne</h3>
+      <ul class="chk no" style="margin-top:.6rem">
+        <li><b>Podejrzenie masy śródczaszkowej / przesunięcia linii środkowej / obrzęku mózgu</b> (zwłaszcza w tylnej jamie czaszki — ryzyko śmiertelnego wklinowania!).</li>
+        <li><b>Zakażenie skóry lub tkanek miękkich</b> w miejscu wkłucia (ryzyko zawleczenia infekcji do kanału kręgowego).</li>
+        <li><b>Ciężka koagulopatia / małopłytkowość:</b> płytki &lt;40–50 G/l, INR &gt;1,4–1,5 lub stosowanie leków przeciwkrzepliwych bez okna bezpiecznego (ryzyko krwiaka nadtwardówkowego kanału kręgowego).</li>
+        <li><b>Niestabilność krążeniowo-oddechowa</b> (najpierw stabilizacja ABC).</li>
+      </ul>
+      <div class="callout blue" style="margin-top:.9rem"><b class="k">Popunkcyjny ból głowy (PDPH)</b>Ból ortostatyczny (<b>narasta w ciągu minut po pionizacji, ustępuje po położeniu na płasko</b>), często z nudnościami i szumem usznym. Zapobieganie: cienka igła atraumatyczna (ołówkowa 22G–25G). Leczenie: nawodnienie, kofeina, leki przeciwbólowe; w opornych przypadkach (>48–72 h) <b>łata z krwi autologicznej (blood patch)</b>.</div>
+    </div>
+  </div>
+
+  <h3 style="margin:1.6rem 0 .6rem">Profile diagnostyczne płynu mózgowo-rdzeniowego (PMR)</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Profil PMR</th><th>Wygląd i ciśnienie</th><th>Cytoza (komórki/µl)</th><th>Białko (mg/dl)</th><th>Glukoza (wskaźnik PMR/surowica)</th><th>Kluczowa cecha dodatkowa</th></tr></thead>
+      <tbody>
+        <tr><td><b>Prawidłowy PMR</b></td><td>Wodojasny, 70–180 mm H₂O</td><td><b>0–5/µl</b> (limfocyty)</td><td><b>15–45 mg/dl</b></td><td><b>50–75 mg/dl</b> (≥0,60 glikemii)</td><td>Mleczany prawidłowe (&lt;2,1 mmol/l)</td></tr>
+        <tr><td><b>Ropne (bakteryjne) ZOMR</b></td><td>Mętny/ropny, ciśnienie ↑↑</td><td><b>&gt;1000/µl</b> (neutrofile &gt;80%)</td><td><b>↑↑ 100–500</b></td><td><b>↓↓ &lt;40 mg/dl</b> (&lt;0,40)</td><td>Mleczany ↑↑ (&gt;3,5–4 mmol/l), posiew / PCR / Gram</td></tr>
+        <tr><td><b>Wirusowe ZOMR</b></td><td>Przejrzysty lub opalizujący</td><td><b>10–500/µl</b> (limfocyty)</td><td>Norma lub lekko ↑ (45–100)</td><td><b>Prawidłowa</b> (≥0,50–0,60)</td><td>W pierwszych 24 h (np. enterowirusy, HSV) mogą przejściowo przeważać neutrofile!</td></tr>
+        <tr><td><b>Gruźlicze / grzybicze ZOMR</b></td><td>Wodojasny/lekko mętny, ↑↑</td><td><b>50–500/µl</b> (limfocyty)</td><td><b>↑↑ 100–500+</b></td><td><b>↓↓ &lt;40 mg/dl</b> (&lt;0,40)</td><td>Po odstaniu <b>błona włóknikowa (pajęczynka)</b>, wysokie ADA, barwienie tuszem indyjskim (Cryptococcus)</td></tr>
+        <tr><td><b>GBS / CIDP</b></td><td>Wodojasny, ciśnienie norma</td><td><b>Prawidłowa (&lt;5–10/µl)</b></td><td><b>↑↑ (&gt;45–300+)</b></td><td>Prawidłowa</td><td><b>Rozszczepienie białkowo-komórkowe</b> (w 1. tyg. GBS białko może być jeszcze w normie!)</td></tr>
+        <tr><td><b>SAH (krwotok podpajęczynówkowy)</b></td><td>Różowy/krwisty → po odwirowaniu żółty</td><td>Erytrocyty liczne i <b>stałe w probówkach 1–3</b></td><td>↑ (krew w PMR)</td><td>Prawidłowa</td><td><b>Ksantochromia</b> supernatantu (bilirubina — pojawia się ~6–12 h po krwotoku)</td></tr>
+        <tr><td><b>Stwardnienie rozsiane (SM)</b></td><td>Wodojasny, ciśnienie norma</td><td>Norma lub &lt;50/µl (limf.)</td><td>Norma lub &lt;70</td><td>Prawidłowa</td><td><b>Prążki oligoklonalne (OCB) typu 2/3</b> w PMR (nieobecne w surowicy) + indeks IgG &gt;0,7</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout amber" style="margin-top:1rem"><b class="k">Punkcja urazowa (artefakt z igły) vs prawdziwy SAH</b>Gdy przy wkłuciu uszkodzono splot żylny, płyn w pierwszej probówce jest krwisty, a w kolejnych (3. lub 4.) wyraźnie się przejaśnia (liczba erytrocytów spada), natomiast supernatant po natychmiastowym odwirowaniu jest <b>bezbarwny (brak ksantochromii)</b>. W SAH liczba krwinek czerwonych jest zbliżona we wszystkich probówkach, a supernatant ma żółte zabarwienie (ksantochromia).</div>
+</div></section>
+
+<!-- ============ 3. ELEKTRODIAGNOSTYKA: EEG I EMG/ENG ============ -->
+<section id="elektro"><div class="wrap">
+  <div class="eyebrow">Część C · Moduł [16] · Wykład TK05 / Ćw U13 · Neurofizjologia kliniczna</div>
+  <h2>Elektroencefalografia (EEG) oraz elektroneurografia i elektromiografia (ENG / EMG)</h2>
+  <p class="lead">EEG ocenia czynność bioelektryczną kory mózgowej (padaczka, encefalopatie, zgon mózgu), natomiast ENG (przewodnictwo nerwowe) i EMG igłowe (potencjały mięśniowe) lokalizują uszkodzenia w obrębie motoneuronu, korzenia, splotu, nerwu obwodowego, złącza nerwowo-mięśniowego oraz mięśnia.</p>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>Pasma częstotliwości fal EEG</h3>
+      <p class="small" style="margin-bottom:.6rem">Rytm alfa (8–13 Hz) jest fizjologicznym rytmem podstawowym czuwania nad okolicami potylicznymi przy zamkniętych oczach.</p>
+      <div class="bars" id="barsEEG"></div>
+    </div>
+    <div class="tcard v">
+      <h3>⚡ Wzorce patognomoniczne i zasady interpretacji EEG</h3>
+      <ul>
+        <li><b>Reakcja zatrzymania (Bergera):</b> rytm <b>alfa (8–13 Hz)</b> przy zamkniętych oczach ulega stłumieniu przez szybszy niskonapięciowy rytm beta natychmiast po otwarciu oczu.</li>
+        <li><b>Napady nieświadomości (absences):</b> uogólnione, symetryczne wyładowania zespołów <b>iglica–fala wolna 3 Hz</b> (silnie prowokowane przez <b>hiperwentylację</b>!).</li>
+        <li><b>Encefalopatie metaboliczne (wątrobowa, mocznicowa):</b> uogólnione zwolnienie czynności podstawowej (theta/delta) oraz charakterystyczne <b>fale trójfazowe</b>.</li>
+        <li><b>Opryszczkowe zapalenie mózgu (HSV):</b> okresowe ogniskowe wyładowania nad płatem skroniowym (<b>LPDs / PLEDs</b>); w zespole Westa — <b>hipsarytmia</b>; w CJD — zespoły ostre–wolne ~1 Hz (<b>PSWC</b>).</li>
+        <li><b>Ważne ograniczenie:</b> prawidłowe pojedyncze EEG spoczynkowe <b>NIE wyklucza padaczki</b> (czułość ~30–55%; zwiększa ją deprywacja snu i wideo-EEG).</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 style="margin:1.6rem 0 .6rem">ENG: Aksonopatia vs Demielinizacja oraz badania złącza nerwowo-mięśniowego</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Parametr ENG / próby stymulacyjne</th><th>Uszkodzenie aksonalne (np. cukrzyca, alkohol, B₁₂)</th><th>Uszkodzenie demielinizacyjne (np. GBS/AIDP, CIDP)</th><th>Złącze: Miastenia (MG) vs LEMS</th></tr></thead>
+      <tbody>
+        <tr><td><b>Amplituda potencjałów (CMAP / SNAP)</b></td><td><b>Wyraźnie OBNIŻONA</b> (proporcjonalnie do utraty aksonów)</td><td>Prawidłowa dystalnie (lub obniżona dopiero za blokiem)</td><td><b>MG:</b> prawidłowa spoczynkowo · <b>LEMS:</b> bardzo niska wyjściowo!</td></tr>
+        <tr><td><b>Prędkość przewodzenia (NCV)</b></td><td><b>Prawidłowa</b> lub minimalnie zwolniona (&gt;75–80% normy)</td><td><b>Znacznie ZWOLNIONA</b> (&lt;70–80% normy)</td><td>Prawidłowa</td></tr>
+        <tr><td><b>Latencja dystalna i fala F</b></td><td>Prawidłowe</td><td><b>Wydłużone</b>, rozszczepienie czasowe i <b>bloki przewodzenia</b> (w GBS wczesny brak/opóźnienie fali F!)</td><td>Prawidłowe</td></tr>
+        <tr><td><b>Próba męczliwości (RNS) i SFEMG</b></td><td>Bez dekrementu lub nieznaczny przy dużym odnerwieniu</td><td>Bez swoistego dekrementu</td><td><b>MG (3 Hz): dekrement &gt;10%</b> + SFEMG (wzrost jitteru) · <b>LEMS (20–50 Hz / wysiłek): inkrement &gt;100%</b></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="grid2" style="margin-top:1.2rem">
+    <div class="tcard a">
+      <h3>🔌 EMG igłowe — zapis NEUROGENNY (LMN, radikulopatia, SLA)</h3>
+      <ul>
+        <li><b>Spoczynek:</b> patologiczna aktywność spontaniczna — <b>fibrylacje i dodatnie fale ostre (PSW)</b> jako wyraz odnerwienia (uwaga: pojawiają się w pełni dopiero po <b>14–21 dniach</b> od ostrego urazu nerwu!) oraz <b>fascykulacje</b> (szczególnie w SLA).</li>
+        <li><b>Wysiłek maksymalny:</b> <b>zapis zubożony</b> (mało jednostek ruchowych bijących z dużą częstotliwością).</li>
+        <li><b>Morfologia MUP (reinerwacja):</b> potencjały <b>wysokie (olbrzymie), szerokie, polifazowe</b>.</li>
+      </ul>
+    </div>
+    <div class="tcard g">
+      <h3>💪 EMG igłowe — zapis MIOGENNY (zapalenie mięśni, dystrofie)</h3>
+      <ul>
+        <li><b>Spoczynek:</b> zazwyczaj cisza elektryczna (wyjątek: aktywne zapalenie wielomięśniowe — fibrylacje; miotonie — typowe <b>ciągi miotoniczne</b> o dźwięku pikującego bombowca).</li>
+        <li><b>Wysiłek (już niewielki):</b> <b>przedwczesna, nadmierna rekrutacja</b> (zapis pełny/bogaty przy małej sile mięśniowej).</li>
+        <li><b>Morfologia MUP:</b> potencjały <b>niskie, krótkie, wąskie, polifazowe</b> (drobnienie potencjałów jednostek ruchowych).</li>
+      </ul>
+    </div>
+  </div>
+</div></section>
+
+<!-- ============ 4. NEUROLOGIA W INTERNIE ============ -->
+<section id="interna"><div class="wrap">
+  <div class="eyebrow">Część D · Moduł [12] · Zespoły neurologiczne w chorobach wewnętrznych</div>
+  <h2>Encefalopatie narządowe, cukrzyca, elektrolity i zespoły paranowotworowe</h2>
+  <p class="lead">Choroby wewnętrzne często ujawniają się objawami neurologicznymi przypominającymi udar, padaczkę czy otępienie. Szybkie rozpoznanie przyczyny metabolicznej lub paranowotworowej pozwala wdrożyć leczenie przyczynowe i uniknąć nieodwracalnego uszkodzenia OUN.</p>
+
+  <div class="grid3">
+    <div class="tcard a">
+      <h3>🟡 Encefalopatia wątrobowa i choroba Wilsona</h3>
+      <ul>
+        <li><b>Encefalopatia wątrobowa:</b> odwrócenie rytmu snu i czuwania, zaburzenia uwagi, senność → śpiączka; charakterystyczne trzepoczące drżenie rąk (<b>asterixis</b>), wzrost stężenia <b>amoniaku</b>, w EEG <b>fale trójfazowe</b>.</li>
+        <li><b>MRI T1:</b> symetryczna hiperintensywność <b>gałek bladych</b> (odkładanie manganu).</li>
+        <li><b>Leczenie:</b> usunięcie czynnika wywołującego (krwawienie z p. pok., infekcja, zaparcie, diuretyki), <b>laktuloza</b> (cel: 2–3 luźne stolce/d) i <b>ryfaksymina</b>.</li>
+        <li><b>Choroba Wilsona (&lt;40 r.ż.):</b> spadek ceruloplazminy, wzrost wydalania miedzi z moczem, <b>pierścień Kaysera-Fleischera</b>, dystonia/parkinsonizm/drżenie („trzepotanie skrzydeł”), w T2 „twarz pandy wielkiej” w śródmózgowiu.</li>
+      </ul>
+    </div>
+    <div class="tcard b">
+      <h3>🔵 Encefalopatia mocznicowa i dializoterapia</h3>
+      <ul>
+        <li><b>Encefalopatia mocznicowa:</b> narastająca apatia, wahania świadomości, <b>mioklonie</b>, <b>asterixis</b>, drgawki uogólnione, zespół niespokojnych nóg (RLS).</li>
+        <li><b>Polineuropatia mocznicowa:</b> symetryczna, dystalna aksonalna polineuropatia czuciowo-ruchowa; dodatkowo częsty zespół cieśni nadgarstka (odkładanie β₂-mikroglobuliny).</li>
+        <li><b>Zespół niewyrównania dializacyjnego (DDS):</b> ból głowy, nudności, drgawki i obrzęk mózgu przy zbyt gwałtownym pierwszym usunięciu mocznika (gradient osmotyczny).</li>
+      </ul>
+    </div>
+    <div class="tcard r">
+      <h3>🔴 Cukrzyca: hipoglikemia, HONK i neuropatie</h3>
+      <ul>
+        <li><b>Hipoglikemia (&lt;70 / &lt;54 mg/dl):</b> wielki naśladowca udaru (przemijający lub utrwalony niedowład połowiczy, afazja, drgawki, śpiączka) — <b>zawsze zmierz glikemię włośniczkową przed rozpoznaniem udaru!</b></li>
+        <li><b>HONK / HHS (hiperosmolarny):</b> odwodnienie bez ketozy; może wywoływać <b>ogniskowe napady drgawkowe</b> oraz jednostronną choreę/hemibalizm (hiperintensywność prążkowia w MRI T1).</li>
+        <li><b>Neuropatie cukrzycowe:</b> najczęstsza to bolesna polineuropatia dystalna + neuropatia autonomiczna; ponadto <b>amiotrofia cukrzycowa</b> (asymetryczny ból i zanik m. czworogłowego uda) oraz <b>mononeuropatia n. III</b>.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 style="margin:1.6rem 0 .6rem">Zaburzenia sodowe, nadciśnienie (PRES) oraz zespoły paranowotworowe</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Zespół / patomechanizm</th><th>Klinika i typowa lokalizacja w MRI</th><th>Wiązany nowotwór / przyczyna</th><th>Kluczowa zasada postępowania</th></tr></thead>
+      <tbody>
+        <tr><td><b>Osmotyczna demielinizacja (ODS / mielinoliza mostu)</b></td><td>Zespół <em>locked-in</em>, dyzartria, dysfagia, tetrapareza spastyczna po <b>2–6 dniach</b> od wyrównania Na⁺; MRI T2/DWI: „trójząb” w moście</td><td>Zbyt szybkie wyrównanie przewlekłej <b>hiponatremii</b> (&gt;8–10 mmol/l na dobę)</td><td>Koryguj Na⁺ powoli: cel <b>4–6 mmol/l/24 h</b>, nie przekraczaj 8 mmol/l/24 h!</td></tr>
+        <tr><td><b>PRES (zespół tylnej odwracalnej encefalopatii)</b></td><td>Ból głowy, splątanie, napady padaczkowe, ślepota korowa; MRI FLAIR: symetryczny obrzęk <b>płatów potyliczno-ciemieniowych</b></td><td>Przełom nadciśnieniowy, rzucawka, takrolimus, cyklosporyna, niewydolność nerek</td><td>Stopniowa redukcja ciśnienia tętniczego + odstawienie leku wywołującego</td></tr>
+        <tr><td><b>Przeciwciała anty-Hu (ANNA-1)</b></td><td>Zapalenie układu limbicznego (amnezja, drgawki), ciężka <b>neuronopatia czuciowa</b> (ataksja czuciowa)</td><td><b>Rak drobnokomórkowy płuca (SCLC)</b> (często wyprzedza wykrycie guza!)</td><td>Pilne poszukiwanie guza (TK klatki, PET-TK) + immunoterapia (GKS, IVIG/plazmafereza)</td></tr>
+        <tr><td><b>Przeciwciała anty-Yo (PCA-1)</b></td><td>Podostre zwyrodnienie móżdżku (ciężka ataksja, dyzartria, oczopląs)</td><td><b>Rak jajnika lub rak piersi</b></td><td>Onkoscreening (ginekologia/mammografia/PET) + wczesne leczenie guza i immunoterapia</td></tr>
+        <tr><td><b>Zapalenie z p/c anty-NMDA-R</b></td><td>Psychoza, bezsenność, <b>dyskinezy ustno-twarzowe</b>, drgawki, katatonia, niestabilność autonomiczna</td><td><b>Potworniak jajnika</b> (młode kobiety, też po HSV!)</td><td>Usunięcie potworniaka + wysokie dawki GKS + IVIG / plazmafereza, rytuksymab</td></tr>
+        <tr><td><b>Przeciwciała anty-VGCC (LEMS)</b></td><td>Osłabienie proksymalne kończyn dolnych + suchość w ustach + arefleksja (<b>poprawa siły i odruchów po wysiłku!</b>)</td><td><b>SCLC</b> (~50–60% chorych)</td><td>Poszukiwanie SCLC + <b>amifamprydyna (3,4-DAP)</b> (w ENG inkrement &gt;100%)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout blue" style="margin-top:1rem"><b class="k">Porażenie nerwu III: cukrzyca kontra tętniak TComP</b>W cukrzycowym zawale pnia nerwu okoruchowego uszkodzone są włókna centralne (niedokrwienie <em>vasa nervorum</em>) — <b>źrenica jest prawidłowa i reaguje na światło</b>. Odwrotnie, tętniak tętnicy łączącej tylnej (TComP) uciska powierzchownie biegnące włókna przywspółczulne — daje <b>szeroką, sztywną źrenicę</b> i wymaga pilnego angio-TK.</div>
+</div></section>
+
+<!-- ============ 5. NIEDOBORY I TOKSYNY ============ -->
+<section id="niedobory"><div class="wrap">
+  <div class="eyebrow">Część E · Moduł [12] · Wskazówka PUM #10 · Niedobory witaminowe i toksyny</div>
+  <h2>Niedobory B₁ i B₁₂, zwyrodnienie sznurów tylnych (Wskazówka #10) i alkoholizm</h2>
+  <p class="lead">Encefalopatia Wernickego i zwyrodnienie powrózkowe rdzenia z niedoboru B₁₂ należą do najważniejszych odwracalnych stanów w neurologii — wymagają natychmiastowego rozpoznania klinicznego jeszcze przed uzyskaniem wyników stężeń witamin.</p>
+
+  <div class="grid2">
+    <div class="tcard r">
+      <h3>🚨 Niedobór witaminy B₁ (tiaminy) — Wernicke → Korsakow</h3>
+      <ul>
+        <li><b>Triada encefalopatii Wernickego</b> (często występuje tylko 1–2 objawy!): <b>1) zaburzenia świadomości / splątanie, 2) oftalmoplegia i oczopląs (n. VI, porażenie spojrzenia), 3) ataksja chodu</b>.</li>
+        <li><b>Grupy ryzyka:</b> choroba alkoholowa, niepowściągliwe wymioty ciężarnych, długotrwałe głodzenie, stan po operacji bariatrycznej, nowotwory.</li>
+        <li><b>MRI mózgu:</b> symetryczne zmiany hiperintensywne (FLAIR/DWI) w <b>ciałach suteczkowatych</b>, przyśrodkowych częściach wzgórz oraz istocie szarej okołowodociągowej.</li>
+        <li><b>ŻELAZNA ZASADA:</b> Podaj <b>tiaminę i.v. (200–500 mg co 8 h) PRZED podaniem glukozy</b>! Wlew samej glukozy zużywa resztki B₁ i wyzwala ostrą dekompensację. Nieleczony zespół przechodzi w nieodwracalny <b>zespół Korsakowa</b> (amnezja następcza + konfabulacje).</li>
+      </ul>
+    </div>
+    <div class="tcard v">
+      <h3>🧬 Niedobór witaminy B₁₂ (kobalaminy) — Funikuloza rdzenia</h3>
+      <ul>
+        <li><b>Przyczyny:</b> niedokrwistość złośliwa (p/c anty-IF), dieta wegańska, resekcja żołądka/jelita krętego, przewlekłe przyjmowanie <b>metforminy</b> lub IPP, rekreacyjne wdychanie <b>podtlenku azotu (N₂O — gwałtowny przebieg!)</b>.</li>
+        <li><b>Podostre złożone zwyrodnienie rdzenia:</b> łączy objawy ze <b>sznurów tylnych</b> (utrata czucia wibracji i ułożenia, parestezje, <b>ataksja czuciowa</b>) oraz <b>sznurów bocznych</b> (niedowład spastyczny nóg, wygórowane odruchy kolanowe, <b>obustronny objaw Babińskiego</b> — skokowe bywają zniesione przez polineuropatię).</li>
+        <li><b>Diagnostyka:</b> niska B₁₂, podwyższony <b>kwas metylomalonowy (MMA)</b> i homocysteina; MCV &gt;100 fl nie musi być obecne! <b>Nie podawaj samego kwasu foliowego</b> — poprawia morfologię, ale nasila uszkodzenie rdzenia.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 style="margin:1.6rem 0 .6rem">Wskazówka egzaminacyjna PUM #10: Zespół móżdżkowy vs Zwyrodnienie sznurów tylnych</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Cecha różnicująca</th><th>Zespół móżdżkowy (ataksja móżdżkowa)</th><th>Zwyrodnienie sznurów tylnych (ataksja tylnosznurowa, np. B₁₂)</th></tr></thead>
+      <tbody>
+        <tr><td><b>Lokalizacja uszkodzenia</b></td><td>Móżdżek (robak i/lub półkule) lub konary móżdżku</td><td>Sznury tylne rdzenia kręgowego (pęczek smukły i klinowaty) — drogi czucia głębokiego</td></tr>
+        <tr><td><b>Próba Romberga (oczy otwarte vs zamknięte)</b></td><td><b>UJEMNA</b> (chory jest niestabilny i chwieje się <b>już przy oczach otwartych</b>; zamknięcie oczu nie pogarsza gwałtownie równowagi)</td><td><b>DODATNIA</b> (przy oczach otwartych wzrok kompensuje brak propriocepcji; <b>po zamknięciu oczu chory gwałtownie się chwieje lub upada!</b>)</td></tr>
+        <tr><td><b>Czucie głębokie (wibracja, ułożenie)</b></td><td><b>PRAWIDŁOWE</b></td><td><b>ZNIESIONE lub znacznie upośledzone</b> (kamerton 128 Hz na kostkach, czucie ułożenia palucha)</td></tr>
+        <tr><td><b>Charakter chodu</b></td><td>Chód na szerokiej podstawie, chwiejny („pijacki”), zbaczanie w stronę uszkodzonej półkuli</td><td>Chód „tupiący” (uderzanie piętami o podłoże, stała kontrola wzrokiem), silne pogorszenie <b>w ciemności</b> i przy myciu twarzy nad umywalką</td></tr>
+        <tr><td><b>Próby zbornościowe i dodatkowe objawy</b></td><td>Dysmetria (hipermetria), <b>drżenie zamiarowe</b>, adiadochokineza, <b>mowa skandowana</b>, oczopląs, hipotonia mięśniowa</td><td>Mowa i ruchy gałek ocznych prawidłowe; w niedoborze B₁₂ współistnieją <b>cechy UMN (objaw Babińskiego)</b> z uszkodzenia sznurów bocznych</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card" style="margin-top:1.2rem">
+    <h3>Inne zespoły alkoholowe i neurotoksyczne (Moduł [12])</h3>
+    <div class="grid2" style="margin-top:.6rem">
+      <ul class="tight">
+        <li><b>Alkoholowy zespół odstawienny / delirium tremens:</b> drżenie, tachykardia, omamy wzrokowe, drgawki odstawienne (zwykle 6–48 h po odstawieniu) — leczenie: <b>benzodiazepiny</b> (diazepam/lorazepam) + <b>tiamina B₁</b> (nie stosuj samej fenytoiny w drgawkach odstawiennych!).</li>
+        <li><b>Alkoholowe zwyrodnienie móżdżku:</b> wybiórczy zanik przednio-górnego robaka móżdżku → postępująca ataksja tułowia i chodu przy względnie sprawnych kończynach górnych.</li>
+        <li><b>Choroba Marchiafavy-Bignamiego:</b> demielinizacja/martwica <b>ciała modzelowatego</b> u przewlekłych alkoholików (dysfazja, apraksja, zespół rozłączenia półkul, śpiączka).</li>
+      </ul>
+      <ul class="tight">
+        <li><b>Zatrucie metanolem:</b> opóźniona kwasica z dużą luką anionową, obustronne uszkodzenie <b>nerwów wzrokowych</b> (ślepota) i martwica <b>skorupy</b> (parkinsonizm) → <b>fomepizol / etanol i.v. + hemodializa</b>.</li>
+        <li><b>Tlenek węgla (CO):</b> martwica <b>gałek bladych</b> (późny zespół neuropsychiatryczny i parkinsonizm po kilku tygodniach od ekspozycji).</li>
+        <li><b>Leki i metale ciężkie:</b> <b>izoniazyd</b> powoduje niedobór witaminy <b>B₆</b> i polineuropatię (suplementuj B₆!); <b>ołów</b> daje ruchowe porażenie nerwu promieniowego (opadanie rąk); amiodaron, metronidazol, winkrystyna i cisplatyna — polineuropatie polekowe.</li>
+      </ul>
+    </div>
+  </div>
+</div></section>
+
+<!-- ============ 6. ZADANIA TESTOWE ============ -->
+<section id="zadania"><div class="wrap">
+  <div class="eyebrow">Część F · Trening egzaminacyjny ET</div>
+  <h2>Zadania testowe i omówienia</h2>
+  <p class="lead">Zestaw zadań sprawdzających najważniejsze punkty sylabusa PUM 2026/2027 dla modułów [12] i [16]. Wybierz odpowiedź, aby zobaczyć uzasadnienie, wskazówkę oraz ewentualne rozbieżności między kluczem zaliczeniowym a aktualnymi wytycznymi.</p>
+
+  <div class="card" style="margin-bottom:1.2rem">
+    <h3>Rozkład zadań według bloków</h3>
+    <p class="small" style="margin-bottom:.6rem">Liczba zadań w bieżącym atlasie z podziałem na obszary tematyczne.</p>
+    <div class="bars" id="barsPool"></div>
+  </div>
+
+  <div class="qtools">
+    <div class="filters" id="qFilters" style="margin:0"></div>
+    <span class="sp"></span>
+    <button type="button" class="btn" id="rand10">🎲 Losuj</button>
+    <button type="button" class="btn o" id="resetQ">Resetuj</button>
+  </div>
+  <div id="quiz"></div>
+  <div class="score" id="score" role="status">Wynik: 0 / 0</div>
+</div></section>
+
+<!-- ============ 7. KLUCZ VS WYTYCZNE ============ -->
+<section id="klucz"><div class="wrap">
+  <div class="eyebrow">Część G · Zgodność z wytycznymi</div>
+  <h2>Pod zaliczenie kontra aktualnie klinicznie (wytyczne)</h2>
+  <p class="lead">Zestawienie klasycznych sformułowań egzaminacyjnych z aktualizacjami europejskich i międzynarodowych wytycznych (ESO, ESCMID/IDSA, EFNS/EAN, NICE, ESE).</p>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Obszar</th><th>Pod zaliczenie (klasyczne ujęcie)</th><th>Aktualnie klinicznie (wytyczne)</th></tr></thead>
+      <tbody>
+        <tr><td><b>Okno obrazowania ostrego udaru</b></td><td>Klasyfikacja głównie wg sztywnego czasu zegarowego (0–4,5 h w TK bez kontrastu)</td><td>Wytyczne ESO (WAKE-UP / EXTEND / DAWN): wykorzystanie „zegara tkankowego” — niezgodność <b>MRI DWI(+)/FLAIR(−)</b> przy nieznanym czasie oraz <b>perfuzja TK/MRI</b> dla oceny penumbry (4,5–9 h i 6–24 h dla MT)</td></tr>
+        <tr><td><b>TK przed LP w podejrzeniu ZOMR</b></td><td>Przy objawach ogniskowych lub zaburzeniach przytomności przed nakłuciem wykonaj TK głowy</td><td>Wytyczne ESCMID/IDSA: TK przed LP tylko przy konkretnych wskazaniach (deficyt ogniskowy, obrzęk tarczy, GCS &lt;10–13, drgawki, immunosupresja) oraz <b>antybiotyk i.v. + deksametazon podaj PRZED wysłaniem na TK</b></td></tr>
+        <tr><td><b>Podejrzenie SAH z ujemnym TK</b></td><td>Prawidłowe TK nie wyklucza SAH — należy wykonać nakłucie lędźwiowe</td><td>Reguła 6 h (Ottawa / ESO): TK wysokiej jakości w ciągu <b>≤6 h</b> wyklucza SAH z czułością ~99–100%, natomiast powyżej <b>6 h</b> od początku bólu LP (ksantochromia) lub angio-TK są obowiązkowe</td></tr>
+        <tr><td><b>Dawkowanie tiaminy (B₁) w Wernickem</b></td><td>Klasycznie podawano dawkę 100 mg tiaminy i.m. lub i.v. na dobę</td><td>Wytyczne EFNS/NICE zalecają wysokie dawki pozajelitowe: <b>200–500 mg tiaminy i.v. co 8 h</b> przez 3–5 dni (i zawsze <b>przed podaniem glukozy</b>)</td></tr>
+        <tr><td><b>Rozpoznanie niedoboru wit. B₁₂</b></td><td>Wiązane klasycznie z obecnością niedokrwistości makrocytarnej (MCV↑)</td><td>Objawy neurologiczne (zwyrodnienie sznurów tylnych i bocznych) mogą wystąpić <b>bez anemii</b> i przy granicznym stężeniu B₁₂ — potwierdzaj oznaczając <b>kwas metylomalonowy (MMA)</b>; pamiętaj o N₂O</td></tr>
+        <tr><td><b>Wyrównywanie przewlekłej hiponatremii</b></td><td>Limit dobowego wzrostu sodu podawany dawniej jako 10–12 mmol/l/24 h</td><td>Wytyczne europejskie ESE: bezpieczny cel to <b>4–6 mmol/l/24 h</b>, a bezwzględny limit to <b>≤8–10 mmol/l w pierwszych 24 h</b> (ochrona przed mielinolizą mostu / ODS)</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div></section>
+
+<!-- ============ 8. PULAPKI ============ -->
+<section id="pulapki"><div class="wrap">
+  <div class="eyebrow">Część H · Najczęstsze błędy</div>
+  <h2>Pułapki egzaminacyjne i kliniczne</h2>
+  <p class="lead">Pięć klasycznych rozstrzygnięć z modułów [12] i [16], które najczęściej decydują o poprawnym rozpoznaniu na egzaminie testowym.</p>
+  <div class="stack">
+    <div class="callout red"><b class="k">Pułapka 1 · Glukoza przed tiaminą w encefalopatii Wernickego</b>U pacjenta z alkoholizmem, głodzeniem lub po operacji bariatrycznej nigdy nie zaczynaj od samego wlewu stężonej glukozy bez uprzedniego podania <b>witaminy B₁ dożylnie</b> — glukoza zużywa resztki tiaminy jako kofaktora w cyklu Krebsa i prowokuje gwałtowne pogorszenie uszkodzenia pnia i ciał suteczkowatych.</div>
+    <div class="callout amber"><b class="k">Pułapka 2 · Próba Romberga: sznury tylne vs móżdżek (Wskazówka #10)</b>Dodatni objaw Romberga oznacza wyraźne pogorszenie stabilności i upadek <b>dopiero po zamknięciu oczu</b> — świadczy o uszkodzeniu <b>sznurów tylnych / czucia głębokiego</b> (np. niedobór B₁₂). W zespole móżdżkowym chory chwieje się już przy <b>oczach otwartych</b>!</div>
+    <div class="callout blue"><b class="k">Pułapka 3 · Nerw III w cukrzycy oszczędza źrenicę, tętniak TComP ją rozszerza</b>Cukrzycowa mononeuropatia n. III wynika z niedokrwienia środka pnia nerwu, dlatego <b>reakcja źrenicy na światło pozostaje zachowana</b>. Bolesne porażenie n. III z <b>szeroką, niereagującą źrenicą</b> to sygnał ucisku z zewnątrz przez tętniaka TComP (pilne angio-TK!).</div>
+    <div class="callout red"><b class="k">Pułapka 4 · Kwas foliowy w niedoborze B₁₂ oraz „prawidłowe” EEG</b>Podanie samego kwasu foliowego choremu z nierozpoznanym niedoborem B₁₂ koryguje morfologię krwi (maskuje niedokrwistość), lecz napędza nieodwracalną degenerację sznurów rdzenia. Podobnie w epileptologii — pojedyncze prawidłowe EEG spoczynkowe <b>nie wyklucza padaczki</b>.</div>
+    <div class="callout amber"><b class="k">Pułapka 5 · Pierwszy tydzień GBS w PMR i „normoglikemia” w podejrzeniu udaru</b>W pierwszych 3–7 dniach zespołu Guillaina-Barrégo stężenie białka w PMR bywa jeszcze prawidłowe — nie wyklucza to rozpoznania ani leczenia IVIG/plazmaferezą. Z kolei w każdym ostrym „udarze” w SOR najpierw wyklucz <b>hipoglikemię</b> glukometrem, zanim sięgniesz po trombolizę.</div>
+  </div>
+</div></section>
+
+<!-- ============ 9. ZRODLA ============ -->
+<section id="zrodla"><div class="wrap">
+  <div class="eyebrow">Część I · Literatura i wytyczne</div>
+  <h2>Źródła sylabusa PUM 2026/2027 i rekomendacje</h2>
+  <div class="grid2" style="margin-top:1rem">
+    <div class="card">
+      <h3>Literatura sylabusa PUM 2026/2027</h3>
+      <ul class="tight" style="margin-top:.5rem">
+        <li><b>Podstawowa:</b> <em>Kompendium Neurologii</em>, red. Ryszard Podemski, Via Medica, Wyd. IV, Gdańsk 2019 (diagnostyka neuroobrazowa, PMR, neurofizjologia, zespoły metaboliczne i niedoborowe).</li>
+        <li><b>Uzupełniająca 1:</b> <em>Badanie neurologiczne – to proste</em>, Geraint Fuller, PZWL, Wyd. V, 2022 (próba Romberga, różnicowanie ataksji móżdżkowej i czuciowej, nerw III).</li>
+        <li><b>Uzupełniająca 2:</b> <em>Neurologia</em>, Tom I–III, Adam Stępień, Medical Tribune Polska, Wyd. II, 2022 (diagnostyka dodatkowa, encefalopatie, zespoły paranowotworowe).</li>
+        <li><b>Uzupełniająca 3:</b> <em>Neurologia. Podręcznik dla studentów medycyny</em>, W. Kozubski, P. Liberski [red.], PZWL, Warszawa, Wyd. 2, 2021.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Aktualne wytyczne kliniczne</h3>
+      <ul class="tight" style="margin-top:.5rem">
+        <li><b>ESO (2021–2024):</b> Wytyczne trombolizy i trombektomii przy nieznanym czasie (WAKE-UP / perfuzja) oraz diagnostyki SAH (reguła 6 h) i CVST.</li>
+        <li><b>ESCMID (2016) / IDSA:</b> Bakteryjne ZOMR — kryteria TK przed LP i natychmiastowe włączenie antybiotyku z deksametazonem przed obrazowaniem.</li>
+        <li><b>EFNS / EAN &amp; NICE:</b> Postępowanie w encefalopatii Wernickego (tiamina i.v. 200–500 mg co 8 h), niedoborze B₁₂, GBS (EAN/PNS 2023) oraz zespołach paranowotworowych (Graus 2021).</li>
+        <li><b>EASL / AASLD (2022) &amp; ESE:</b> Leczenie encefalopatii wątrobowej (laktuloza, ryfaksymina) oraz bezpieczne tempo wyrównywania hiponatremii.</li>
+      </ul>
+    </div>
+  </div>
+  <p class="small" style="margin-top:1.2rem">Zakres merytoryczny dopasowany do wykładów TK04, TK05, ćwiczeń U11, U12, U13 oraz wskazówki egzaminacyjnej #10 Katedry i Kliniki Neurologii PUM.</p>
+</div></section>
+</main>
+
+<script src="../atlas-shared.js"></script>
+<script src="data.js"></script>
+<script src="app.js"></script>
+<script src="../atlas-hub-sync.js"></script>
+</body>
+</html>

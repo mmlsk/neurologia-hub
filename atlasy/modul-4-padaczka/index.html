@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<script>
+try{const t=localStorage.getItem('neurologia_hub_theme')||'auto';const dk={dark:1,navy:1,moss:1,espresso:1,ochre:1,purple:1,ocean:1};if(dk[t]||(t==='auto'&&window.matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.dataset.theme='dark';}catch(e){}
+window.addEventListener('storage',e=>{if(e.key==='neurologia_hub_theme'){const t=e.newValue||'auto';const dk={dark:1,navy:1,moss:1,espresso:1,ochre:1,purple:1,ocean:1};if(dk[t]||(t==='auto'&&window.matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.dataset.theme='dark';else delete document.documentElement.dataset.theme;}});
+window.addEventListener('message',e=>{if(e.data&&e.data.type==='SET_THEME'){const dk={dark:1,navy:1,moss:1,espresso:1,ochre:1,purple:1,ocean:1};if(dk[e.data.theme])document.documentElement.dataset.theme='dark';else delete document.documentElement.dataset.theme;}});
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>[4] Padaczka i stany drgawkowe – atlas do zaliczenia · Neurologia V Hub</title>
+<link rel="preconnect" href="https://api.fontshare.com">
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&f[]=cabinet-grotesk@700,800&display=swap" rel="stylesheet" crossorigin="anonymous" media="print" onload="this.media='all'"><noscript><link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&f[]=cabinet-grotesk@700,800&display=swap" rel="stylesheet" crossorigin="anonymous"></noscript>
+<link rel="stylesheet" href="../atlas-base.css">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="../atlas-mobile.css">
+</head>
+<body>
+<nav class="nav" aria-label="Nawigacja"><div class="wrap">
+  <a class="hub-back" href="../../index.html">← Hub</a>
+  <div class="brand"><b>[4]</b> <span>Padaczka i SE</span></div>
+  <ul id="navlist">
+    <li><a href="#klasyfikacja">Klasyfikacja ILAE</a></li>
+    <li><a href="#diagnostyka">Diagnostyka i EEG</a></li>
+    <li><a href="#roznicowanie">Różnicowanie</a></li>
+    <li><a href="#leczenie">Farmakoterapia</a></li>
+    <li><a href="#status">Stan padaczkowy</a></li>
+    <li><a href="#zadania">Zadania testowe</a></li>
+    <li><a href="#klucz">Klucz vs wytyczne</a></li>
+    <li><a href="#pulapki">Pułapki</a></li>
+    <li><a href="#zrodla">Źródła</a></li>
+  </ul>
+</div></nav>
+
+<header class="hero"><div class="wrap grid">
+  <div>
+    <span class="tag">MODUŁ [4] · Grupa A · W03c · Sem TK04 · Ćw TK06</span>
+    <h1>Padaczka i <span>stany drgawkowe</span><br>klasyfikacja ILAE, EEG, LPP i SE</h1>
+    <p class="sub">Kompendium egzaminacyjne Kliniki Neurologii PUM (2026/2027): kryteria rozpoznania padaczki i klasyfikacja napadów ILAE, wzorce EEG (3 Hz, JME 4–6 Hz), różnicowanie z omdleniami i PNES, racjonalny dobór leków przeciwpadaczkowych oraz 3-etapowe leczenie stanu padaczkowego.</p>
+    <div class="chips">
+      <span class="chip s">⚡ SE: t₁ = 5 min · t₂ = 30 min</span>
+      <span class="chip i">📈 EEG: iglica–fala 3 Hz &amp; JME 4–6 Hz</span>
+      <span class="chip e">💊 LPP: LEV / LTG vs teratogenny VPA</span>
+      <span class="chip f">🩺 Omdlenie drgawkowe vs napad vs PNES</span>
+    </div>
+    <div class="legend">
+      <div><span class="kb src">KLUCZ POTWIERDZONY</span> odpowiedź potwierdzona wprost w sylabusie PUM, podręcznikach zalecanych i wytycznych ILAE/AES</div>
+      <div><span class="kb inf">KLUCZ WNIOSKOWANY</span> odpowiedź wynikająca z algorytmów klinicznych i korelacji między modułami Hubu</div>
+      <div><span class="kb unk">KLUCZ NIEPEWNY</span> rozbieżność terminologiczna między starszymi skryptami a aktualnymi wytycznymi</div>
+    </div>
+  </div>
+  <figure class="fig" aria-label="Schemat zegara i osi czasu stanu padaczkowego ILAE">
+    <svg viewBox="0 0 460 350" id="heroSvg" role="img" aria-label="Oś czasu stanu padaczkowego ILAE z punktami t1 = 5 min i t2 = 30 min oraz fazami terapii">
+      <rect x="16" y="16" width="428" height="58" rx="12" fill="#13232C"/>
+      <text x="230" y="40" text-anchor="middle" fill="#fff" font-size="14" font-weight="800">Oś czasu drgawkowego stanu padaczkowego (ILAE)</text>
+      <text x="230" y="59" text-anchor="middle" fill="#CFE0E3" font-size="12">glikemia + ABCDE od 0. min · t₁ = leczenie · t₂ = uszkodzenie neuronów</text>
+
+      <line x1="42" y1="118" x2="418" y2="118" stroke="#44545D" stroke-width="4" stroke-linecap="round"/>
+      <circle cx="52" cy="118" r="10" fill="#0C7A85"/>
+      <circle cx="152" cy="118" r="11" fill="#A82D1E"/>
+      <circle cx="272" cy="118" r="11" fill="#8F5808"/>
+      <circle cx="388" cy="118" r="11" fill="#245B7A"/>
+      <text x="52" y="96" text-anchor="middle" font-size="11.5" font-weight="800" fill="#13232C">0 min</text>
+      <text x="152" y="96" text-anchor="middle" font-size="12" font-weight="800" fill="#A82D1E">t₁ = 5 min</text>
+      <text x="272" y="96" text-anchor="middle" font-size="11.5" font-weight="800" fill="#8F5808">20 min</text>
+      <text x="388" y="96" text-anchor="middle" font-size="12" font-weight="800" fill="#245B7A">t₂ = 30–40 min</text>
+
+      <rect x="16" y="144" width="204" height="86" rx="12" fill="#FBE6E2" stroke="#A82D1E" stroke-width="2"/>
+      <text x="28" y="166" font-size="12.5" font-weight="800" fill="#A82D1E">I rzut (5–20 min): BZD</text>
+      <text x="28" y="186" font-size="11.8" fill="#13232C">• Lorazepam 4 mg i.v. (0,1 mg/kg)</text>
+      <text x="28" y="203" font-size="11.8" fill="#13232C">• Diazepam 10 mg i.v.</text>
+      <text x="28" y="220" font-size="11.8" fill="#13232C">• Brak i.v.: Midazolam 10 mg i.m.</text>
+
+      <rect x="240" y="144" width="204" height="86" rx="12" fill="#FCEFD6" stroke="#8F5808" stroke-width="2"/>
+      <text x="252" y="166" font-size="12.5" font-weight="800" fill="#8F5808">II rzut (20–40 min): ESETT</text>
+      <text x="252" y="186" font-size="11.8" fill="#13232C">• Lewetyracetam 60 mg/kg i.v.</text>
+      <text x="252" y="203" font-size="11.8" fill="#13232C">• Walproinian 40 mg/kg i.v.</text>
+      <text x="252" y="220" font-size="11.8" fill="#13232C">• (Fos)fenytoina 20 mg/kg i.v.</text>
+
+      <rect x="16" y="246" width="428" height="88" rx="12" fill="#E1EFF5" stroke="#245B7A" stroke-width="2"/>
+      <text x="28" y="268" font-size="12.5" font-weight="800" fill="#245B7A">III rzut (&gt;40 min · Oporny SE — RSE): OIT + ciągłe EEG</text>
+      <text x="28" y="288" font-size="11.8" fill="#13232C">• Znieczulenie ogólne: midazolam, propofol lub tiopental i.v. do ustąpienia wyładowań</text>
+      <text x="28" y="305" font-size="11.8" fill="#13232C">• Uwaga na NCSE: brak drgawek przy utrzymujących się zaburzeniach świadomości = pilne EEG</text>
+      <text x="28" y="322" font-size="11.5" fill="#44545D">• Hipoglikemia (&lt;60 mg/dl): tiamina 100 mg i.v. przed glukozą i.v.</text>
+    </svg>
+    <div class="herolist">
+      <div><b style="color:var(--red)">t₁ = 5 min</b> początek rozpoznania i leczenia SE</div>
+      <div><b style="color:var(--amber)">20–40 min</b> II rzut: LEV / VPA / PHT (~45–47%)</div>
+      <div><b style="color:var(--violet)">t₂ = 30 min</b> próg ryzyka trwałego uszkodzenia</div>
+      <div><b style="color:var(--teal-d)">RSE &gt;40 min</b> intubacja, OIT, cEEG, anestetyki</div>
+    </div>
+    <figcaption>Drgawkowy stan padaczkowy to wyścig z czasem: maksymalnie dwie pełne dawki benzodiazepin, po czym natychmiastowe przejście do II linii (ESETT).</figcaption>
+  </figure>
+</div></header>
+
+<main>
+<!-- ============ 1. KLASYFIKACJA ILAE ============ -->
+<section id="klasyfikacja"><div class="wrap">
+  <div class="eyebrow">Część A · Klasyfikacja ILAE i definicja</div>
+  <h2>Rozpoznanie padaczki oraz klasyfikacja napadów (ILAE 2014 / 2017)</h2>
+  <p class="lead">Pojedynczy napad nie oznacza jeszcze padaczki. Kluczowe na egzaminie jest rozróżnienie napadu prowokowanego (ostrego objawowego) od nieprowokowanego oraz prawidłowe zaklasyfikowanie początku napadu (ogniskowy vs uogólniony), ponieważ determinuje to wybór leku.</p>
+
+  <div class="kpis">
+    <div class="kpi"><b>≥ 2 lub ≥ 60%</b><span>2 napady nieprowokowane &gt;24 h lub 1 napad z ryzykiem nawrotu ≥60% w 10 lat (ILAE 2014)</span></div>
+    <div class="kpi r"><b>5 min / 30 min</b><span>progi czasowe t₁ (początek leczenia) i t₂ (uszkodzenie neuronów) w drgawkowym SE</span></div>
+    <div class="kpi a"><b>65–70%</b><span>chorych uzyskuje kontrolę napadów dzięki właściwie dobranym lekom przeciwpadaczkowym</span></div>
+    <div class="kpi v"><b>≤ 7 dni</b><span>okno napadu ostrego objawowego po udarze/urazie/ZOMR (nie rozpoznaje się padaczki)</span></div>
+  </div>
+
+  <div class="grid2">
+    <div class="tcard b">
+      <h3>Praktyczna definicja padaczki (ILAE 2014)</h3>
+      <ul>
+        <li>Co najmniej <b>2 napady nieprowokowane</b> (lub odruchowe) w odstępie <b>&gt;24 godzin</b>, LUB</li>
+        <li><b>1 napad nieprowokowany</b> i prawdopodobieństwo kolejnych w ciągu 10 lat porównywalne do ryzyka po 2 napadach (<b>≥60%</b>, np. blizna poudarowa/malformacja w MRI + zmiany padaczkokształtne w EEG), LUB</li>
+        <li>Rozpoznanie określonego <b>zespołu padaczkowego</b> (np. JME).</li>
+      </ul>
+    </div>
+    <div class="tcard r">
+      <h3>Napad prowokowany (ostry objawowy) ≠ padaczka</h3>
+      <ul>
+        <li>Występuje w ścisłym związku czasowym z ostrym zaburzeniem metabolicznym, toksycznym lub strukturalnym (np. hipoglikemia, ciężka hiponatremia, alkoholowy zespół abstynencyjny, zatrucie lekami, ≤7 dni od ostrego udaru lub urazu OUN, gorączka).</li>
+        <li>Postępowanie polega na <b>leczeniu przyczyny pierwotnej</b>, a nie przewlekłym podawaniu LPP.</li>
+        <li><b>Wyjątek po udarze:</b> napad późny (&gt;7 dni po udarze) niesie ryzyko nawrotu &gt;60% i pozwala rozpoznać padaczkę poudarową.</li>
+      </ul>
+    </div>
+  </div>
+
+  <figure class="fig wide" style="margin-top:1.4rem">
+    <svg viewBox="0 0 920 390" id="ilaeSvg" role="img" aria-label="Schemat operacyjnej klasyfikacji napadów padaczkowych ILAE 2017">
+      <rect x="270" y="14" width="380" height="54" rx="12" fill="#13232C"/>
+      <text x="460" y="38" text-anchor="middle" fill="#fff" font-size="14.5" font-weight="800">Klasyfikacja typów napadów ILAE 2017</text>
+      <text x="460" y="56" text-anchor="middle" fill="#CFE0E3" font-size="12">Krok 1: określ początek (ogniskowy / uogólniony / nieznany) · Krok 2: świadomość · Krok 3: ruchowe vs nieruchowe</text>
+
+      <path d="M340 68 L170 108 M460 68 L460 108 M580 68 L750 108" stroke="#44545D" stroke-width="2" fill="none"/>
+
+      <!-- Ogniskowy -->
+      <rect x="20" y="110" width="300" height="260" rx="14" fill="#E1ECF9" stroke="#2B63AE" stroke-width="2"/>
+      <text x="170" y="136" text-anchor="middle" font-size="14.5" font-weight="800" fill="#2B63AE">Początek ogniskowy</text>
+      <text x="170" y="155" text-anchor="middle" font-size="12" fill="#44545D">(sieci neuronalne w jednej półkuli)</text>
+      <rect x="34" y="168" width="130" height="62" rx="9" fill="#fff" stroke="#2B63AE" stroke-width="1.5"/>
+      <text x="99" y="189" text-anchor="middle" font-size="12" font-weight="700" fill="#13232C">Zachowana</text>
+      <text x="99" y="206" text-anchor="middle" font-size="12" font-weight="700" fill="#13232C">świadomość</text>
+      <text x="99" y="222" text-anchor="middle" font-size="10.8" fill="#596870">(daw. prosty częśc.)</text>
+      <rect x="176" y="168" width="130" height="62" rx="9" fill="#fff" stroke="#2B63AE" stroke-width="1.5"/>
+      <text x="241" y="189" text-anchor="middle" font-size="12" font-weight="700" fill="#13232C">Zaburzona</text>
+      <text x="241" y="206" text-anchor="middle" font-size="12" font-weight="700" fill="#13232C">świadomość</text>
+      <text x="241" y="222" text-anchor="middle" font-size="10.8" fill="#596870">(daw. złożony częśc.)</text>
+      <text x="36" y="254" font-size="12" font-weight="700" fill="#13232C">• Ruchowe:</text>
+      <text x="44" y="271" font-size="11.5" fill="#44545D">automatyzmy, kloniczne (marsz Jacksona), toniczne</text>
+      <text x="36" y="292" font-size="12" font-weight="700" fill="#13232C">• Nieruchowe (aury):</text>
+      <text x="44" y="309" font-size="11.5" fill="#44545D">czuciowe, poznawcze (déjà vu), autonomiczne (nadbrz.)</text>
+      <rect x="34" y="322" width="272" height="36" rx="8" fill="#DDF1F2" stroke="#0C7A85" stroke-width="1.5"/>
+      <text x="170" y="344" text-anchor="middle" font-size="12" font-weight="800" fill="#075760">Ogniskowy przechodzący w obustronnie T-K</text>
+
+      <!-- Uogolniony -->
+      <rect x="340" y="110" width="300" height="260" rx="14" fill="#FBE6E2" stroke="#A82D1E" stroke-width="2"/>
+      <text x="490" y="136" text-anchor="middle" font-size="14.5" font-weight="800" fill="#A82D1E">Początek uogólniony</text>
+      <text x="490" y="155" text-anchor="middle" font-size="12" fill="#44545D">(obustronne zaangażowanie sieci od początku)</text>
+      <rect x="354" y="168" width="272" height="92" rx="9" fill="#fff" stroke="#A82D1E" stroke-width="1.5"/>
+      <text x="366" y="188" font-size="12.5" font-weight="800" fill="#A82D1E">Ruchowe (świadomość zwykle zniesiona)</text>
+      <text x="366" y="207" font-size="11.8" fill="#13232C">• Toniczno-kloniczne (GTC — „grand mal”)</text>
+      <text x="366" y="224" font-size="11.8" fill="#13232C">• Miokloniczne (krótkie zrywania bez utraty śwad.)</text>
+      <text x="366" y="241" font-size="11.8" fill="#13232C">• Toniczne, kloniczne, atoniczne („drop attacks”)</text>
+      <rect x="354" y="272" width="272" height="86" rx="9" fill="#FCEFD6" stroke="#8F5808" stroke-width="1.5"/>
+      <text x="366" y="292" font-size="12.5" font-weight="800" fill="#8F5808">Nieruchowe — Nieświadomości (Absence)</text>
+      <text x="366" y="311" font-size="11.8" fill="#13232C">• Typowe: 5–15 s, iglica–fala 3 Hz, bez aury</text>
+      <text x="366" y="328" font-size="11.8" fill="#13232C">• Atypowe (wolniejsze &lt;2,5 Hz), miokloniczne,</text>
+      <text x="366" y="345" font-size="11.8" fill="#13232C">  z miokloniami powiek</text>
+
+      <!-- Nieznany -->
+      <rect x="660" y="110" width="240" height="260" rx="14" fill="#E1EFF5" stroke="#245B7A" stroke-width="2"/>
+      <text x="780" y="136" text-anchor="middle" font-size="14.5" font-weight="800" fill="#245B7A">Nieznany początek</text>
+      <text x="780" y="155" text-anchor="middle" font-size="12" fill="#44545D">(brak świadków początku napadu)</text>
+      <rect x="674" y="172" width="212" height="106" rx="9" fill="#fff" stroke="#245B7A" stroke-width="1.5"/>
+      <text x="686" y="194" font-size="12" font-weight="700" fill="#13232C">Kategoria robocza:</text>
+      <text x="686" y="214" font-size="11.5" fill="#44545D">• Ruchowe (toniczno-kloniczne)</text>
+      <text x="686" y="232" font-size="11.5" fill="#44545D">• Nieruchowe (zatrzym. zachow.)</text>
+      <text x="686" y="250" font-size="11.5" fill="#44545D">• Niesklasyfikowane (brak danych)</text>
+      <rect x="674" y="290" width="212" height="68" rx="9" fill="#DDF1F2" stroke="#0C7A85" stroke-width="1.5"/>
+      <text x="780" y="312" text-anchor="middle" font-size="11.8" font-weight="800" fill="#075760">Wskazówka kliniczna</text>
+      <text x="780" y="330" text-anchor="middle" font-size="11.2" fill="#13232C">Dopiero EEG i MRI pozwalają</text>
+      <text x="780" y="346" text-anchor="middle" font-size="11.2" fill="#13232C">rozstrzygnąć ogniskowy początek</text>
+    </svg>
+    <figcaption>Nowa terminologia ILAE 2017 zastąpiła nazwy „częściowe proste/złożone” i „wtórnie uogólnione” pojęciami „ogniskowe z zachowaną/zaburzoną świadomością” oraz „ogniskowe przechodzące w obustronnie toniczno-kloniczne”.</figcaption>
+  </figure>
+
+  <h3 style="margin:1.6rem 0 .8rem">Kluczowe zespoły i lokalizacje napadów</h3>
+  <div class="grid3">
+    <div class="tcard b"><h4>Padaczka płata skroniowego (TLE)</h4><ul><li>Najczęstsza padaczka ogniskowa dorosłych (często stwardnienie hipokampa w MRI).</li><li>Aura nadbrzuszna, lękowa lub déjà vu / jamais vu, omamy węchowe (hak hipokampa).</li><li>Automatyzmy oralne (mlaskanie, przełykanie) i manualne, potem dłuższe splątanie ponapadowe.</li></ul></div>
+    <div class="tcard a"><h4>Młodzieńcza padaczka miokloniczna (JME)</h4><ul><li>Triada: poranne mioklonie ramion („rozlanie kawy”), napady GTC, rzadziej absence.</li><li>Silne czynniki spustowe: <b>deprywacja snu</b>, alkohol, fotostymulacja.</li><li>EEG: uogólniona <b>poliiglica–fala 4–6 Hz</b>. Lek z wyboru u kobiet: lewetyracetam.</li></ul></div>
+    <div class="tcard v"><h4>Typowe napady nieświadomości (Absence)</h4><ul><li>Nagłe przerwanie aktywności na <b>5–15 s</b> („zawieszenie” wzroku), bez upadku i bez aury.</li><li>Natychmiastowy powrót pełnej świadomości — <b>brak splątania ponapadowego</b>.</li><li>EEG: synchroniczne wyładowania <b>iglica–fala 3 Hz</b> prowokowane hiperwentylacją.</li></ul></div>
+  </div>
+</div></section>
+
+<!-- ============ 2. DIAGNOSTYKA I EEG ============ -->
+<section id="diagnostyka"><div class="wrap">
+  <div class="eyebrow">Część B · Diagnostyka i elektroencefalografia</div>
+  <h2>Diagnostyka po pierwszym napadzie oraz wzorce EEG</h2>
+  <p class="lead">Podstawą rozpoznania padaczki pozostaje dokładny wywiad (także od świadków). Badania dodatkowe służą wykluczeniu przyczyn ostrych objawowych, wykryciu zmian strukturalnych w OUN oraz określeniu typu padaczki w EEG.</p>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>🧪 Badania laboratoryjne, EKG i neuroobrazowanie</h3>
+      <ul class="tight small">
+        <li><b>W 1. minucie przyłóżkowo:</b> glikemia włośniczkowa (hipoglikemia imituje każdy typ napadu i SE).</li>
+        <li><b>Krew:</b> jonogram (<b>Na⁺, Ca²⁺, Mg²⁺</b>), morfologia, kreatynina, próby wątrobowe, CK, toksykologia, stężenie LPP u leczonych, test ciążowy u kobiet w wieku rozrodczym.</li>
+        <li><b>EKG 12-odprowadzeniowe:</b> obowiązkowe po każdym epizodzie utraty przytomności (wykluczenie zaburzeń rytmu, bloku AV i zespołu długiego QT).</li>
+        <li><b>TK głowy (pilnie w SOR):</b> pierwszy napad z deficytem ogniskowym, urazem, gorączką, bólem głowy, leczeniem przeciwkrzepliwym lub brakiem pełnego powrotu świadomości.</li>
+        <li><b>MRI mózgu (protokół HARNESS):</b> metoda z wyboru w diagnostyce planowej — wykrywa stwardnienie hipokampa, dysplazje korowe, naczyniaki jamiste i drobne guzy.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>📈 Czułość metod EEG (wartości orientacyjne)</h3>
+      <p class="small" style="margin-bottom:.6rem">Prawidłowe pojedyncze spoczynkowe EEG nie wyklucza padaczki! Prowokacje i zapisy wielokrotne istotnie podnoszą czułość wykrycia wyładowań padaczkokształtnych.</p>
+      <div class="bars" id="barsEegYield"></div>
+      <div class="callout amber" style="margin-top:.8rem"><b class="k">Aktywacje w EEG</b>Standardowe badanie obejmuje: <b>otwieranie/zamykanie oczu</b> (reakcja zatrzymania rytmu alfa 8–13 Hz), <b>hiperwentylację</b> (prowokuje iglice–fale 3 Hz), <b>fotostymulację</b> (prowokuje poliiglice 4–6 Hz w JME) oraz zapis we śnie po <b>deprywacji snu</b>.</div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:1.4rem">
+    <h3>⚡ Interaktywny przegląd wzorców EEG w module [4]</h3>
+    <p class="small" style="margin:.3rem 0 .8rem">Wybierz zapis, aby porównać morfologię fal, aktywację i implikacje terapeutyczne:</p>
+    <div class="tabs" id="eegTabs" role="tablist" aria-label="Wzorce EEG">
+      <button type="button" role="tab" data-eeg="3hz" aria-selected="true">Iglica–fala 3 Hz (Absence)</button>
+      <button type="button" role="tab" data-eeg="jme" aria-selected="false">Poliiglica–fala 4–6 Hz (JME)</button>
+      <button type="button" role="tab" data-eeg="lpd" aria-selected="false">LPD / Iglice skroniowe (HSV)</button>
+      <button type="button" role="tab" data-eeg="metab" aria-selected="false">Fale trójfazowe / NCSE</button>
+    </div>
+    <div class="grid2" style="align-items:start">
+      <figure class="fig" style="margin:0;padding:.75rem">
+        <svg viewBox="0 0 560 150" id="eegSvg" class="dg" role="img" aria-label="Symulowany zapis EEG"></svg>
+      </figure>
+      <div>
+        <div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;margin-bottom:.5rem">
+          <span class="pill b" id="eegTag">Uogólnione · ILAE absence</span>
+          <h4 id="eegTitle" style="margin:0">Iglica–fala wolna 3 Hz (Napady nieświadomości)</h4>
+        </div>
+        <div class="eeg-meta" style="grid-template-columns:1fr">
+          <div><b>Prowokacja / Czynnik wyzwalający</b><span id="eegProvoke"></span></div>
+          <div><b>Korelacja kliniczna</b><span id="eegClinical"></span></div>
+          <div><b>Leczenie i pułapki lekowe</b><span id="eegTherapy"></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<!-- ============ 3. RÓŻNICOWANIE ============ -->
+<section id="roznicowanie"><div class="wrap">
+  <div class="eyebrow">Część C · Różnicowanie napadu</div>
+  <h2>Napad padaczkowy vs omdlenie drgawkowe vs PNES vs TIA</h2>
+  <p class="lead">Nawet 20–30% pacjentów kierowanych do ośrodków padaczkowych ma w rzeczywistości omdlenia lub psychogenne napady niepadaczkowe (PNES). Szczegółowa semiologia od świadków rozstrzyga rozpoznanie skuteczniej niż pojedynczy parametr laboratoryjny.</p>
+
+  <div class="tw">
+    <table>
+      <thead>
+        <tr>
+          <th>Cecha kliniczna</th>
+          <th>Napad toniczno-kloniczny (GTC)</th>
+          <th>Omdlenie drgawkowe</th>
+          <th>PNES (psychogenny)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>Wyzwalacz / prodromy</b></td>
+          <td>Brak lub aura ogniskowa (np. déjà vu), brak snu; może wystąpić we śnie</td>
+          <td>Stanie, ból, krew, duszne miejsce; mroczki, nudności, zlewne poty</td>
+          <td>Stres emocjonalny, obecność świadków; rzadko z prawdziwego snu</td>
+        </tr>
+        <tr>
+          <td><b>Czas trwania</b></td>
+          <td>Zwykle 1–3 minuty</td>
+          <td>Krótko: zazwyczaj &lt;20–30 sekund</td>
+          <td>Często przedłużony (&gt;3–15 min) z falującym przebiegiem</td>
+        </tr>
+        <tr>
+          <td><b>Ruchy i oczy</b></td>
+          <td>Synchroniczne fazy: sztywność toniczna → rytmiczne klonie; <b>oczy otwarte</b></td>
+          <td>Krótki spadek napięcia, następnie kilka nieregularnych mioklonii (zwykle &lt;10 s)</td>
+          <td>Asynchroniczne miotania, kręcenie głową na boki, wypychanie miednicy; <b>oczy mocno zaciśnięte</b> (opór przy próbie otwarcia)</td>
+        </tr>
+        <tr>
+          <td><b>Kolor skóry i język</b></td>
+          <td>Sinica twarzy; przygryzienie <b>bocznej krawędzi języka</b></td>
+          <td>Wyraźna <b>bladość</b>; przygryzienie języka bardzo rzadkie</td>
+          <td>Skóra prawidłowa; brak sinicy; ewentualnie przygryzienie czubka języka</td>
+        </tr>
+        <tr>
+          <td><b>Stan ponapadowy</b></td>
+          <td>Głębokie splątanie, senność (kilkanaście–kilkadziesiąt min), bóle mięśni, wzrost CK</td>
+          <td><b>Szybki powrót pełnej orientacji</b> (w ciągu sekund po ułożeniu poziomo)</td>
+          <td>Zmienny, płacz, szybkie wybudzenie lub pozorowany brak reakcji przy zachowanym odruchu powiek</td>
+        </tr>
+        <tr>
+          <td><b>Złoty standard</b></td>
+          <td>Wyładowania napadowe w wideo-EEG</td>
+          <td>12-odpr. EKG, próba ortostatyczna, echo/Holter (moduł [3])</td>
+          <td><b>Wideo-EEG:</b> brak aktywności padaczkokształtnej w trakcie typowego incydentu</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="grid2" style="margin-top:1.2rem">
+    <div class="tcard r">
+      <h3>⚠️ Porażenie ponapadowe Todda (mimetyk udaru [2])</h3>
+      <p class="small">Przemijający ogniskowy niedowład (lub afazja) po napadzie ogniskowym ruchowym, utrzymujący się od kilkudziesięciu minut do 24–48 h wskutek wyczerpania/hamowania kory. W SOR wymaga pilnego <b>TK głowy i angio-TK</b>, bo pacjent z ostrym udarem również może mieć wczesny napad objawowy.</p>
+    </div>
+    <div class="tcard a">
+      <h3>🧪 Ograniczenia prolaktyny i CK</h3>
+      <p class="small">Wzrost kinazy kreatynowej (CK) oraz prolaktyny (pobranej 10–20 min po napadzie GTC) przemawia za napadem padaczkowym przeciwko PNES, ale <b>nie różnicuje napadu od omdlenia</b> i często bywa ujemny w napadach ogniskowych czołowych. Decyduje wywiad + wideo-EEG.</p>
+    </div>
+  </div>
+</div></section>
+
+<!-- ============ 4. FARMAKOTERAPIA ============ -->
+<section id="leczenie"><div class="wrap">
+  <div class="eyebrow">Część D · Farmakoterapia przeciwpadaczkowa</div>
+  <h2>Zasady leczenia przewlekłego i profil głównych LPP</h2>
+  <p class="lead">Leczenie rozpoczyna się zwykle po rozpoznaniu padaczki od <b>monoterapii</b> w małej dawce z powolnym miareczkowaniem. Wybór leku zależy od typu napadów (ogniskowe vs uogólnione), płci i wieku rozrodczego, chorób współistniejących oraz interakcji lekowych.</p>
+
+  <div class="tw">
+    <table>
+      <thead>
+        <tr>
+          <th>Lek przeciwpadaczkowy (LPP)</th>
+          <th>Zakres wskazań (ILAE)</th>
+          <th>Kluczowe działania niepożądane i przeciwwskazania</th>
+          <th>Interakcje i perełka egzaminacyjna</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>Lewetyracetam (LEV)</b></td>
+          <td>Szerokie spektrum: napady ogniskowe i uogólnione (GTC, miokloniczne/JME), II linia SE</td>
+          <td>Drażliwość, labilność emocjonalna, agresja (rzadko psychoza); redukcja dawki w niewydolności nerek</td>
+          <td>Brak metabolizmu CYP450 i brak interakcji lekowych — bezpieczny u chorych onkologicznych, w ciąży i w SE</td>
+        </tr>
+        <tr>
+          <td><b>Lamotrygina (LTG)</b></td>
+          <td>I rzut w napadach ogniskowych; alternatywa u kobiet w wieku rozrodczym w uogólnionych</td>
+          <td><b>Wysypka skórna / SJS-TEN</b> przy zbyt szybkim zwiększaniu dawki; w JME może niekiedy nasilać mioklonie</td>
+          <td>Najniższe ryzyko wad wrodzonych (~2,9%); <b>walproinian podwaja stężenie LTG</b> (wymagana wolniejsza titracja!)</td>
+        </tr>
+        <tr>
+          <td><b>Kwas walproinowy (VPA)</b></td>
+          <td>Najszersze spektrum w padaczkach uogólnionych (JME, absence, GTC), II linia SE</td>
+          <td><b>Wysoka teratogenność (~10–11% wad cewy nerwowej, 30–40% zaburzeń neurorozwojowych!)</b>, hepatotoksyczność, zapalenie trzustki, przyrost masy, małopłytkowość</td>
+          <td>Przeciwwskazany u dziewcząt i kobiet w wieku rozrodczym poza Programem Zapobiegania Ciąży EMA; inhibitor enzymów</td>
+        </tr>
+        <tr>
+          <td><b>Karbamazepina (CBZ) / Okskarbazepina</b></td>
+          <td>I rzut w napadach ogniskowych; neuralgia nerwu V (moduł [7])</td>
+          <td><b>NASILA napady nieświadomości (3 Hz) i miokloniczne (JME)!</b> Hiponatremia (SIADH), leukopenia, ataksja, SJS (HLA-B*1502)</td>
+          <td>Silny induktor CYP450 (osłabia doustną antykoncepcję, DOAC, warfarynę)</td>
+        </tr>
+        <tr>
+          <td><b>Etosuksymid (ESM)</b></td>
+          <td><b>Wyłącznie izolowane</b> typowe napady nieświadomości (absence)</td>
+          <td>Nudności, dolegliwości dyspeptyczne, czkawka, bóle głowy; brak ochrony przed napadami GTC</td>
+          <td>Jeśli u pacjenta z absence współistnieją GTC lub JME → zamiast ESM wybierz VPA (mężczyźni) lub LTG/LEV</td>
+        </tr>
+        <tr>
+          <td><b>Fenytoina (PHT) / Lakozamid</b></td>
+          <td>PHT: SE II linia / ogniskowe; Lakozamid: napady ogniskowe (i.v. / p.o.)</td>
+          <td>PHT: przerost dziąseł, hirsutyzm, neuropatia, arytmie/hipotonia i.v., nasila absence; Lakozamid: wydłużenie PR (blok AV)</td>
+          <td>PHT ma nieliniową kinetykę wysycenia (mały wzrost dawki → skok stężenia toksycznego) i silnie indukuje CYP450</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="grid2" style="margin-top:1.2rem">
+    <div class="card">
+      <h3>🤰 Ryzyko dużych wad wrodzonych (monoterapia wg EURAP)</h3>
+      <p class="small" style="margin-bottom:.6rem">Dane z rejestrów ciążowych (orientacyjne odsetki dużych wad rozwojowych). Kwas foliowy zaleca się przed koncepcją, a odstawienie LPP w ciąży grozi stanem padaczkowym.</p>
+      <div class="bars" id="barsTerato"></div>
+    </div>
+    <div class="card">
+      <h3>✅ Zasady bezpiecznego prowadzenia chorego</h3>
+      <ul class="chk" style="margin-top:.5rem">
+        <li><b>Zakaz nagłego odstawienia LPP</b> — najczęstsza przyczyna stanu padaczkowego u leczonych chorych.</li>
+        <li>Każdej kobiecie w wieku rozrodczym omów teratogenność, interakcje z antykoncepcją hormonalną (induktory CYP: CBZ, OXC, PHT, PB, wysokie dawki TPM) oraz suplementację kwasu foliowego.</li>
+        <li>Próbę stopniowego odstawienia LPP rozważa się zwykle po ≥2–5 latach bez napadów, oceniając ryzyko nawrotu i EEG.</li>
+        <li>Poinformuj o przepisach dotyczących prowadzenia pojazdów oraz higienie snu (unikanie deprywacji snu i alkoholu).</li>
+      </ul>
+    </div>
+  </div>
+</div></section>
+
+<!-- ============ 5. STAN PADACZKOWY ============ -->
+<section id="status"><div class="wrap">
+  <div class="eyebrow">Część E · Stan nagły zagrożenia życia</div>
+  <h2>Stan padaczkowy (SE): t₁ = 5 min, t₂ = 30 min i algorytm 3-etapowy</h2>
+  <p class="lead">Drgawkowy stan padaczkowy rozpoznaje się i zaczyna leczyć już po <b>5 minutach (t₁)</b> ciągłego napadu lub serii napadów bez odzyskania świadomości pomiędzy nimi. Od 30. minuty (<b>t₂</b>) gwałtownie rośnie ryzyko nieodwracalnego uszkodzenia neuronów oraz oporności na benzodiazepiny (internalizacja receptorów GABA<sub>A</sub>).</p>
+
+  <div class="segrid">
+    <div class="secol s1">
+      <h4>Faza 0 · 0–5 min</h4>
+      <ul>
+        <li><b>ABCDE:</b> drożność dróg oddechowych, tlenoterapia, pozycja bezpieczna, monitoring EKG/SpO₂/BP.</li>
+        <li><b>2 wkłucia i.v.</b> + <b>glikemia włośniczkowa w 1. minucie!</b></li>
+        <li>Hipoglikemia (&lt;60 mg/dl): <b>tiamina 100 mg i.v.</b> przed glukozą i.v.</li>
+        <li>Krew: Na⁺, Ca²⁺, Mg²⁺, gazometria, stężenie LPP, toksykologia.</li>
+      </ul>
+    </div>
+    <div class="secol s2">
+      <h4>Faza I · 5–20 min (BZD)</h4>
+      <ul>
+        <li><b>Jest dostęp i.v.:</b> <b>Lorazepam</b> 0,1 mg/kg (maks. 4 mg) i.v. LUB <b>Diazepam</b> 0,15–0,2 mg/kg (maks. 10 mg) i.v.</li>
+        <li><b>Brak dostępu i.v. (RAMPART):</b> natychmiast <b>Midazolam 10 mg i.m.</b> (≥40 kg; donosowo/dopoliczkowo).</li>
+        <li><b>Maksymalnie 2 pełne dawki BZD</b> (powtórzenie po 5–10 min).</li>
+      </ul>
+    </div>
+    <div class="secol s3">
+      <h4>Faza II · 20–40 min (ESETT)</h4>
+      <ul>
+        <li>Nasycenie i.v. (równorzędne ~45–47%):</li>
+        <li><b>Lewetyracetam:</b> 60 mg/kg (maks. <b>4500 mg</b>) w 10–15 min.</li>
+        <li><b>Walproinian:</b> 40 mg/kg (maks. <b>3000 mg</b>) w 10 min (unikaj w ciąży i hepatopatii).</li>
+        <li><b>(Fos)fenytoina:</b> 20 mg/kg (maks. <b>1500 mg</b>, ≤50 mg/min, EKG/BP).</li>
+      </ul>
+    </div>
+    <div class="secol s4">
+      <h4>Faza III · &gt;40 min (RSE / OIT)</h4>
+      <ul>
+        <li>Oporny stan padaczkowy (RSE): intubacja, wentylacja mechaniczna, <b>ciągłe EEG (cEEG)</b>.</li>
+        <li>Anestetyki i.v. (do supresji wyładowań lub wzorca <i>burst-suppression</i>): <b>midazolam</b>, <b>propofol</b> lub <b>tiopental</b>.</li>
+        <li>W NORSE/FIRES diagnostyka autoimmunologiczna i zapalna OUN (moduł [9]).</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="flow" style="margin-top:1.3rem">
+    <div class="fn start">Drgawki toniczno-kloniczne &gt; 5 min (lub brak powrotu świadomości między napadami) → Rozpoznaj SE</div>
+    <div class="ar">↓</div>
+    <div class="branch">
+      <div>
+        <div class="fn green"><b>Dostęp i.v. zapewniony</b>Lorazepam 4 mg i.v. (lub Diazepam 10 mg i.v.)<br><small>Można powtórzyć 1× po 5 min</small></div>
+      </div>
+      <div>
+        <div class="fn amber"><b>Brak dostępu i.v. (SOR / przedszpitalnie)</b>Midazolam 10 mg i.m. (lub i.n./dopoliczkowo)<br><small>Nie czekaj na kaniulację żyły!</small></div>
+      </div>
+    </div>
+    <div class="ar">↓ drgawki utrzymują się po 2 dawkach BZD (20–40 min)</div>
+    <div class="fn red"><b>II linia ESETT (jednorazowe nasycenie i.v.)</b>Lewetyracetam 60 mg/kg (max 4500 mg) · Walproinian 40 mg/kg (max 3000 mg) · Fenytoina 20 mg/kg (max 1500 mg)</div>
+    <div class="ar">↓ brak ustąpienia po leku II linii (&gt;40 min)</div>
+    <div class="fn violet"><b>Oporny SE (RSE) — OIT + ciągłe EEG</b>Intubacja + wlew znieczulający (midazolam / propofol / tiopental) + poszukiwanie przyczyny (TK/MRI, PMR, AIE)</div>
+  </div>
+
+  <div class="callout red" style="margin-top:1.2rem"><b class="k">🚩 Niedrgawkowy stan padaczkowy (NCSE)</b>Jeśli po ustąpieniu widocznych drgawek chory <b>nie odzyskuje świadomości</b> lub u pacjenta w OIT występują niewyjaśnione zaburzenia świadomości z subtelnymi drżeniami powiek/gałek ocznych — wyklucz NCSE w pilnym <b>EEG</b> (ew. próba diagnostyczna z BZD i.v. pod kontrolą zapisu).</div>
+</div></section>
+
+<!-- ============ 6. ZADANIA TESTOWE ============ -->
+<section id="zadania"><div class="wrap">
+  <div class="eyebrow">Część F · Trening egzaminacyjny ET / LEK</div>
+  <h2>Zadania testowe modułu [4] i omówienia</h2>
+  <p class="lead">Siedem pytań przekrojowych obejmujących kryteria ILAE, interpretację EEG, różnicowanie z omdleniami, farmakoterapię kobiet w wieku rozrodczym oraz algorytm stanu padaczkowego. Odpowiedzi automatycznie synchronizują się z postępem Hubu (<code>pad-q1</code>–<code>pad-q7</code>).</p>
+
+  <div class="card" style="margin-bottom:1.2rem">
+    <h3>Rozkład zadań według działu</h3>
+    <div class="bars" id="barsPool"></div>
+  </div>
+
+  <div class="qtools">
+    <div class="filters" id="qFilters" style="margin:0"></div>
+    <span class="sp"></span>
+    <button type="button" class="btn" id="rand10">🎲 Losuj</button>
+    <button type="button" class="btn o" id="resetQ">Resetuj</button>
+  </div>
+  <div id="quiz"></div>
+  <div class="score" id="score" role="status">Wynik: 0 / 0</div>
+</div></section>
+
+<!-- ============ 7. KLUCZ VS WYTYCZNE ============ -->
+<section id="klucz"><div class="wrap">
+  <div class="eyebrow">Część G · Porównanie perspektyw</div>
+  <h2>Pod zaliczenie kontra aktualnie klinicznie (wytyczne)</h2>
+  <p class="lead">Zestawienie najczęstszych różnic pomiędzy starszymi sformułowaniami skryptowymi a aktualnymi stanowiskami ILAE, AES, EMA i PTN.</p>
+  <div class="tw">
+    <table>
+      <thead>
+        <tr>
+          <th>Temat</th>
+          <th>Pod zaliczenie (tradycyjnie / starsze skrypty)</th>
+          <th>Aktualnie klinicznie (wytyczne ILAE / AES / EMA / PTN)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>Rozpoznanie padaczki</b></td>
+          <td>Co najmniej dwa samoistne (nieprowokowane) napady padaczkowe w wywiadzie</td>
+          <td><b>ILAE 2014:</b> ≥2 napady nieprowokowane &gt;24 h LUB <b>1 napad nieprowokowany + ryzyko nawrotu ≥60% w 10 lat</b> (np. zmiana strukturalna w MRI + iglice w EEG) LUB rozpoznany zespół padaczkowy</td>
+        </tr>
+        <tr>
+          <td><b>Nazewnictwo napadów</b></td>
+          <td>Napady częściowe proste / złożone, wtórnie uogólnione, grand mal, petit mal</td>
+          <td><b>ILAE 2017:</b> napady ogniskowe z zachowaną lub zaburzoną świadomością, ogniskowe przechodzące w obustronnie toniczno-kloniczne, uogólnione (ruchowe / nieświadomości)</td>
+        </tr>
+        <tr>
+          <td><b>Definicja czasowa SE</b></td>
+          <td>Napad trwający ≥30 minut lub powtarzające się napady bez odzyskania przytomności</td>
+          <td><b>ILAE 2015:</b> punkt <b>t₁ = 5 min</b> wyznacza rozpoznanie i natychmiastowe wdrożenie leczenia drgawkowego SE; <b>t₂ = 30 min</b> oznacza próg ryzyka trwałego uszkodzenia neuronów</td>
+        </tr>
+        <tr>
+          <td><b>Walproinian u kobiet</b></td>
+          <td>Lek pierwszego wyboru we wszystkich padaczkach uogólnionych idiopatycznych (w tym JME)</td>
+          <td><b>EMA PRAC / PTN:</b> przeciwwskazany u dziewcząt i kobiet w wieku rozrodczym jako I rzut z powodu wysokiej teratogenności (~10–11% wad, 30–40% zaburzeń neurorozwojowych) — preferuje się <b>lewetyracetam lub lamotryginę</b></td>
+        </tr>
+        <tr>
+          <td><b>Stan padaczkowy bez i.v.</b></td>
+          <td>Próby uzyskania wkłucia i.v. do podania diazepamu lub podanie diazepamu doodbytniczo</td>
+          <td><b>RAMPART / AES:</b> natychmiastowe podanie <b>midazolamu 10 mg i.m.</b> (lub donosowo/dopoliczkowo) bez opóźniania terapii kaniulacją żył</td>
+        </tr>
+        <tr>
+          <td><b>II linia leczenia SE</b></td>
+          <td>Fenytoina i.v. jako standard po nieskuteczności benzodiazepin</td>
+          <td><b>ESETT (NEJM 2019):</b> równorzędna skuteczność (~45–47%) lewetyracetamu (60 mg/kg, max 4500 mg), walproinianu (40 mg/kg, max 3000 mg) i fosfenytoiny/fenytoiny (20 mg/kg, max 1500 mg)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div></section>
+
+<!-- ============ 8. PUŁAPKI ============ -->
+<section id="pulapki"><div class="wrap">
+  <div class="eyebrow">Część H · Pułapki egzaminacyjne i kliniczne</div>
+  <h2>Najczęstsze błędy testowe i dyżurowe w module [4]</h2>
+  <p class="lead">Pięć pułapek łączących padaczkę z badaniami dodatkowymi, zaburzeniami przytomności [3], udarem [2] oraz stanami nagłymi [1].</p>
+  <div class="stack">
+    <div class="callout red"><b class="k">1. Prawidłowe spoczynkowe EEG nie wyklucza padaczki</b>Czułość pojedynczego międzynapadowego zapisu EEG wynosi zaledwie ok. 30–50%. Przy klinicznym podejrzeniu padaczki (np. JME z porannymi miokloniami) wykonaj EEG po deprywacji snu z hiperwentylacją i fotostymulacją albo wideo-EEG.</div>
+    <div class="callout amber"><b class="k">2. Blokery kanałów sodowych (CBZ, OXC, PHT) nasilają JME i absence</b>Karbamazepina, okskarbazepina i fenytoina są doskonałe w napadach ogniskowych i neuralgii n. V [7], ale u chorych z typowymi napadami nieświadomości (3 Hz) lub młodzieńczą padaczką miokloniczną (4–6 Hz) prowokują nasilenie napadów aż do mioklonicznego stanu padaczkowego.</div>
+    <div class="callout blue"><b class="k">3. Omdlenie drgawkowe to nie padaczka (łącznik z [3])</b>Krótkotrwałe szarpnięcia kończyn podczas omdlenia odruchowego lub kardiogennego trwają zwykle &lt;10–15 s i ustępują z natychmiastowym powrotem orientacji bez przygryzienia boku języka ani splątania ponapadowego. Zamiast włączać LPP, wykonaj EKG i oceń przyczynę omdlenia.</div>
+    <div class="callout"><b class="k">4. Subterapeutyczna dawka BZD i pominięcie glikemii w SE (łącznik z [1])</b>Podanie 2 mg diazepamu i.v. z obawy przed depresją oddechową sprzyja rozwojowi opornego stanu padaczkowego (RSE). Od 0. minuty zmierz glikemię (hipoglikemia imituje SE — tiamina 100 mg i.v. przed glukozą!), a przy braku wkłucia podaj od razu midazolam 10 mg i.m.</div>
+    <div class="callout green"><b class="k">5. Porażenie Todda i napady ostre jako mimetyk lub powikłanie udaru (łącznik z [2])</b>Przemijający niedowład po napadzie ogniskowym (porażenie Todda) imituje ostry udar niedokrwienny, natomiast napad ≤7 dni po udarze jest napadem ostrym objawowym. Każdy nowy ogniskowy deficyt po napadzie wymaga pilnego TK głowy w celu wykluczenia udaru lub krwawienia.</div>
+  </div>
+</div></section>
+
+<!-- ============ 9. ŹRÓDŁA ============ -->
+<section id="zrodla"><div class="wrap">
+  <div class="eyebrow">Część I · Literatura i dokumenty referencyjne</div>
+  <h2>Źródła sylabusa PUM 2026/2027 i wytyczne</h2>
+  <div class="grid2" style="margin-top:.8rem">
+    <div class="card">
+      <h3>📚 Literatura sylabusa PUM 2026/2027</h3>
+      <ul class="tight small" style="margin-top:.5rem">
+        <li><b>Podstawowa:</b> R. Podemski (red.), <i>Kompendium Neurologii</i>, Via Medica, Wyd. IV, Gdańsk 2019 (rozdział dot. padaczki i stanu padaczkowego; wykład W03c, Sem TK04, Ćw TK06).</li>
+        <li><b>Uzupełniająca:</b> G. Fuller, <i>Badanie neurologiczne – to proste</i>, PZWL, Wyd. V, Warszawa 2022 (ocena świadomości, różnicowanie omdleń i napadów, badanie ogniskowe).</li>
+        <li><b>Uzupełniająca:</b> A. Stępień, <i>Neurologia</i>, Tom I–III, Medical Tribune Polska, Wyd. II, 2022 (szczegółowa semiologia napadów, EEG i farmakoterapia).</li>
+        <li><b>Uzupełniająca:</b> W. Kozubski, P. Liberski (red.), <i>Neurologia. Podręcznik dla studentów medycyny</i>, PZWL, Wyd. 2, Warszawa 2021.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>🌐 Wytyczne kliniczne i badania kluczowe</h3>
+      <ul class="tight small" style="margin-top:.5rem">
+        <li>Fisher R.S. et al., <i>ILAE Official Report: A practical clinical definition of epilepsy</i>, Epilepsia 2014 (progi ≥2 napady / ≥60% ryzyko nawrotu).</li>
+        <li>Fisher R.S. et al., <i>Operational classification of seizure types by the ILAE</i>, Epilepsia 2017.</li>
+        <li>Trinka E. et al., <i>A definition and classification of status epilepticus — ILAE Task Force</i>, Epilepsia 2015 (progi czasowe t₁ = 5 min, t₂ = 30 min).</li>
+        <li>Glauser T. et al., <i>AES Evidence-Based Guideline: Treatment of Convulsive Status Epilepticus</i>, Epilepsy Curr 2016; RAMPART (Silbergleit et al., NEJM 2012); ESETT (Kapur et al., NEJM 2019).</li>
+        <li>Wytyczne Polskiego Towarzystwa Neurologicznego (PTN) oraz komunikat EMA PRAC (2018) dot. programu zapobiegania ciąży przy stosowaniu walproinianu; rejestr EURAP.</li>
+      </ul>
+    </div>
+  </div>
+  <p class="small" style="margin-top:1rem">Materiał ma charakter wyłącznie edukacyjny w ramach przedmiotu Neurologia V (PUM 2026/2027). Decyzje kliniczne oraz dawkowanie leków przeciwpadaczkowych należy weryfikować z aktualną Charakterystyką Produktu Leczniczego (ChPL) oraz protokołami ośrodka.</p>
+</div></section>
+</main>
+
+<script src="../atlas-shared.js"></script>
+<script src="data.js"></script>
+<script src="app.js"></script>
+<script src="../atlas-hub-sync.js"></script>
+</body>
+</html>

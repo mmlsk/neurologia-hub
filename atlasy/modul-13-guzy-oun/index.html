@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<script>
+(function(){
+  try { if (window.self !== window.top) document.documentElement.classList.add('hub-embedded'); } catch (e) {}
+  const DARK_SET = new Set(['dark','navy','moss','espresso','ochre','purple','ocean']);
+  function applyTheme(val){
+    const t = val || 'auto';
+    const isDark = DARK_SET.has(t) || (t === 'auto' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    if (isDark) document.documentElement.dataset.theme = 'dark';
+    else delete document.documentElement.dataset.theme;
+  }
+  try { applyTheme(localStorage.getItem('neurologia_hub_theme')); } catch (e) {}
+  window.addEventListener('storage', e => {
+    if (e.key === 'neurologia_hub_theme') applyTheme(e.newValue);
+  });
+  window.addEventListener('message', e => {
+    if (e.data && e.data.type === 'SET_THEME') {
+      applyTheme(e.data.theme);
+    }
+  });
+})();
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>[13] Guzy ośrodkowego układu nerwowego (mózg i rdzeń kręgowy) – Neurologia V Hub (PUM)</title>
+<link rel="preconnect" href="https://api.fontshare.com">
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&f[]=cabinet-grotesk@700,800&display=swap" rel="stylesheet" crossorigin="anonymous" media="print" onload="this.media='all'"><noscript><link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&f[]=cabinet-grotesk@700,800&display=swap" rel="stylesheet" crossorigin="anonymous"></noscript>
+<link rel="stylesheet" href="../atlas-base.css">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="../atlas-mobile.css">
+</head>
+<body>
+<nav class="nav" aria-label="Nawigacja sekcji"><div class="wrap">
+  <a class="hub-back" href="../../index.html">← Hub</a>
+  <div class="brand"><b>[13]</b> <span>Guzy OUN i rdzenia</span></div>
+  <ul id="navlist">
+    <li><a href="#lokalizacja">Lokalizacja i ICP</a></li>
+    <li><a href="#objawy">Objawy ogniskowe</a></li>
+    <li><a href="#typy">Karty guzów</a></li>
+    <li><a href="#rdzen">Guzy rdzenia</a></li>
+    <li><a href="#leczenie">Diagnostyka i leczenie</a></li>
+    <li><a href="#zadania">Zadania testowe</a></li>
+    <li><a href="#klucz">Klucz vs wytyczne</a></li>
+    <li><a href="#pulapki">Pułapki</a></li>
+    <li><a href="#zrodla">Źródła</a></li>
+  </ul>
+</div></nav>
+
+<header class="hero"><div class="wrap grid">
+  <div>
+    <span class="tag">MODUŁ [13] · Neurologia V · Obszar D (Neuroonkologia · Sem TK05 / Ćw TK09)</span>
+    <h1>Guzy <span>ośrodkowego</span><br>układu nerwowego</h1>
+    <p class="sub">Kompendium egzaminacyjne do zaliczenia i egzaminu testowego (ET) w Klinice Neurologii PUM: guzy pierwotne i przerzutowe mózgu u dorosłych, zespół wzmożonego ciśnienia śródczaszkowego (ICP) i wgłobienia, zespoły ogniskowe i podstawy czaszki, guzy rdzenia kręgowego (Brown-Séquard, kompresja zewnątrzoponowa) oraz zasady diagnostyki i leczenia.</p>
+    <div class="chips">
+      <span class="chip s">🚨 Tarcza zastoinowa / ICP = ZAKAZ LP</span>
+      <span class="chip i">🧠 Przerzuty ~50% · GBM WHO 4 · Oponiak</span>
+      <span class="chip e">💊 Deksametazon w obrzęku guzowym</span>
+      <span class="chip f">🦴 Rdzeń: zewnątrz- i śródtwardówkowe</span>
+    </div>
+    <div class="legend">
+      <div><span class="kb src">KLUCZ POTWIERDZONY</span> odpowiedź jednoznacznie potwierdzona w podręcznikach PUM i kryteriach egzaminacyjnych</div>
+      <div><span class="kb inf">KLUCZ WNIOSKOWANY</span> odpowiedź wynikająca z topodiagnostyki i aktualnych wytycznych neuroonkologicznych</div>
+      <div><span class="kb unk">KLUCZ NIEPEWNY</span> rozbieżność między starszą klasyfikacją podręcznikową a wytycznymi WHO CNS5 / EANO</div>
+    </div>
+  </div>
+  <figure class="fig" aria-label="Schemat anatomiczny lokalizacji guzów mózgu i rdzenia kręgowego">
+    <svg viewBox="130 25 400 390" id="heroSvg" role="img" aria-label="Przekrój strzałkowy mózgowia i kanału kręgowego z głównymi przedziałami guzów OUN">
+      <!-- półkula mózgu -->
+      <path d="M174 176 C162 94 236 44 334 46 C428 48 492 100 486 172 C482 204 446 224 402 226 L306 214 L248 206 C202 202 178 194 174 176Z" fill="#E1ECF9" stroke="#2B63AE" stroke-width="2.5"/>
+      <!-- oponiak na sklepistości -->
+      <path d="M294 49 C326 44 360 46 388 55 C364 68 320 68 294 49Z" fill="#FCEFD6" stroke="#8F5808" stroke-width="2"/>
+      <!-- siodło tureckie / skrzyżowanie wzrokowe -->
+      <ellipse cx="404" cy="204" rx="30" ry="18" fill="#FCEFD6" stroke="#8F5808" stroke-width="2.2"/>
+      <!-- móżdżek -->
+      <path d="M184 214 C180 254 214 276 260 268 C294 260 300 234 288 214 C258 200 208 200 184 214Z" fill="#FBE6E2" stroke="#A82D1E" stroke-width="2.4"/>
+      <path d="M196 228 C224 240 258 242 282 230 M202 246 C228 254 256 256 276 246" stroke="#E58A7D" stroke-width="1.5" fill="none"/>
+      <!-- pień mózgu i kąt mostowo-móżdżkowy -->
+      <path d="M304 214 L358 214 L348 308 L314 308 Z" fill="#DDF1F2" stroke="#0C7A85" stroke-width="2.4"/>
+      <circle cx="296" cy="248" r="14" fill="#FBE6E2" stroke="#A82D1E" stroke-width="2"/>
+      <!-- linia otworu wielkiego -->
+      <line x1="274" y1="308" x2="394" y2="308" stroke="#A82D1E" stroke-width="2.2" stroke-dasharray="5 3"/>
+      <!-- kanał kręgowy i rdzeń -->
+      <rect x="306" y="308" width="50" height="96" rx="6" fill="#EEF2F0" stroke="#44545D" stroke-width="2"/>
+      <path d="M320 310 L342 310 L339 398 L323 398 Z" fill="#E1EFF5" stroke="#245B7A" stroke-width="2"/>
+      <!-- znaczniki -->
+      <g font-size="13" font-weight="800" fill="#fff" text-anchor="middle">
+        <circle cx="250" cy="126" r="13" fill="#2B63AE"/><text x="250" y="131">1</text>
+        <circle cx="342" cy="56" r="12" fill="#8F5808"/><text x="342" y="61">2</text>
+        <circle cx="404" cy="204" r="12" fill="#8F5808"/><text x="404" y="209">3</text>
+        <circle cx="296" cy="248" r="12" fill="#A82D1E"/><text x="296" y="253">4</text>
+        <circle cx="331" cy="356" r="12" fill="#245B7A"/><text x="331" y="361">5</text>
+      </g>
+      <text x="404" y="304" font-size="11" font-weight="700" fill="#A82D1E">Otwór wielki</text>
+    </svg>
+    <div class="herolist">
+      <div><b style="color:#2B63AE">1 Półkule</b> przerzuty (~50%), GBM WHO 4, glejaki</div>
+      <div><b style="color:#8F5808">2 Sklepistość/opony</b> oponiak (ogon oponowy)</div>
+      <div><b style="color:#8F5808">3 Okolica siodłowa</b> gruczolak przysadki (dwuskron.)</div>
+      <div><b style="color:#A82D1E">4 Kąt m.-m. / tylny dół</b> nerwiak VIII, wodogłowie</div>
+      <div><b style="color:#245B7A">5 Rdzeń kręgowy</b> przerzut zewn.-op., Brown-Séquard</div>
+    </div>
+    <figcaption>Przekrój strzałkowy osi OUN: u dorosłych większość guzów leży w kompartmencie nadnamiotowym, a ok. połowę wszystkich guzów wewnątrzczaszkowych stanowią przerzuty.</figcaption>
+  </figure>
+</div></header>
+
+<main>
+<!-- ============ 1. LOKALIZACJA I ICP ============ -->
+<section id="lokalizacja"><div class="wrap">
+  <div class="eyebrow">Część A · Epidemiologia, ciasnota wewnątrzczaszkowa i wgłobienia</div>
+  <h2>Lokalizacja guzów OUN, wzmożone ICP i zespoły wgłobienia</h2>
+  <p class="lead">Zgodnie z doktryną <b>Monro-Kelliego</b> sztywna puszka czaszkowa mieści tkankę mózgową (~80%), krew (~10%) i płyn mózgowo-rdzeniowy (~10%). Po wyczerpaniu rezerwy kompensacyjnej wzrost masy guza i otaczającego obrzęku naczyniopochodnego gwałtownie podnosi ciśnienie śródczaszkowe (ICP &gt; 20–22 mmHg) i grozi wgłobieniem.</p>
+
+  <div class="kpis">
+    <div class="kpi r"><b>~50%</b><span>guzów wewnątrzczaszkowych u dorosłych to przerzuty (najczęstsze ogółem)</span></div>
+    <div class="kpi"><b>GBM (4°)</b><span>najczęstszy pierwotny złośliwy guz mózgu dorosłych (IDH-wildtype)</span></div>
+    <div class="kpi a"><b>Oponiak</b><span>najczęstszy pierwotny łagodny guz OUN (przewaga kobiet ~2:1)</span></div>
+    <div class="kpi v"><b>ZAKAZ LP</b><span>tarcza zastoinowa lub podejrzenie efektu masy = zakaz punkcji!</span></div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>Udział guzów wewnątrzczaszkowych u dorosłych</h3>
+      <p class="small" style="margin-bottom:.6rem">Zestawienie orientacyjne dla praktyki klinicznej neurologicznej dorosłych: rozróżniaj guzy ogółem (dominują przerzuty) od guzów pierwotnych.</p>
+      <div class="bars" id="barsEpi"></div>
+    </div>
+    <div class="tcard r">
+      <h3>⚠️ Klasyczna triada ICP vs pierwszy objaw u dorosłych</h3>
+      <ul>
+        <li><b>Poranny ból głowy (ICP):</b> tępy, rozpierający, najsilniejszy nad ranem po nocy w pozycji leżącej (retencja CO₂ i gorszy odpływ żylny), nasila się przy <b>kaszlu, parciu, kichaniu i pochylaniu</b>.</li>
+        <li><b>Wymioty:</b> poranne, często „chlustające” (bez poprzedzających nudności), dające chwilową ulgę w bólu głowy.</li>
+        <li><b>Obrzęk tarczy nerwu II (tarcza zastoinowa):</b> na dnie oka zatarte granice tarczy, przekrwienie żył, brak tętna żylnego; z czasem przemijające zaciemnienia widzenia (<i>obscurationes</i>) i wtórny zanik n. II.</li>
+        <li><b>Uwaga kliniczna:</b> pełna triada jest objawem późnym! U dorosłych guz półkulowy najczęściej ujawnia się jako <b>pierwszy w życiu napad padaczkowy (&gt; 40. r.ż.)</b> albo postępujący deficyt ogniskowy.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 style="margin:1.6rem 0 .6rem">Zespoły wgłobienia mózgu (zagrożenie życia)</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Typ wgłobienia</th><th>Mechanizm anatomiczny</th><th>Kluczowe objawy alarmowe</th><th>Znaczenie na egzaminie PUM</th></tr></thead>
+      <tbody>
+        <tr><td><b>Pod sierp mózgu</b><br><span class="small">(zakręt obręczy)</span></td><td>Przemieszczenie przyśrodkowej części płata czołowego pod dolną krawędź sierpa</td><td>Przesunięcie linii pośrodkowej, ucisk <b>tętnicy przedniej mózgu (ACA)</b> → niedowład kończyny dolnej, apatia</td><td>Wczesne ostrzeżenie w TK/MRI przed wgłobieniem przez namiot</td></tr>
+        <tr><td><b>Przez wcięcie namiotu</b><br><span class="small">(wgłobienie haka)</span></td><td>Hak zakrętu przyhipokampowego przemieszcza się w dół przez wcięcie namiotu móżdżku</td><td>Ucisk <b>n. III</b> → <b>tożstronna szeroka, sztywna źrenica</b> + ptoza; narastająca śpiączka; ucisk PCA (zawał potyliczny)</td><td>Uwaga na <b>zjawisko Kernohana</b>: ucisk przeciwległego konaru mózgu daje niedowład po tej samej stronie co guz!</td></tr>
+        <tr><td><b>Migdałków móżdżku</b><br><span class="small">(w otwór wielki)</span></td><td>Wgłobienie migdałków do otworu wielkiego z uciskiem rdzenia przedłużonego</td><td>Sztywność karku, zaburzenia połykania/oddechu, <b>triada Cushinga</b> (↑ RR, bradykardia, nieregularny oddech) → zatrzymanie oddechu</td><td>Może zostać sprowokowane przez <b>błędnie wykonaną punkcję lędźwiową (LP)</b> przy guzie tylnego dołu lub wysokim ICP!</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout red" style="margin-top:1.1rem">
+    <b class="k">🚨 Bezwzględny zakaz nakłucia lędźwiowego (LP) przy podejrzeniu guza OUN</b>
+    Gwałtowne obniżenie ciśnienia w kanale kręgowym przy wysokim ICP nad- lub podnamiotowym wytwarza gradient ciśnień, który wciąga migdałki móżdżku w otwór wielki i powoduje nagły zgon z ucisku ośrodka oddechowego. Przed każdą LP u pacjenta z bólami głowy, ogniskiem lub zaburzeniami świadomości sprawdź dno oka i wykonaj TK/MRI głowy!
+  </div>
+</div></section>
+
+<!-- ============ 2. OBJAWY OGNISKOWE ============ -->
+<section id="objawy"><div class="wrap">
+  <div class="eyebrow">Część B · Topodiagnostyka (Sem TK05 · Ćw TK09)</div>
+  <h2>Objawy ogniskowe: zespoły płatowe i guzy podstawy czaszki</h2>
+  <p class="lead">Tempo narastania objawów zależy od biologii guza (szybko w GBM i przerzutach; skrycie miesiącami w oponiakach i glejakach niskiego stopnia), natomiast ich charakter wyznacza lokalizacja. Kliknij obszar mózgowia na schemacie poniżej, aby przejrzeć profil objawów i pułapkę egzaminacyjną.</p>
+
+  <div class="map">
+    <figure class="fig" style="margin:0">
+      <svg viewBox="0 0 420 340" id="brainLocSvg" role="img" aria-label="Interaktywna mapa lokalizacji guzów mózgu">
+        <!-- zarys półkuli i tylnego dołu -->
+        <path d="M58 174 C48 92 122 36 220 36 C318 36 376 92 372 168 C370 202 340 226 300 228 L208 216 L138 206 C86 202 64 192 58 174Z" fill="#EEF2F0" stroke="#44545D" stroke-width="2"/>
+        <!-- Płat czołowy -->
+        <path class="reg" data-reg="frontal" tabindex="0" role="button" aria-pressed="false" aria-label="Płat czołowy" d="M226 39 C308 42 368 92 369 162 L292 162 L236 146 L226 39Z" fill="#E1ECF9"/>
+        <!-- Płat ciemieniowy -->
+        <path class="reg" data-reg="parietal" tabindex="0" role="button" aria-pressed="false" aria-label="Płat ciemieniowy" d="M120 56 C152 42 190 38 226 39 L236 146 L142 146 L120 56Z" fill="#FCEFD6"/>
+        <!-- Płat potyliczny -->
+        <path class="reg" data-reg="occipital" tabindex="0" role="button" aria-pressed="false" aria-label="Płat potyliczny" d="M62 170 C54 122 80 76 120 56 L142 146 L138 204 C90 200 68 188 62 170Z" fill="#E1F3E7"/>
+        <!-- Płat skroniowy -->
+        <path class="reg" data-reg="temporal" tabindex="0" role="button" aria-pressed="false" aria-label="Płat skroniowy" d="M142 146 L236 146 L292 162 L296 222 L206 214 L138 204 Z" fill="#E1EFF5"/>
+        <!-- Okolica siodłowa -->
+        <ellipse class="reg" data-reg="sella" tabindex="0" role="button" aria-pressed="false" aria-label="Okolica siodłowa i skrzyżowanie" cx="308" cy="204" rx="34" ry="20" fill="#FCEFD6"/>
+        <!-- Kąt m-m / móżdżek / pień -->
+        <path class="reg" data-reg="cpa" tabindex="0" role="button" aria-pressed="true" aria-label="Kąt mostowo-móżdżkowy, móżdżek i pień" d="M84 214 C80 256 118 282 170 274 L196 274 L196 312 L246 312 L254 224 L198 214 Z" fill="#FBE6E2"/>
+        <!-- etykiety -->
+        <g font-size="11.5" font-weight="800" text-anchor="middle" pointer-events="none">
+          <text x="296" y="102" fill="#2B63AE">Czołowy</text>
+          <text x="178" y="96" fill="#8F5808">Ciemieniowy</text>
+          <text x="98" y="142" fill="#216B3E">Potyliczny</text>
+          <text x="218" y="186" fill="#245B7A">Skroniowy</text>
+          <text x="308" y="208" fill="#8F5808" font-size="10">Siodło / II</text>
+          <text x="166" y="252" fill="#A82D1E">Kąt m.-m. · Móżdżek · Pień</text>
+        </g>
+        <text x="210" y="328" text-anchor="middle" font-size="10.5" fill="#596870">Kliknij obszar lub naciśnij Enter, aby wyświetlić zespół kliniczny</text>
+      </svg>
+    </figure>
+    <div id="locInfo"></div>
+  </div>
+
+  <h3 style="margin:1.6rem 0 .6rem">Zestawienie topodiagnostyczne (do szybkiej powtórki przed ET)</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Lokalizacja</th><th>Kluczowe objawy ogniskowe</th><th>Zespół swoisty / pułapka testowa</th></tr></thead>
+      <tbody>
+        <tr><td><b>Płat czołowy</b></td><td>Niedowład przeciwstronny, napady ruchowe, afazja ruchowa Broki (dom.), nietrzymanie moczu</td><td>Abulia/apatia lub rozhamowanie; podstawa czoła → <b>zespół Foster-Kennedy’ego</b> (anosmia + zanik n. II tożstr. + obrzęk tarczy przeciwstr.)</td></tr>
+        <tr><td><b>Płat ciemieniowy</b></td><td>Przeciwstronne zaburzenia czucia złożonego (stereognozja, grafestezja), apraksja</td><td><b>Zespół Gerstmanna</b> (półkula dominująca) vs <b>zaniedbywanie połowicze</b> (niedominująca); kwadrantopsja <b>dolna</b></td></tr>
+        <tr><td><b>Płat skroniowy</b></td><td>Afazja czuciowa Wernickego (dom.), zaburzenia pamięci, napady ogniskowe ze strefy skroniowej</td><td><b>Napady hakowe</b> (omamy węchowe/smakowe, <i>déjà vu</i>); pętla Meyera → kwadrantopsja <b>górna</b>; łatwe wgłobienie haka</td></tr>
+        <tr><td><b>Płat potyliczny</b></td><td>Przeciwstronne niedowidzenie połowicze jednoimienne, fotopsje (błyski)</td><td>Częste oszczędzenie plamki; obustronnie → ślepota korowa z <b>zachowanym odruchem źrenicznym</b> (zespół Antona)</td></tr>
+        <tr><td><b>Siodło tureckie</b></td><td><b>Hemianopsja dwuskroniowa</b> (ucisk skrzyżowania wzrokowego), bóle głowy, zaburzenia endokrynne</td><td>Prolaktynoma (mlekotok/brak miesiączki) → <b>kabergolina I rzut</b>; udar przysadki = nagły ból + utrata wzroku + porażenie III/IV/VI</td></tr>
+        <tr><td><b>Kąt mostowo-móżdżkowy</b></td><td>Kolejno: jednostronny niedosłuch odbiorczy (<b>n. VIII</b>) → zniesienie odruchu rogówkowego (<b>n. V</b>) → niedowład <b>n. VII</b> → ataksja</td><td>Najczęstszy guz: <b>osłoniak przedsionkowy (nerwiak n. VIII)</b>; następnie oponiak i perlak</td></tr>
+        <tr><td><b>Szczelina oczodołowa górna</b></td><td>Porażenie mięśni gałkoruchowych (<b>nn. III, IV, VI</b>) + zaburzenia czucia w zakresie <b>V1</b></td><td>Wskazówka PUM #4 (np. oponiak skrzydła kości klinowej); z wytrzeszczem i zajęciem V2 → zatoka jamista</td></tr>
+        <tr><td><b>Móżdżek i pień mózgu</b></td><td>Ataksja tożstronna (półkule) lub chodu (robak), oczopląs, wczesne wodogłowie (IV komora); w pniu zespoły naprzemienne</td><td>Guz móżdżku często daje <b>wczesne ICP</b> bez objawów piramidowych; w pniu n. VI bywa też fałszywie lokalizujący w ICP</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div></section>
+
+<!-- ============ 3. KARTY GUZÓW ============ -->
+<section id="typy"><div class="wrap">
+  <div class="eyebrow">Część C · Charakterystyka najczęstszych guzów OUN u dorosłych</div>
+  <h2>Karty guzów mózgu i podpisy radiologiczne w MRI</h2>
+  <p class="lead">Rozwiń kartę wybranego nowotworu, aby sprawdzić typowy obraz kliniczny, cechy w MRI z gadolinem, profil molekularny WHO CNS5 oraz najczęstszą pułapkę egzaminacyjną.</p>
+
+  <div class="dcards">
+    <details class="dc" data-c="s" open>
+      <summary><span class="em">🎯</span><span class="t">Przerzuty do OUN<small>Najczęstsze guzy wewnątrzczaszkowe u dorosłych (~50%)</small></span><span class="pill r">Najczęstsze ogółem</span></summary>
+      <div class="body">
+        <p class="row"><b>Źródła</b>Najczęściej: <b>rak płuca</b> (~40–50%, zwłaszcza drobnokomórkowy i gruczołowy), <b>rak piersi</b>, <b>czerniak</b>, rak nerki, rak jelita grubego.</p>
+        <p class="row"><b>MRI T1+Gd</b>Najczęściej <b>mnogie</b>, dobrze odgraniczone ogniska na <b>granicy korowo-podkorowej</b> (zatorowość drogą tętniczą) z nieproporcjonalnie dużym obrzękiem naczyniopochodnym. Czerniak, rak nerki i kosmówczak dają przerzuty często <b>krwotoczne</b>.</p>
+        <div class="pearl"><b>Klinika:</b> Pierwszy napad padaczkowy, deficyt ogniskowy lub ból głowy u chorego z chorobą nowotworową w wywiadzie — wyklucz przerzuty w MRI z kontrastem.</div>
+        <div class="trap"><b>Pułapka:</b> Pojedynczy przerzut może w MRI ze wzmocnieniem obrączkowatym imitować GBM lub ropień — rozstrzyga całość obrazu (DWI, poszukiwanie ogniska pierwotnego np. TK klatki piersiowej / PET-TK, histopatologia).</div>
+      </div>
+    </details>
+
+    <details class="dc" data-c="s" open>
+      <summary><span class="em">🦋</span><span class="t">Glejak wielopostaciowy (Glioblastoma IDH-wildtype, WHO 4)<small>Najczęstszy pierwotny złośliwy guz mózgu dorosłych</small></span><span class="pill r">WHO CNS 4</span></summary>
+      <div class="body">
+        <p class="row"><b>Obraz MRI</b>Masa śródmózgowa z <b>centralną martwicą</b>, nieregularnym, grubym <b>wzmocnieniem obrączkowatym</b> po gadolinie i rozległym obrzękiem w FLAIR; często przekracza linię pośrodkową przez ciało modzelowate (<b>„glejak motylkowy”</b>).</p>
+        <p class="row"><b>WHO CNS5</b>Wyłącznie guzy <b>IDH-dzikie (IDH-wildtype)</b>; metylacja promotora <b>MGMT</b> prognozuje lepszą odpowiedź na temozolomid.</p>
+        <div class="pearl"><b>Standard leczenia:</b> Maksymalna bezpieczna resekcja + radioterapia skojarzona z <b>temozolomidem</b>, następnie temozolomid podtrzymujący (protokół Stuppa).</div>
+        <div class="trap"><b>Pułapka:</b> Przekroczenie ciała modzelowatego typowe dla GBM, chłoniaka OUN i SM — nie dla oponiaka (ten jest zewnątrzmózgowy!).</div>
+      </div>
+    </details>
+
+    <details class="dc" data-c="f">
+      <summary><span class="em">🧬</span><span class="t">Glejaki rozlane niższego stopnia (IDH-zmutowane, WHO 2–3)<small>Gwiaździak IDH-mutant oraz skąpodrzewiak (1p/19q)</small></span><span class="pill v">WHO CNS 2–3</span></summary>
+      <div class="body">
+        <p class="row"><b>Klinika</b>Typowo młodsi dorośli (25–45 lat); najczęstszym pierwszym objawem przez wiele miesięcy są <b>napady padaczkowe</b> przy skąpych ubytkach neurologicznych.</p>
+        <p class="row"><b>Biomarkery</b><b>Skąpodrzewiak (oligodendroglioma):</b> mutacja IDH + <b>kodelecja 1p/19q</b>, częste <b>zwapnienia w TK</b> (płaty czołowe), lepsze rokowanie i wysoka chemiowrażliwość.</p>
+        <div class="pearl"><b>Ważne w MRI:</b> Często słabo wzmacniają się po kontraście w stopniu 2 (hiperintensywne w T2/FLAIR — objaw „T2-FLAIR mismatch” w gwiaździaku IDH-mutant).</div>
+        <div class="trap"><b>Pułapka:</b> Brak wzmocnienia po kontraście w MRI nie wyklucza glejaka — dotyczy właśnie glejaków rozlanych niższego stopnia!</div>
+      </div>
+    </details>
+
+    <details class="dc" data-c="e">
+      <summary><span class="em">🟣</span><span class="t">Oponiak (Meningioma)<small>Najczęstszy pierwotny łagodny guz OUN dorosłych</small></span><span class="pill g">Zewnątrzmózgowy</span></summary>
+      <div class="body">
+        <p class="row"><b>Epidemiologia</b>Przewaga kobiet (~2:1), ekspresja receptorów progesteronowych (może przyspieszać wzrost w ciąży); większość to WHO 1.</p>
+        <p class="row"><b>MRI i TK</b>Guz <b>zewnątrzmózgowy</b> (szeroko oparty na oponie twardej), dobrze odgraniczony, <b>jednorodnie silnie wzmacniający się</b> z charakterystycznym <b>„ogonem oponowym” (dural tail)</b> i hiperostozą sąsiedniej kości w TK.</p>
+        <div class="pearl"><b>Zespoły:</b> Sklepistość → napady ogniskowe; rynienka węchowa → Foster-Kennedy; kąt m.-m. → nerwy VII/VIII; otwór wielki lub rdzeń piersiowy → ucisk rdzenia.</div>
+        <div class="trap"><b>Pułapka:</b> Małe, bezobjawowe oponiaki wykryte przypadkowo można bezpiecznie obserwować w kontrolnym MRI zamiast operować na siłę.</div>
+      </div>
+    </details>
+
+    <details class="dc" data-c="i">
+      <summary><span class="em">🦋</span><span class="t">Gruczolak przysadki (PitNET)<small>Okolica siodła tureckiego · hemianopsja dwuskroniowa</small></span><span class="pill b">Okolica siodłowa</span></summary>
+      <div class="body">
+        <p class="row"><b>Podział</b>Mikrogruczolak (&lt; 10 mm) vs makrogruczolak (≥ 10 mm) uciskający skrzyżowanie wzrokowe od dołu → <b>niedowidzenie połowicze dwuskroniowe</b>.</p>
+        <p class="row"><b>Leczenie</b><b>Prolaktynoma:</b> lekiem z wyboru są <b>agoniści dopaminy (kabergolina, bromokryptyna)</b>! Pozostałe objawowe makrogruczolaki → przezklinowa resekcja neurochirurgiczna.</p>
+        <div class="pearl"><b>Udar przysadki:</b> Nagły piorunujący ból głowy + gwałtowny ubytek wzroku + porażenie n. III/IV/VI → pilny hydrokortyzon i.v. + odbarczenie.</div>
+        <div class="trap"><b>Pułapka:</b> Nie kieruj niepowikłanej prolaktynomy w pierwszej kolejności na operację — najpierw podaj agonistę dopaminy!</div>
+      </div>
+    </details>
+
+    <details class="dc" data-c="i">
+      <summary><span class="em">👂</span><span class="t">Osłoniak przedsionkowy (nerwiak n. VIII)<small>Najczęstszy guz kąta mostowo-móżdżkowego (CPA)</small></span><span class="pill b">Kąt m.-m.</span></summary>
+      <div class="body">
+        <p class="row"><b>Objawy</b>Postępujący jednostronny <b>niedosłuch odbiorczy</b> i szumy uszne (n. VIII) → osłabienie <b>odruchu rogówkowego</b> i czucia twarzy (n. V) → obwodowy niedowład n. VII → ataksja móżdżkowa.</p>
+        <p class="row"><b>MRI T1+Gd</b>Dobrze odgraniczony guz w kącie mostowo-móżdżkowym wrastający w głąb <b>przewodu słuchowego wewnętrznego</b> („kształt stożka/loda w rożku”).</p>
+        <div class="pearl"><b>Genetyka:</b> Obustronne osłoniaki przedsionkowe są patognomoniczne dla <b>neurofibromatozy typu 2 (NF2)</b>.</div>
+        <div class="trap"><b>Pułapka:</b> Wczesne obniżenie odruchu rogówkowego (n. V1) u pacjenta z niedosłuchem ucha to klasyczny znak zajęcia kąta m.-m. jeszcze przed porażeniem n. VII!</div>
+      </div>
+    </details>
+
+    <details class="dc" data-c="s">
+      <summary><span class="em">⚡</span><span class="t">Pierwotny chłoniak OUN (PCNSL)<small>Uwaga: steroidy przed biopsją dają obraz „znikającego guza”</small></span><span class="pill r">Pułapka przed biopsją</span></summary>
+      <div class="body">
+        <p class="row"><b>Klinika/MRI</b>Zwykle chłoniak DLBCL u starszych osób lub w immunosupresji (HIV/EBV); głębokie struktury przykomorowe, jądra podstawy, ciało modzelowate; silne, <b>jednorodne wzmocnienie</b> i restrykcja dyfuzji w DWI (wysoka komórkowość).</p>
+        <p class="row"><b>Leczenie</b>Nie wykonuje się rozległej resekcji (poza biopsją stereotaktyczną), lecz <b>chemioterapię wysokodawkową z metotreksatem</b>.</p>
+        <div class="pearl"><b>Zasada krytyczna:</b> Jeśli nie ma bezpośredniego zagrożenia wgłobieniem, <b>wstrzymaj glikokortykosteroidy przed biopsją</b>!</div>
+        <div class="trap"><b>Pułapka:</b> Deksametazon powoduje gwałtowną apoptozę limfocytów chłoniaka („znikający guz”), uniemożliwiając rozpoznanie histopatologiczne!</div>
+      </div>
+    </details>
+  </div>
+
+  <div class="tw" style="margin-top:1.2rem">
+    <table>
+      <thead><tr><th>Cecha radiologiczna (MRI / TK)</th><th>Najbardziej typowy guz (lub rozpoznanie różnicowe)</th></tr></thead>
+      <tbody>
+        <tr><td><b>Wzmocnienie obrączkowate + centralna martwica + ciało modzelowate</b></td><td>Glejak wielopostaciowy (GBM IDH-wildtype, WHO 4); różnicuj z ropniem (restrykcja w centrum DWI!) i pojedynczym przerzutem</td></tr>
+        <tr><td><b>Mnogie ogniska na granicy korowo-podkorowej + duży obrzęk</b></td><td>Przerzuty do OUN (płuco, pierś, czerniak, nerka, jelito)</td></tr>
+        <tr><td><b>Zewnątrzmózgowy + jednorodne wzmocnienie + ogon oponowy (dural tail)</b></td><td>Oponiak (meningioma) — często też hiperostoza sąsiedniej kości</td></tr>
+        <tr><td><b>Wzmacniająca zmiana wrastająca do przewodu słuchowego wewn.</b></td><td>Osłoniak przedsionkowy (nerwiak n. VIII)</td></tr>
+        <tr><td><b>Zwapnienia wewnątrzguzowe w TK (płaty czołowe u dorosłego)</b></td><td>Skąpodrzewiak (oligodendroglioma, IDH-mut, 1p/19q); u innych: oponiak, czaszkogardlak</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div></section>
+
+<!-- ============ 4. GUZY RDZENIA KRĘGOWEGO ============ -->
+<section id="rdzen"><div class="wrap">
+  <div class="eyebrow">Część D · Trzy przedziały kanału kręgowego (Sem TK05 · Ćw TK09)</div>
+  <h2>Guzy rdzenia kręgowego i kompresja zewnątrzoponowa</h2>
+  <p class="lead">Podział guzów kanału kręgowego na trzy przedziały anatomiczne (zewnątrzoponowy, śródtwardówkowy zewnątrzrdzeniowy i śródrdzeniowy) decyduje o obrazie klinicznym (zespół Brown-Séquarda vs rozszczepienne zaburzenia czucia) oraz pilności postępowania.</p>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>Rozkład anatomiczny guzów kanału kręgowego</h3>
+      <p class="small" style="margin-bottom:.6rem">Najczęstszą lokalizacją u dorosłych są przerzuty zewnątrzoponowe do kręgosłupa (szczególnie w odcinku piersiowym).</p>
+      <div class="bars" id="barsCord"></div>
+      <div class="callout red" style="margin-top:1rem">
+        <b class="k">🚨 Alarm onkologiczny: przerzutowa kompresja rdzenia (MESCC)</b>
+        Nocny, narastający w pozycji leżącej ból kręgosłupa u pacjenta z chorobą nowotworową (płuco, pierś, prostata, nerka, szpiczak) poprzedza niedowład o dni lub tygodnie! Pojawienie się osłabienia kończyn dolnych i zaburzeń zwieraczy wymaga <b>natychmiastowego podania deksametazonu i.v.</b> (10–16 mg bolus) oraz pilnego <b>MRI całego kręgosłupa</b> (&lt; 24 h) i odbarczenia/RTH.
+      </div>
+    </div>
+
+    <figure class="fig" style="margin:0">
+      <svg viewBox="0 0 460 320" id="cordSvg" role="img" aria-label="Przekrój poprzeczny kanału kręgowego: trzy przedziały guzów rdzenia">
+        <!-- kanał kostny kręgu -->
+        <rect x="24" y="18" width="412" height="236" rx="18" fill="#EEF2F0" stroke="#44545D" stroke-width="2"/>
+        <!-- opona twarda -->
+        <ellipse cx="230" cy="140" rx="140" ry="86" fill="#FFFFFF" stroke="#2B63AE" stroke-width="2.5" stroke-dasharray="6 4"/>
+        <!-- przestrzeń PMR -->
+        <ellipse cx="230" cy="140" rx="126" ry="74" fill="#E1ECF9" fill-opacity="0.45"/>
+        <!-- rdzeń kręgowy -->
+        <ellipse cx="230" cy="140" rx="58" ry="42" fill="#DDF1F2" stroke="#0C7A85" stroke-width="2.5"/>
+        <!-- istota szara (H) -->
+        <path d="M204 124 C212 132 214 148 204 156 M256 124 C248 132 246 148 256 156 M210 140 L250 140" stroke="#075760" stroke-width="4" stroke-linecap="round" fill="none"/>
+        <!-- 1. Guz zewnątrzoponowy -->
+        <path d="M44 86 C68 58 100 54 114 78 C98 106 94 142 100 176 C76 196 42 174 44 86Z" fill="#FBE6E2" stroke="#A82D1E" stroke-width="2.4"/>
+        <circle cx="72" cy="126" r="13" fill="#A82D1E"/>
+        <text x="72" y="131" text-anchor="middle" fill="#fff" font-size="13" font-weight="800">1</text>
+        <!-- 2. Guz śródtwardówkowy zewnątrzrdzeniowy -->
+        <ellipse cx="322" cy="138" rx="34" ry="26" fill="#FCEFD6" stroke="#8F5808" stroke-width="2.4"/>
+        <circle cx="322" cy="138" r="13" fill="#8F5808"/>
+        <text x="322" y="143" text-anchor="middle" fill="#fff" font-size="13" font-weight="800">2</text>
+        <!-- 3. Guz śródrdzeniowy -->
+        <circle cx="230" cy="140" r="17" fill="#E1EFF5" stroke="#245B7A" stroke-width="2.4"/>
+        <circle cx="230" cy="140" r="11" fill="#245B7A"/>
+        <text x="230" y="144" text-anchor="middle" fill="#fff" font-size="12" font-weight="800">3</text>
+        <!-- legenda w SVG -->
+        <text x="230" y="276" text-anchor="middle" font-size="12" font-weight="800" fill="#13232C">1 Zewnątrzoponowy (przerzuty 55–60%) · 2 Śródtwardówkowy zewn. (oponiak/nerwiak 30–35%)</text>
+        <text x="230" y="296" text-anchor="middle" font-size="12" font-weight="800" fill="#245B7A">3 Śródrdzeniowy (wyściółczak/gwiaździak 5–10%) — rozszczepienne zaburzenia czucia</text>
+      </svg>
+      <figcaption>Przekrój poprzeczny kanału kręgowego: guz nr 2 uciska połowę rdzenia z boku (zespół Brown-Séquarda); guz nr 3 poszerza rdzeń od środka (rozszczepienie czucia jak w jamistości rdzenia).</figcaption>
+    </figure>
+  </div>
+
+  <div class="tw" style="margin-top:1.2rem">
+    <table>
+      <thead><tr><th>Przedział anatomiczny</th><th>Najczęstsze guzy (dorośli)</th><th>Obraz kliniczny i czucie</th><th>Zespół klasyczny / klucz na ET</th></tr></thead>
+      <tbody>
+        <tr><td><b>1. Zewnątrzoponowe</b><br><span class="small">(55–60%)</span></td><td><b>Przerzuty</b> do trzonów kręgów (płuco, pierś, prostata, nerka, szpiczak, chłoniak)</td><td>Ból nocny miejscowy nasilany leżeniem i uciskiem wyrostków kolczystych → symetryczny niedowład spastyczny i poziom czucia</td><td><b>MESCC</b> = stan nagły: pilny deksametazon i.v. + MRI całego kręgosłupa + odbarczenie/RTH</td></tr>
+        <tr><td><b>2. Śródtwardówkowe zewnątrzrdzeniowe</b><br><span class="small">(30–35%)</span></td><td><b>Oponiak</b> (odcinek piersiowy u kobiet) i <b>osłoniak/nerwiak</b> korzeniowy (guz klepsydrowaty)</td><td>Ból korzeniowy jednostronny → asymetryczny ucisk rdzenia od boku; objawy korzeniowe LMN na poziomie zmiany</td><td><b>Zespół Brown-Séquarda:</b> tożstronnie niedowład + brak czucia głębokiego; przeciwstronnie brak bólu i temp.</td></tr>
+        <tr><td><b>3. Śródrdzeniowe</b><br><span class="small">(5–10%)</span></td><td><b>Wyściółczak (ependymoma)</b> u dorosłych; gwiaździak (astrocytoma)</td><td>Rozpierający ból osiowy, zanik mięśni rąk (odc. szyjny), późniejsze objawy piramidowe, wczesne zaburzenia zwieraczy</td><td><b>Rozszczepienne zaburzenia czucia</b> (zniesienie bólu i temp. w poziomie guza z zachowaniem dotyku) + oszczędzenie krzyżowe</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="grid2" style="margin-top:1.2rem">
+    <div class="tcard r">
+      <h3>⚖️ Zespół Brown-Séquarda (połowicze uszkodzenie rdzenia)</h3>
+      <ul>
+        <li><b>Tożstronnie poniżej uszkodzenia:</b> niedowład spastyczny (droga korowo-rdzeniowa boczna) + utrata czucia głębokiego, wibracji i ułożenia (sznury tylne).</li>
+        <li><b>Tożstronnie na poziomie uszkodzenia:</b> niedowład wiotki i zanik (rogi przednie) oraz pas znieczulenia (korzeń tylny).</li>
+        <li><b>Przeciwstronnie (1–2 segmenty poniżej):</b> utrata czucia bólu i temperatury (droga rdzeniowo-wzgórzowa boczna krzyżuje się w rdzeniu!).</li>
+      </ul>
+    </div>
+    <div class="tcard a">
+      <h3>🧭 Stożek rdzeniowy (L1–L2) vs ogon koński (&lt; L2)</h3>
+      <ul>
+        <li><b>Stożek rdzeniowy (np. ependymoma):</b> symetryczne objawy, <b>bardzo wczesne</b> nietrzymanie moczu i stolca, znieczulenie wokół odbytu/krocza, słaby ból, możliwe objawy UMN i LMN (odruch skokowy zniesiony, kolanowy może być zachowany).</li>
+        <li><b>Ogon koński (przerzut, wyściółczak nici końcowej, masywna przepuklina):</b> silny asymetryczny ból korzeniowy, znieczulenie typu <b>„spodenek jeździeckich”</b>, wiotki niedowład kończyn dolnych (LMN), zatrzymanie moczu z przepełnienia — pilne MRI!</li>
+      </ul>
+    </div>
+  </div>
+</div></section>
+
+<!-- ============ 5. DIAGNOSTYKA I LECZENIE ============ -->
+<section id="leczenie"><div class="wrap">
+  <div class="eyebrow">Część E · Algorytm postępowania, sterydoterapia i protokół Stuppa</div>
+  <h2>Diagnostyka obrazowa, leczenie objawowe i przyczynowe</h2>
+  <p class="lead">Podstawą rozpoznania jest MRI z kontrastem (gadolinem) i ocena molekularna tkanki guza według WHO CNS5. Leczenie łączy szybkie opanowanie obrzęku i napadów z maksymalną bezpieczną resekcją, radioterapią oraz chemioterapią.</p>
+
+  <div class="flow" aria-label="Algorytm diagnostyki i leczenia guza OUN">
+    <div class="fn start"><b>1. Podejrzenie guza OUN</b>Pierwszy napad padaczkowy &gt; 40 r.ż. · narastający deficyt ogniskowy · poranny ból głowy + wymioty · tarcza zastoinowa</div>
+    <div class="ar">↓</div>
+    <div class="fn red"><b>2. Ocena bezpieczeństwa i obrazowanie</b>ZAKAZ punkcji lędźwiowej przed obrazowaniem! · Pilne TK w stanie nagłym · <b>MRI mózgu (lub rdzenia) T1+Gd = metoda z wyboru</b></div>
+    <div class="ar">↓</div>
+    <div class="branch">
+      <div>
+        <div class="fn amber"><b>3A. Obrzęk naczyniopochodny / ucisk</b>Deksametazon (np. 8–16 mg/d; w MESCC natychmiast bolus i.v.)<br><span class="small">Wyjątek: podejrzenie PCNSL bez wgłobienia → wstrzymaj do biopsji!</span></div>
+      </div>
+      <div>
+        <div class="fn blue"><b>3B. Napady padaczkowe</b>Leki p-padaczkowe <b>tylko po napadzie</b> (bez rutynowej profilaktyki!)<br><span class="small">Preferowany <b>lewetyracetam</b> (brak indukcji CYP450)</span></div>
+      </div>
+    </div>
+    <div class="ar">↓</div>
+    <div class="fn green"><b>4. Leczenie przyczynowe (konsylium neuroonkologiczne)</b>Maksymalna bezpieczna resekcja / biopsja molekularna (IDH, 1p/19q, MGMT) → Radioterapia (RTH / radiochirurgia SRS) → Chemioterapia (temozolomid w GBM — protokół Stuppa; metotreksat w PCNSL)</div>
+  </div>
+
+  <div class="grid3" style="margin-top:1.4rem">
+    <div class="tcard b">
+      <h3>🔬 Diagnostyka (MRI + WHO CNS5)</h3>
+      <ul>
+        <li><b>MRI z gadolinem:</b> metoda z wyboru dla mózgu (zwłaszcza tylny dół!) i rdzenia kręgowego; spektroskopia MR i perfuzja różnicują wznowę od martwicy popromiennej.</li>
+        <li><b>TK głowy:</b> szybkie badanie dyżurowe (krwotok, wgłobienie, wodogłowie, zwapnienia w skąpodrzewiaku/oponiaku).</li>
+        <li><b>Markery molekularne (WHO 2021):</b> mutacja <i>IDH1/2</i>, kodelecja <i>1p/19q</i> (skąpodrzewiak), metylacja promotora <i>MGMT</i> (wrażliwość na temozolomid).</li>
+      </ul>
+    </div>
+    <div class="tcard a">
+      <h3>💊 Leczenie objawowe</h3>
+      <ul>
+        <li><b>Deksametazon:</b> lek z wyboru na obrzęk naczyniopochodny wokół guza i w kompresji rdzenia (+ inhibitor pompy protonowej i kontrola glikemii).</li>
+        <li><b>Przeciwpadaczkowe (AED):</b> nie włączaj profilaktycznie u chorych bez napadów! Po napadzie wybieraj leki bez indukcji enzymów wątrobowych (<b>lewetyracetam</b>, lakozamid), unikaj fenytoiny i karbamazepiny.</li>
+        <li><b>Profilaktyka ZŻG:</b> guzy mózgu (zwłaszcza GBM) niosą bardzo wysokie ryzyko zakrzepicy żył głębokich i zatorowości płucnej.</li>
+      </ul>
+    </div>
+    <div class="tcard g">
+      <h3>🏥 Leczenie onkologiczne</h3>
+      <ul>
+        <li><b>Neurochirurgia:</b> maksymalna bezpieczna resekcja z użyciem neuronawigacji, mapowania śródoperacyjnego i 5-ALA (fluorescencja GBM).</li>
+        <li><b>Radioterapia / SRS:</b> radiochirurgia stereotaktyczna (Gamma Knife / CyberKnife) przy nielicznych przerzutach (&lt; 3–4 cm), małych oponiakach i nerwiaku VIII.</li>
+        <li><b>Temozolomid (TMZ):</b> doustny lek alkilujący przenikający barierę krew–mózg; standard w GBM skojarzony z RTH (<b>protokół Stuppa</b>).</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout amber" style="margin-top:1.2rem">
+    <b class="k">⚖️ Deksametazon w neurologii — gdzie TAK, a gdzie NIE?</b>
+    <b>TAK:</b> obrzęk naczyniopochodny wokół guza mózgu lub ropnia oraz ostra kompresja rdzenia (MESCC). · <b>NIE:</b> uraz czaszkowo-mózgowy (badanie CRASH — zwiększa śmiertelność) oraz udar niedokrwienny/krwotoczny mózgu. · <b>OSTROŻNIE:</b> podejrzenie pierwotnego chłoniaka OUN bez zagrażającego wgłobienia (podanie steroidu przed biopsją zaciera obraz histopatologiczny).
+  </div>
+</div></section>
+
+<!-- ============ 6. ZADANIA TESTOWE ============ -->
+<section id="zadania"><div class="wrap">
+  <div class="eyebrow">Część F · Trening egzaminacyjny</div>
+  <h2>Zadania testowe z modułu [13]</h2>
+  <p class="lead">Zestaw 7 pytań testowych typu egzaminu testowego (ET) PUM. Kliknij odpowiedź, aby zobaczyć uzasadnienie, wskazówkę egzaminacyjną oraz porównanie z wytycznymi. Wyniki synchronizują się automatycznie z postępem Hubu (<code>guzy-q1</code>…<code>guzy-q7</code>).</p>
+
+  <div class="card" style="margin-bottom:1.2rem">
+    <h3>Rozkład pytań w zestawie</h3>
+    <p class="small" style="margin-bottom:.6rem">Cztery obszary tematyczne modułu [13]: Lokalizacja i ICP, Objawy ogniskowe, Typy guzów i MRI oraz Guzy rdzenia i leczenie.</p>
+    <div class="bars" id="barsPool"></div>
+  </div>
+
+  <div class="qtools">
+    <div class="filters" id="qFilters" style="margin:0"></div>
+    <span class="sp"></span>
+    <button type="button" class="btn" id="rand10">🎲 Losuj zestaw</button>
+    <button type="button" class="btn o" id="resetQ">Resetuj</button>
+  </div>
+
+  <div id="quiz"></div>
+  <div class="score" id="score" role="status">Wynik: 0 / 0</div>
+</div></section>
+
+<!-- ============ 7. KLUCZ VS WYTYCZNE ============ -->
+<section id="klucz"><div class="wrap">
+  <div class="eyebrow">Część G · Rozbieżności egzaminacyjne</div>
+  <h2>Pod zaliczenie kontra aktualnie klinicznie (wytyczne)</h2>
+  <p class="lead">Zestawienie najczęstszych różnic między starszymi uproszczeniami podręcznikowymi a współczesnymi wytycznymi WHO CNS5 (2021) i EANO/SNO.</p>
+
+  <div class="tw">
+    <table id="gapTable">
+      <thead><tr><th>Zagadnienie</th><th>Pod zaliczenie (starsze ujęcie / skróty)</th><th>Aktualnie klinicznie (wytyczne)</th></tr></thead>
+      <tbody>
+        <tr><td><b>Najczęstszy guz mózgu u dorosłych</b></td><td>Często skrót myślowy „najczęstszym guzem mózgu jest glejak (GBM)” (dotyczący wyłącznie guzów <i>pierwotnych złośliwych</i>)</td><td>Ogółem najczęstsze guzy wewnątrzczaszkowe u dorosłych to <b>przerzuty (~50%)</b>; wśród pierwotnych łagodnych dominuje <b>oponiak</b>, a wśród pierwotnych złośliwych — <b>glioblastoma</b></td></tr>
+        <tr><td><b>Definicja glejaka wielopostaciowego (GBM)</b></td><td>Podział wg WHO 2016 na GBM <i>IDH-wildtype</i> i <i>IDH-mutant</i> oraz rozpoznanie wyłącznie morfologiczne</td><td>Wg <b>WHO CNS5 (2021)</b> termin <b>glioblastoma (WHO 4)</b> dotyczy <b>wyłącznie guzów IDH-wildtype</b>; guzy z mutacją IDH klasyfikuje się jako <i>astrocytoma IDH-mutant</i> (stopnie 2–4)</td></tr>
+        <tr><td><b>Profilaktyka przeciwpadaczkowa (AED) przy guzie</b></td><td>Rutynowe podawanie leków przeciwpadaczkowych (np. fenytoiny) wszystkim chorym z guzem mózgu przed operacją</td><td>Wytyczne <b>SNO/EANO</b>: <b>brak wskazań</b> do rutynowej profilaktyki pierwotnej u chorych bez napadów; po napadzie lekiem z wyboru jest <b>lewetyracetam</b> (bez indukcji CYP450)</td></tr>
+        <tr><td><b>Steroidy przed diagnostyką guza mózgu</b></td><td>Włączenie deksametazonu automatycznie u każdego chorego z podejrzeniem masy w mózgu</td><td>W obrzęku guzowym z objawami masowymi — tak, ale przy podejrzeniu <b>pierwotnego chłoniaka OUN (PCNSL)</b> bez wgłobienia <b>wstrzymaj steroidy przed biopsją</b> (efekt „znikającego guza”)</td></tr>
+        <tr><td><b>Pierwszy wybór w gruczolaku przysadki</b></td><td>Schematyczne traktowanie guzów okolicy siodła jako wskazania wyłącznie neurochirurgicznego</td><td>W <b>prolaktynomie</b> leczeniem I rzutu pozostaje farmakoterapia <b>agonistą dopaminy (kabergoliną)</b>; leczenie operacyjne przezklinowe dotyczy pozostałych objawowych gruczolaków</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div></section>
+
+<!-- ============ 8. PUŁAPKI ============ -->
+<section id="pulapki"><div class="wrap">
+  <div class="eyebrow">Część H · Najczęstsze błędy testowe</div>
+  <h2>Pułapki egzaminacyjne i kliniczne (PUM)</h2>
+  <p class="lead">Pięć pułapek z modułu [13], które najczęściej pojawiają się w zadaniach testowych i na dyżurze.</p>
+
+  <div class="stack">
+    <div class="callout red">
+      <b class="k">🚨 1. Punkcja lędźwiowa przy podejrzeniu guza lub tarczy zastoinowej</b>
+      Nigdy nie wykonuj nakłucia lędźwiowego przed neuroobrazowaniem (TK/MRI) u chorego z bólami głowy o charakterze ICP, obrzękiem tarczy nerwu II lub deficytem ogniskowym — grozi to nagłym wgłobieniem migdałków móżdżku w otwór wielki i zgonem.
+    </div>
+    <div class="callout amber">
+      <b class="k">⚡ 2. Pierwszy napad padaczkowy po 40. r.ż. i „znikający chłoniak” po steroidach</b>
+      Nowo rozpoznana padaczka u dorosłego to nie „padaczka idiopatyczna” — zawsze wyklucz guz lub zmianę naczyniową w MRI z kontrastem. Z kolei przy podejrzeniu pierwotnego chłoniaka OUN nie podawaj deksametazonu przed biopsją, jeśli stan pacjenta nie grozi wgłobieniem.
+    </div>
+    <div class="callout blue">
+      <b class="k">👁️ 3. Zespół kąta mostowo-móżdżkowego i skrzyżowanie wzrokowe</b>
+      Jednostronny odbiorczy niedosłuch + osłabienie odruchu rogówkowego (n. V) wyprzedzają porażenie n. VII w nerwiaku nerwu VIII. Z kolei ucisk skrzyżowania wzrokowego w gruczolaku przysadki daje <b>hemianopsję dwuskroniową</b> (różnoimienną), a nie jednoimienną!
+    </div>
+    <div class="callout">
+      <b class="k">🦴 4. Nocny ból kręgosłupa u pacjenta onkologicznego (MESCC)</b>
+      Nie lekceważ nowego bólu pleców nasilającego się w nocy i na leżąco u chorego z wywiadem nowotworowym (rak płuca, piersi, prostaty, nerki). Kiedy pojawi się osłabienie nóg lub zatrzymanie moczu, każda godzina opóźnienia w podaniu deksametazonu i wykonaniu MRI całego kręgosłupa grozi nieodwracalną paraplegią.
+    </div>
+    <div class="callout green">
+      <b class="k">💊 5. Deksametazon ≠ lek na każdy obrzęk · AED nie profilaktycznie</b>
+      Deksametazon działa świetnie na obrzęk naczyniopochodny wokół guza, ale jest szkodliwy w urazie mózgu i nieskuteczny w udarze. Nie podawaj też profilaktycznie leków przeciwpadaczkowych pacjentowi z guzem, który nigdy nie miał napadu.
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:1.2rem">
+    <h3>Checklista 5 sekund przed zaznaczeniem odpowiedzi na ET</h3>
+    <ul class="chk" style="margin-top:.6rem">
+      <li><span>Czy wykluczyłeś <b>punkcję lędźwiową</b> u chorego z tarczą zastoinową, objawem ogniskowym lub porannymi wymiotami?</span></li>
+      <li><span>Czy odróżniasz w pytaniu najczęstszy guz OUN dorosłych ogółem (<b>przerzut</b>), pierwotny łagodny (<b>oponiak</b>) i pierwotny złośliwy (<b>GBM WHO 4</b>)?</span></li>
+      <li><span>Czy rozróżniasz <b>zespół Brown-Séquarda</b> (siła/wibracja tożstronnie, ból/temp. przeciwstronnie) od guza śródrdzeniowego (rozszczepienie czucia)?</span></li>
+      <li><span>Czy pamiętasz o natychmiastowym <b>deksametazonie + MRI całego kręgosłupa</b> w zewnątrzoponowej kompresji rdzenia?</span></li>
+    </ul>
+  </div>
+</div></section>
+
+<!-- ============ 9. ŹRÓDŁA ============ -->
+<section id="zrodla"><div class="wrap">
+  <div class="eyebrow">Część I · Literatura i wytyczne</div>
+  <h2>Źródła zgodne z sylabusem PUM 2026/2027</h2>
+  <p class="lead">Materiał opracowano na podstawie literatury obowiązkowej i uzupełniającej Kliniki Neurologii PUM (Seminarium TK05, Ćwiczenia TK09) oraz aktualnych wytycznych neuroonkologicznych.</p>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>📚 Literatura sylabusa PUM 2026/2027</h3>
+      <ul class="tight small" style="margin-top:.5rem">
+        <li><b>Literatura podstawowa:</b> <i>Kompendium Neurologii</i>, red. Ryszard Podemski, Via Medica, Wyd. IV, Gdańsk 2019 (nowotwory mózgu i rdzenia kręgowego, zespół wzmożonego ciśnienia śródczaszkowego, zespoły ogniskowe).</li>
+        <li><b>Literatura uzupełniająca 1:</b> G. Fuller, <i>Badanie neurologiczne – to proste</i>, PZWL, Wyd. V, Warszawa 2022 (badanie pola widzenia, nerwów czaszkowych i zespołów rdzeniowych).</li>
+        <li><b>Literatura uzupełniająca 2:</b> A. Stępień (red.), <i>Neurologia</i>, Tom I–III, Medical Tribune Polska, Wyd. II, Warszawa 2022.</li>
+        <li><b>Literatura uzupełniająca 3:</b> W. Kozubski, P. P. Liberski (red.), <i>Neurologia. Podręcznik dla studentów medycyny</i>, PZWL, Wyd. II, Warszawa 2021.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>🧭 Wytyczne kliniczne i piśmiennictwo referencyjne</h3>
+      <ul class="tight small" style="margin-top:.5rem">
+        <li><b>WHO Classification of Tumours of the Central Nervous System (WHO CNS5, 2021):</b> zintegrowana klasyfikacja histologiczno-molekularna glejaków (<i>IDH1/2</i>, <i>1p/19q</i>, <i>MGMT</i>).</li>
+        <li><b>EANO (European Association of Neuro-Oncology):</b> wytyczne rozpoznawania i leczenia glejaków rozlanych dorosłych, oponiaków, przerzutów do OUN oraz pierwotnego chłoniaka OUN.</li>
+        <li><b>SNO / EANO Anticonvulsant Guidelines:</b> brak wskazań do pierwotnej profilaktyki przeciwpadaczkowej w guzach mózgu bez napadów; preferencja leków bez indukcji enzymatycznej (lewetyracetam).</li>
+        <li><b>NICE / EANO Metastatic Spinal Cord Compression (MESCC):</b> pilne wdrożenie deksametazonu i.v. oraz MRI całego kręgosłupa w podejrzeniu ucisku rdzenia.</li>
+      </ul>
+    </div>
+  </div>
+</div></section>
+</main>
+
+<script src="../atlas-shared.js"></script>
+<script src="data.js"></script>
+<script src="app.js"></script>
+<script src="../atlas-hub-sync.js"></script>
+</body>
+</html>

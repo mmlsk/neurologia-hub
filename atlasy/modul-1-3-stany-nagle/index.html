@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<script>
+(function(){
+  const DARK_SET = new Set(['dark','navy','moss','espresso','ochre','purple','ocean']);
+  function applyTheme(val){
+    const t = val || 'auto';
+    const isDark = DARK_SET.has(t) || (t === 'auto' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    if (isDark) document.documentElement.dataset.theme = 'dark';
+    else delete document.documentElement.dataset.theme;
+  }
+  try { applyTheme(localStorage.getItem('neurologia_hub_theme')); } catch (e) {}
+  window.addEventListener('storage', e => {
+    if (e.key === 'neurologia_hub_theme') applyTheme(e.newValue);
+  });
+  window.addEventListener('message', e => {
+    if (e.data && e.data.type === 'SET_THEME') {
+      applyTheme(e.data.theme);
+    }
+  });
+})();
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>[1][3] Stany nagłe i zaburzenia świadomości – Neurologia V Hub (PUM)</title>
+<link rel="preconnect" href="https://api.fontshare.com">
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&f[]=cabinet-grotesk@700,800&display=swap" rel="stylesheet" crossorigin="anonymous" media="print" onload="this.media='all'"><noscript><link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&f[]=cabinet-grotesk@700,800&display=swap" rel="stylesheet" crossorigin="anonymous"></noscript>
+<link rel="stylesheet" href="../atlas-base.css">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="../atlas-mobile.css">
+</head>
+<body>
+<nav class="nav" aria-label="Nawigacja"><div class="wrap">
+  <a class="hub-back" href="../../index.html">← Hub</a>
+  <div class="brand"><b>[1][3]</b> <span>Stany nagłe &amp; Świadomość</span></div>
+  <ul id="navlist">
+    <li><a href="#triage">Ocena i triage</a></li>
+    <li><a href="#swiadomosc">Świadomość</a></li>
+    <li><a href="#icp">Wzmożone ICP</a></li>
+    <li><a href="#zomr">Neuroinfekcje</a></li>
+    <li><a href="#urazy">Urazy OUN</a></li>
+    <li><a href="#zadania">Zadania testowe</a></li>
+    <li><a href="#klucz">Klucz vs wytyczne</a></li>
+    <li><a href="#pulapki">Pułapki</a></li>
+    <li><a href="#zrodla">Źródła</a></li>
+  </ul>
+</div></nav>
+
+<header class="hero"><div class="wrap grid">
+  <div>
+    <span class="tag">MODUŁ [1][3] · Neurologia V · Obszar A (Stany nagłe i przytomność)</span>
+    <h1>Stany <span>nagłe</span> w neurologii<br>i zaburzenia świadomości</h1>
+    <p class="sub">Kompendium egzaminacyjne do zaliczenia i egzaminu testowego (ET) w Klinice Neurologii PUM: ocena wstępna ABCDE, badanie odruchów pniowych, zaburzenia ilościowe i jakościowe świadomości, skale GCS i FOUR, zatrucia, wzmożone ICP i zespoły wgłobienia, neuroinfekcje (ZOMR / HSV) oraz urazy OUN.</p>
+    <div class="chips">
+      <span class="chip s">🚨 GCS ≤ 8 = intubacja · Glikemia w 1. min</span>
+      <span class="chip i">🧠 Skala GCS (3–15) &amp; FOUR (0–16)</span>
+      <span class="chip e">💉 ZOMR: antybiotyk + GKS przed TK</span>
+      <span class="chip f">🩺 Krwiak EDH vs SDH &amp; wgłobienia</span>
+    </div>
+    <div class="legend">
+      <div><span class="kb src">KLUCZ POTWIERDZONY</span> odpowiedź jednoznacznie potwierdzona w podręcznikach PUM i kryteriach egzaminacyjnych</div>
+      <div><span class="kb inf">KLUCZ WNIOSKOWANY</span> odpowiedź wynikająca ze schematów postępowania klinicznego i aktualnych wytycznych</div>
+      <div><span class="kb unk">KLUCZ NIEPEWNY</span> rozbieżność między starszym ujęciem podręcznikowym a wytycznymi klinicznymi</div>
+    </div>
+  </div>
+  <figure class="fig" aria-label="Schemat anatomiczny stanów nagłych i zaburzeń świadomości">
+    <svg viewBox="130 25 400 375" id="heroSvg" role="img" aria-label="Przekrój strzałkowy mózgowia: kora mózgowa, przestrzeń nad- i podtwardówkowa, namiot móżdżku, pień mózgu (ARAS) i otwór wielki">
+      <!-- półkula mózgu (kora i istota biała) -->
+      <path d="M170 185 C158 98 232 45 330 46 C428 48 492 102 486 178 C482 210 444 230 398 232 L308 220 L248 212 C202 208 176 202 170 185Z" fill="#E1ECF9" stroke="#2B63AE" stroke-width="2.5"/>
+      <!-- przestrzeń nad-/podtwardówkowa przy sklepistości -->
+      <path d="M352 54 C412 58 462 88 478 134 C452 104 405 84 352 78 Z" fill="#FCEFD6" stroke="#B8730F" stroke-width="2.2"/>
+      <!-- namiot móżdżku -->
+      <path d="M174 214 Q242 198 308 218" stroke="#A82D1E" stroke-width="3" stroke-dasharray="6 4" fill="none"/>
+      <!-- móżdżek -->
+      <path d="M180 220 C176 260 212 284 260 274 C296 266 302 238 290 220 C258 206 206 205 180 220Z" fill="#FBE6E2" stroke="#A82D1E" stroke-width="2.3"/>
+      <path d="M192 234 C222 246 258 248 284 236 M198 252 C226 261 258 262 278 252" stroke="#E58A7D" stroke-width="1.5" fill="none"/>
+      <!-- pień mózgu i ARAS -->
+      <path d="M306 218 L362 218 L352 318 L314 318 Z" fill="#E1EFF5" stroke="#245B7A" stroke-width="2.5"/>
+      <path d="M333 224 L333 312" stroke="#0C7A85" stroke-width="3" stroke-dasharray="4 4"/>
+      <!-- rdzeń szyjny i otwór wielki -->
+      <path d="M314 318 L352 318 L348 386 L318 386 Z" fill="#EEF2F0" stroke="#44545D" stroke-width="2"/>
+      <line x1="274" y1="318" x2="392" y2="318" stroke="#A82D1E" stroke-width="2.2" stroke-dasharray="5 3"/>
+      <!-- znaczniki -->
+      <g font-size="13" font-weight="800" fill="#fff" text-anchor="middle">
+        <circle cx="246" cy="128" r="13" fill="#2B63AE"/><text x="246" y="133">1</text>
+        <circle cx="424" cy="86" r="13" fill="#B8730F"/><text x="424" y="91">2</text>
+        <circle cx="314" cy="204" r="13" fill="#A82D1E"/><text x="314" y="209">3</text>
+        <circle cx="333" cy="276" r="13" fill="#245B7A"/><text x="333" y="281">4</text>
+      </g>
+      <text x="404" y="314" font-size="11.5" font-weight="700" fill="#A82D1E">Otwór wielki</text>
+    </svg>
+    <div class="herolist">
+      <div><b style="color:#2B63AE">1 Kora obu półkul</b> treść świadomości (zab. jakościowe)</div>
+      <div><b style="color:#8F5808">2 Opony i sklepistość</b> krwiaki EDH vs SDH, ZOMR</div>
+      <div><b style="color:#A82D1E">3 Wcięcie namiotu</b> wgłobienie haka → ucisk n. III</div>
+      <div><b style="color:#245B7A">4 Pień mózgu (ARAS)</b> przytomność, odruchy, otwór wielki</div>
+    </div>
+    <figcaption>Oś anatomiczna stanów nagłych: zaburzenie czuwania (przytomności) wynika z uszkodzenia układu ARAS w pniu lub rozległego uszkodzenia obu półkul mózgu.</figcaption>
+  </figure>
+</div></header>
+
+<main>
+<!-- ============ A: TRIAGE ============ -->
+<section id="triage"><div class="wrap">
+  <div class="eyebrow">Część A · Ocena wstępna i triage (TK01, U03)</div>
+  <h2>Algorytm ABCDE, odruchy pniowe i zatrucia</h2>
+  <p class="lead">W stanach nagłych neurologicznych obowiązuje zasada <em>Time is Brain</em>: najpierw zabezpiecz funkcje życiowe (ABCDE) i oznacz glikemię, zanim wyślesz pacjenta na tomografię komputerową lub punkcję lędźwiową.</p>
+
+  <div class="kpis">
+    <div class="kpi r"><b>GCS ≤ 8</b><span>próg bezwzględnej protekcji dróg oddechowych (intubacja)</span></div>
+    <div class="kpi a"><b>&lt; 3 min</b><span>czas do oznaczenia glikemii przyłóżkowej u każdego nieprzytomnego</span></div>
+    <div class="kpi"><b>CPP ≥ 60</b><span>docelowe ciśnienie perfuzji mózgowej (mmHg; CPP = MAP − ICP)</span></div>
+    <div class="kpi v"><b>30°</b><span>uniesienie wezgłowia łóżka w osi pośrodkowej przy podejrzeniu ICP</span></div>
+  </div>
+
+  <div class="flow" aria-label="Algorytm wstępnego postępowania ABCDE">
+    <div class="fn start"><b>A · B · C · Stabilizacja przed obrazowaniem</b>Drożne drogi oddechowe (stabilizacja kręgosłupa C po urazie!) · SpO₂ ≥ 94%, normokapnia · MAP ≥ 80–90 mmHg (ochrona perfuzji mózgowej)</div>
+    <div class="ar">↓</div>
+    <div class="fn amber"><b>D · Szybka ocena neurologiczna + GLIKEMIA</b>Glikemia włośniczkowa NATYCHMIAST (u alkoholików/niedożywionych: tiamina i.v. przed glukozą!) · GCS / FOUR · Źrenice · Ogniskowe niedowłady</div>
+    <div class="ar">↓</div>
+    <div class="branch">
+      <div>
+        <div class="fn red"><b>Chory nieprzytomny (GCS ≤ 8) lub anizokoria</b>Intubacja dotchawicza, uniesienie wezgłowia 30°, szybkie odruchy pniowe</div>
+        <div class="ar">↓</div>
+        <div class="fn"><b>Pilne TK głowy bez kontrastu + wykluczenie zatruć</b>Ocena krwotoku, efektu masy, wgłobienia; toksykologia / antidota</div>
+      </div>
+      <div>
+        <div class="fn blue"><b>Chory przytomny z deficytem ogniskowym / gorączką</b>Ocena czasu od początku objawów (<em>last known well</em>) i objawów oponowych</div>
+        <div class="ar">↓</div>
+        <div class="fn green"><b>Ścieżka celowana: Udar / ZOMR / Stan padaczkowy</b>Nie opóźniaj leczenia przez oczekiwanie na zbędne procedury</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid2" style="margin-top:1.4rem">
+    <div class="tcard b">
+      <h3>🩺 Badanie pacjenta nieprzytomnego (U03 · Fuller)</h3>
+      <ul>
+        <li><b>Źrenice (n. II → n. III):</b> szpilkowate = zatrucie opioidami lub krwotok do mostu; jednostronnie szeroka i sztywna = ucisk n. III we wgłobieniu haka; obustronnie szerokie sztywne = ciężka anoksja, śmierć mózgu lub zatrucie atropiną/TLPD.</li>
+        <li><b>Ruchy gałek ocznych:</b> odruch oczno-głowowy („oczu lalki”) bada się <b>WYŁĄCZNIE po wykluczeniu urazu kręgosłupa szyjnego!</b> Alternatywą jest próba kaloryczna z zimną wodą (przy sprawnym pniu oczy zbaczają wolno w stronę ucha z zimną wodą — pamiętaj o ciągłości błony bębenkowej).</li>
+        <li><b>Odruchy rogówkowy (n. V1/VII) i kaszlowy/wymiotny (n. IX/X):</b> oceniają integralność mostu i rdzenia przedłużonego.</li>
+        <li><b>Postawa na ból:</b> dekortykacyjna (zgięcie kończyn górnych, wyprost dolnych — uszkodzenie powyżej jądra czerwiennego) vs odmóżdżeniowa (wyprost i pronacja kończyn górnych, wyprost dolnych — uszkodzenie śródmózgowia/mostu, gorsze rokowanie).</li>
+        <li><b>Wzorce oddechowe:</b> Cheyne-Stokesa (półkule/międzymózgowie), hiperwentylacja neurogenna (śródmózgowie), oddech apneustyczny (most), ataktyczny Biota (rdzeń przedłużony).</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>🧪 Zatrucia i śpiączki metaboliczne (odwracalne przyczyny)</h3>
+      <div class="tw" style="margin-top:.5rem">
+        <table>
+          <thead><tr><th>Czynnik</th><th>Kluczowy obraz kliniczny</th><th>Postępowanie celowane</th></tr></thead>
+          <tbody>
+            <tr><td><b>Hipoglikemia</b></td><td>Poty, tachykardia, drgawki, deficyt ogniskowy imitujący udar</td><td>Glukoza i.v. (u alkoholików/wyniszczonych <b>tiamina 100–500 mg i.v. najpierw!</b>)</td></tr>
+            <tr><td><b>Opioidy</b></td><td>Szpilkowate źrenice, bradykardia, depresja oddechowa (&lt; 12/min)</td><td><b>Nalokson</b> i.v. miareczkowany do powrotu napędu oddechowego</td></tr>
+            <tr><td><b>Alkohol etylowy</b></td><td>Woń alkoholu, ataksja, hipotermia — wysokie ryzyko ukrytego urazu!</td><td>Zawsze wyklucz <b>krwiak podtwardówkowy (SDH)</b> i hipoglikemię</td></tr>
+            <tr><td><b>Benzodiazepiny</b></td><td>Senność/śpiączka, hipotonia, źrenice zwykle prawidłowe</td><td>Wsparcie oddechu; <b>flumazenil</b> ostrożnie (przeciwwskazany przy TLPD i uzależnieniu — ryzyko stanu padaczkowego)</td></tr>
+            <tr><td><b>Tlenek węgla (CO)</b></td><td>Ból głowy, splątanie, śpiączka, fałszywie prawidłowy pulsoksymetr</td><td>100% tlen normobaryczny, w ciężkich przypadkach komora hiperbaryczna</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout red" style="margin-top:1.2rem">
+    <b class="k">🚨 Zasada różnicowania śpiączki metabolicznej i strukturalnej</b>
+    W śpiączce metaboliczno-toksycznej <b>odruchy źreniczne na światło są niemal zawsze zachowane</b> (wyjątek: ciężka hipotermia, zatrucie atropiną/barbituranami, anoksja), a objawy są symetryczne i nie układają się w jeden zespół ogniskowy. Asymetria odruchów lub jednostronna anizokoria nakazuje natychmiast podejrzewać zmianę strukturalną (udar, krwotok, krwiak, wgłobienie)!
+  </div>
+</div></section>
+
+<!-- ============ B: ŚWIADOMOŚĆ ============ -->
+<section id="swiadomosc"><div class="wrap">
+  <div class="eyebrow">Część B · Zaburzenia przytomności i świadomości (TK02, U05)</div>
+  <h2>Klasyfikacja zaburzeń świadomości, skale GCS i FOUR</h2>
+  <p class="lead">Prawidłowa świadomość wymaga sprawnej współpracy dwóch układów: <b>wstępującego układu siatkowatego aktywującego (ARAS)</b> w pniu mózgu (odpowiada za czuwanie/przytomność) oraz <b>kory obu półkul mózgowych</b> (treść świadomości). Jednostronne uszkodzenie półkuli nie powoduje śpiączki, o ile nie uciska pnia lub przeciwnej półkuli.</p>
+
+  <div class="grid3">
+    <div class="tcard b">
+      <h3>📉 Zaburzenia ilościowe</h3>
+      <ul>
+        <li><b>Senność patologiczna (somnolencja):</b> pacjent łatwo wybudza się na bodźce słowne, odpowiada sensownie, po ustaniu bodźca zasypia.</li>
+        <li><b>Półśpiączka (sopor):</b> wybudzenie wyłącznie na silny bodziec (głośny krzyk, ból); reakcje obronne celowe lub wokalizacja, brak pełnego kontaktu.</li>
+        <li><b>Śpiączka (coma):</b> głęboki brak reaktywności; chory nie otwiera oczu i nie reaguje celowo nawet na silne bodźce bólowe.</li>
+      </ul>
+    </div>
+    <div class="tcard a">
+      <h3>🌀 Zaburzenia jakościowe</h3>
+      <ul>
+        <li><b>Przymglenie (obnubilatio):</b> zwężenie pola uwagi, spowolnienie toku myślenia, częściowa dezorientacja w czasie i miejscu.</li>
+        <li><b>Splątanie (amentia):</b> głęboka dezorientacja allopsychiczna i autopsychiczna, rozkojarzenie myślenia, bezradność.</li>
+        <li><b>Majaczenie (delirium):</b> ostre, falujące zaburzenie uwagi i świadomości z omamami (często wzrokowymi), lękiem i pobudzeniem (np. majaczenie alkoholowe, infekcje, leki).</li>
+        <li><b>Zespół pomroczny:</b> nagły początek i koniec, automatyzmy ruchowe, całkowita niepamięć (np. w padaczce skroniowej).</li>
+      </ul>
+    </div>
+    <div class="tcard v">
+      <h3>🔒 Zespoły rzekomośpiączkowe</h3>
+      <ul>
+        <li><b>Zespół zamknięcia (locked-in):</b> uszkodzenie brzusznej części mostu (np. zawał z tętnicy podstawnej); porażenie czterokończynowe i anartria przy <b>w pełni zachowanej świadomości</b> — chory komunikuje się <b>pionowymi ruchami gałek ocznych i mruganiem</b>.</li>
+        <li><b>Stan wegetatywny (UWS):</b> zachowane cykle sen–czuwanie (otwiera oczy), brak świadomości siebie i otoczenia.</li>
+        <li><b>Stan minimalnej świadomości (MCS):</b> powtarzalne, choć niestałe objawy świadomego kontaktu (wodzenie wzrokiem, proste polecenia).</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="grid2" style="margin-top:1.4rem">
+    <div class="card">
+      <h3>Skala śpiączki Glasgow (GCS · 3–15 pkt)</h3>
+      <div class="tw" style="margin-top:.5rem">
+        <table>
+          <thead><tr><th>Kategoria</th><th>Odpowiedzi i punktacja</th></tr></thead>
+          <tbody>
+            <tr><td><b>Otwieranie oczu (E)</b><br><span class="small">1–4 pkt</span></td><td>4 spontaniczne · 3 na polecenie słowne · 2 na ból · 1 brak</td></tr>
+            <tr><td><b>Odpowiedź słowna (V)</b><br><span class="small">1–5 pkt</span></td><td>5 zorientowana · 4 splątana · 3 nieadekwatne słowa · 2 niezrozumiałe dźwięki · 1 brak (zaintubowany = VT)</td></tr>
+            <tr><td><b>Odpowiedź ruchowa (M)</b><br><span class="small">1–6 pkt</span></td><td>6 spełnia polecenia · 5 lokalizuje ból · 4 ucieczka (cofnięcie) · 3 nieprawidłowe zginanie (dekortykacja) · 2 wyprost (odmóżdżenie) · 1 brak</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="small" style="margin-top:.6rem"><b>Interpretacja:</b> 13–15 pkt uraz/stan łagodny · 9–12 pkt umiarkowany · <b>≤ 8 pkt ciężki (śpiączka, wskazanie do intubacji)</b>. W zapisie podawaj składowe: np. E2 V2 M4 = 8 pkt.</p>
+    </div>
+
+    <div class="card">
+      <h3>Skala FOUR (0–16 pkt) — przewagi nad GCS</h3>
+      <div class="tw" style="margin-top:.5rem">
+        <table>
+          <thead><tr><th>Domena</th><th>Zakres 0–4 pkt</th></tr></thead>
+          <tbody>
+            <tr><td><b>E · Oczy</b></td><td>4 śledzi wzrokiem / mruga na polecenie · 3 otwarte, nie śledzi · 2 otwarte na głośny głos · 1 otwarte na ból · 0 zamknięte na ból</td></tr>
+            <tr><td><b>M · Ruch</b></td><td>4 unosi kciuk/pięść/gest pokoju · 3 lokalizuje ból · 2 odpowiedź zgięciowa · 1 wyprostna · 0 brak / stan miokloniczny</td></tr>
+            <tr><td><b>B · Odruchy pniowe</b></td><td>4 źreniczny i rogówkowy obecne · 3 jedna źrenica szeroka sztywna · 2 brak jednego z odruchów · 1 brak obu · 0 brak także kaszlowego</td></tr>
+            <tr><td><b>R · Oddychanie</b></td><td>4 nieintubowany, rytm miarowy · 3 Cheyne-Stokes · 2 nieregularny · 1 intubowany, oddycha powyżej respiratora · 0 bezdech / tylko respirator</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="small" style="margin-top:.6rem"><b>Dlaczego FOUR?</b> Nie wymaga odpowiedzi słownej (wiarygodna u zaintubowanych i w afazji), ocenia odruchy pniowe oraz wykrywa <b>zespół zamknięcia</b> (E4).</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:1.2rem">
+    <h3>Orientacyjny udział przyczyn ostrej śpiączki w praktyce SOR</h3>
+    <p class="small" style="margin-bottom:.6rem">Większość nietraumatycznych śpiączek ma charakter metaboliczny lub toksyczny, dlatego podstawą jest szybka ocena glikemii, gazometrii, jonogramu i toksykologii przy jednoczesnym wykluczeniu ogniska w TK.</p>
+    <div class="bars" id="barsCauses"></div>
+  </div>
+</div></section>
+
+<!-- ============ C: WZMOŻONE ICP ============ -->
+<section id="icp"><div class="wrap">
+  <div class="eyebrow">Część C · Ciasnota wewnątrzczaszkowa (TK01, U05)</div>
+  <h2>Doktryna Monro-Kelliego, objawy ICP i wgłobienia</h2>
+  <p class="lead">Sztywna puszka czaszkowa mieści tkankę mózgową (~80%), krew (~10%) i płyn mózgowo-rdzeniowy (~10%). Po wyczerpaniu rezerwy kompensacyjnej (wypchnięcie PMR i krwi żylnej) nawet niewielki przyrost objętości powoduje stromy wzrost ICP (&gt; 20–22 mmHg) i przemieszczenie mózgu (wgłobienie).</p>
+
+  <figure class="fig wide">
+    <svg viewBox="0 0 900 380" id="icpSvg" role="img" aria-label="Schemat czterech zespołów wgłobienia oraz krzywa ciśnieniowo-objętościowa Monro-Kelliego">
+      <defs>
+        <marker id="arIcp" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">
+          <path d="M0 0 L9 4.5 L0 9Z" fill="#A82D1E"/>
+        </marker>
+      </defs>
+      <!-- Lewy panel: przekrój czołowy czaszki i przedziałów -->
+      <rect x="16" y="16" width="470" height="348" rx="14" fill="#FFFFFF" stroke="#DCE2E0" stroke-width="1.8"/>
+      <text x="34" y="42" font-size="14" font-weight="800" fill="#13232C">1–4 · Zespoły wgłobienia wewnątrzczaszkowego</text>
+      <!-- Czaszka schemat -->
+      <path d="M75 235 C68 125 140 64 245 64 C350 64 422 125 415 235 L335 280 L282 280 L282 338 L208 338 L208 280 L155 280 Z" fill="#EEF2F0" stroke="#44545D" stroke-width="2.2"/>
+      <!-- Sierp mózgu -->
+      <line x1="245" y1="68" x2="245" y2="188" stroke="#44545D" stroke-width="3"/>
+      <!-- Namiot móżdżku -->
+      <path d="M88 232 L212 212 M402 232 L278 212" stroke="#44545D" stroke-width="3"/>
+      <!-- Masa guza/krwiaka w lewej półkuli (na obrazku po lewej) -->
+      <ellipse cx="145" cy="136" rx="44" ry="32" fill="#FBE6E2" stroke="#A82D1E" stroke-width="2.2"/>
+      <text x="145" y="140" text-anchor="middle" font-size="12" font-weight="800" fill="#A82D1E">Masa / obrzęk</text>
+      <!-- Pień i otwór wielki -->
+      <rect x="218" y="212" width="54" height="92" rx="8" fill="#E1EFF5" stroke="#245B7A" stroke-width="2"/>
+      <line x1="176" y1="312" x2="314" y2="312" stroke="#A82D1E" stroke-width="2" stroke-dasharray="5 3"/>
+      <!-- Strzałki 4 wgłobień -->
+      <!-- 1. Pod sierp -->
+      <path d="M192 152 Q232 162 270 174" stroke="#A82D1E" stroke-width="2.6" fill="none" marker-end="url(#arIcp)"/>
+      <circle cx="282" cy="144" r="12" fill="#2B63AE"/><text x="282" y="149" text-anchor="middle" fill="#fff" font-size="12" font-weight="800">1</text>
+      <text x="298" y="148" font-size="11.5" font-weight="700" fill="#2B63AE">Pod sierp (ACA)</text>
+      <!-- 2. Haka hipokampa -->
+      <path d="M174 176 Q204 202 216 226" stroke="#A82D1E" stroke-width="2.6" fill="none" marker-end="url(#arIcp)"/>
+      <circle cx="132" cy="204" r="12" fill="#A82D1E"/><text x="132" y="209" text-anchor="middle" fill="#fff" font-size="12" font-weight="800">2</text>
+      <text x="64" y="208" font-size="11.5" font-weight="700" fill="#A82D1E">Haka (n. III)</text>
+      <!-- 3. Centralne -->
+      <path d="M245 188 L245 256" stroke="#8F5808" stroke-width="2.6" fill="none" marker-end="url(#arIcp)"/>
+      <circle cx="322" cy="240" r="12" fill="#8F5808"/><text x="322" y="245" text-anchor="middle" fill="#fff" font-size="12" font-weight="800">3</text>
+      <text x="338" y="244" font-size="11.5" font-weight="700" fill="#8F5808">Centralne (osiowe)</text>
+      <!-- 4. Migdałków móżdżku -->
+      <path d="M226 276 L236 330" stroke="#A82D1E" stroke-width="2.6" fill="none" marker-end="url(#arIcp)"/>
+      <circle cx="326" cy="316" r="12" fill="#245B7A"/><text x="326" y="321" text-anchor="middle" fill="#fff" font-size="12" font-weight="800">4</text>
+      <text x="342" y="320" font-size="11.5" font-weight="700" fill="#245B7A">Migdałków (opuszka!)</text>
+
+      <!-- Prawy panel: Krzywa Monro-Kelliego -->
+      <rect x="506" y="16" width="378" height="348" rx="14" fill="#FFFFFF" stroke="#DCE2E0" stroke-width="1.8"/>
+      <text x="524" y="42" font-size="14" font-weight="800" fill="#13232C">Krzywa ciśnieniowo-objętościowa</text>
+      <text x="524" y="61" font-size="12" fill="#596870">Norma ICP: 5–15 mmHg · Alarm: &gt; 20–22 mmHg</text>
+      <!-- Osie wykresu -->
+      <line x1="556" y1="286" x2="854" y2="286" stroke="#44545D" stroke-width="2"/>
+      <line x1="556" y1="286" x2="556" y2="96" stroke="#44545D" stroke-width="2"/>
+      <text x="705" y="310" text-anchor="middle" font-size="12" fill="#44545D">Przyrost objętości wewnątrzczaszkowej →</text>
+      <text x="536" y="192" text-anchor="middle" font-size="12" fill="#44545D" transform="rotate(-90 536 192)">ICP (mmHg) →</text>
+      <!-- Linia progu 20-22 mmHg -->
+      <line x1="556" y1="186" x2="850" y2="186" stroke="#A82D1E" stroke-width="1.5" stroke-dasharray="5 4"/>
+      <text x="564" y="178" font-size="11" font-weight="700" fill="#A82D1E">Próg dekompensacji (~20–22 mmHg)</text>
+      <!-- Strefa kompensacji -->
+      <rect x="560" y="236" width="142" height="46" rx="8" fill="#E1F3E7"/>
+      <text x="631" y="255" text-anchor="middle" font-size="11.5" font-weight="700" fill="#216B3E">Kompensacja</text>
+      <text x="631" y="271" text-anchor="middle" font-size="10.5" fill="#216B3E">wypchnięcie PMR i krwi żylnej</text>
+      <!-- Krzywa wykładnicza -->
+      <path d="M562 270 Q670 266 720 226 T830 104" stroke="#0C7A85" stroke-width="4" fill="none"/>
+      <circle cx="728" cy="216" r="5" fill="#A82D1E"/>
+      <text x="742" y="128" font-size="11.5" font-weight="800" fill="#A82D1E">Gwałtowny</text>
+      <text x="742" y="143" font-size="11.5" font-weight="800" fill="#A82D1E">skok ICP</text>
+      <text x="524" y="346" font-size="11.5" fill="#596870">CPP = MAP − ICP · Spadek CPP &lt; 50–60 mmHg wywołuje wtórne niedokrwienie mózgu.</text>
+    </svg>
+    <figcaption>Wgłobienie haka hipokampa przez wcięcie namiotu daje klasyczną anizokorię (ucisk tożstronnego n. III), a wgłobienie migdałków do otworu wielkiego grozi nagłym bezdechem.</figcaption>
+  </figure>
+
+  <div class="tw" style="margin-top:1.4rem">
+    <table>
+      <thead><tr><th>Typ wgłobienia</th><th>Przemieszczana struktura</th><th>Uciśnięta struktura</th><th>Kluczowe objawy egzaminacyjne</th></tr></thead>
+      <tbody>
+        <tr><td><b>1. Pod sierp mózgu</b><br><span class="small">(obręczowe)</span></td><td>Zakręt obręczy pod sierp mózgu</td><td>Tętnica przednia mózgu (ACA)</td><td>Niedowład kończyny dolnej po stronie przeciwnej, abulia; często bez bezpośredniego ucisku n. III</td></tr>
+        <tr><td><b>2. Haka hipokampa</b><br><span class="small">(podnamiotowe boczne)</span></td><td>Przyśrodkowa część płata skroniowego przez wcięcie namiotu</td><td>Tożstronny n. III, szypuła mózgu, tętnica tylna mózgu (PCA)</td><td><b>Tożstronna szeroka, sztywna źrenica (anizokoria)</b> + przeciwstronny niedowład (lub tożstronny w <b>zjawisku Kernohana</b>)</td></tr>
+        <tr><td><b>3. Centralne (osiowe)</b></td><td>Międzymózgowie i pień mózgu w dół</td><td>ARAS, śródmózgowie, most</td><td>Postępujące pogorszenie świadomości, małe → średnie nieruchome źrenice, oddech Cheyne-Stokesa, postawa dekortykacyjna → odmóżdżeniowa</td></tr>
+        <tr><td><b>4. Migdałków móżdżku</b></td><td>Migdałki móżdżku przez otwór wielki</td><td>Rdzeń przedłużony (opuszka)</td><td>Sztywność karku, zaburzenia rytmu serca i <b>gwałtowne zatrzymanie oddechu</b>; bezwzględny zakaz punkcji lędźwiowej!</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="grid2" style="margin-top:1.4rem">
+    <div class="tcard r">
+      <h3>⚠️ Objawy wzmożonego ICP i triada Cushinga</h3>
+      <ul>
+        <li><b>Objawy ogólne:</b> bóle głowy (nasilające się rano, przy kaszlu, pochylaniu i próbie Valsalvy), nudności i wymioty „chlustające” bez poprzedzających nudności, senność → śpiączka.</li>
+        <li><b>Dno oka:</b> obustronny obrzęk tarczy nerwu wzrokowego (tarcza zastoinowa) — brak obrzęku w ostrej fazie (np. w pierwszych godzinach po urazie) NIE wyklucza wzrostu ICP!</li>
+        <li><b>Objaw fałszywie lokalizujący:</b> jednostronne lub obustronne porażenie <b>nerwu odwodzącego (n. VI)</b> (zez zbieżny, podwójne widzenie) przez długi przebieg nerwu przy podstawie czaszki.</li>
+        <li><b>Triada Cushinga (stan agonalny / wgłobienie!):</b> wzrost ciśnienia tętniczego (zwłaszcza skurczowego z szerokim ciśnieniem tętna) + <b>bradykardia</b> + nieregularny oddech.</li>
+      </ul>
+    </div>
+    <div class="tcard g">
+      <h3>💉 Postępowanie obniżające ICP</h3>
+      <ul>
+        <li><b>Pozycja i odpływ żylny:</b> uniesienie wezgłowia <b>30°</b>, głowa w linii pośrodkowej (nie skręcaj szyi, unikaj ciasnego kołnierza/mocowania rurki).</li>
+        <li><b>Wentylacja:</b> przy GCS ≤ 8 intubacja; docelowo <b>normokapnia (PaCO₂ 35–40 mmHg)</b>. Krótkotrwała hiperwentylacja (30–35 mmHg) tylko jako pomost przy czynnym wgłobieniu!</li>
+        <li><b>Terapia hiperosmolarna:</b> <b>mannitol 20%</b> (0,25–1 g/kg i.v. w szybkim wlewie; kontroluj osmolalność i objętość) lub <b>hipertoniczny NaCl (3% / 7,5%)</b> (preferowany przy hipotonii).</li>
+        <li><b>Unikaj wtórnych uszkodzeń:</b> brak płynów hipotonicznych (glukoza 5%), zwalczaj gorączkę, drgawki i ból (sedacja).</li>
+        <li><b>Rola steroidów:</b> deksametazon <b>TAK</b> wyłącznie przy obrzęku naczyniopochodnym (guz, ropień); <b>NIE</b> w urazie głowy (TBI) ani w udarze!</li>
+      </ul>
+    </div>
+  </div>
+</div></section>
+
+<!-- ============ D: NEUROINFEKCJE ============ -->
+<section id="zomr"><div class="wrap">
+  <div class="eyebrow">Część D · Neuroinfekcje i analiza PMR (U06, W03i)</div>
+  <h2>Zapalenie opon mózgowo-rdzeniowych i zapalenie mózgu HSV</h2>
+  <p class="lead">Bakteryjne ZOMR oraz opryszczkowe zapalenie mózgu (HSV-1) to bezpośrednie stany zagrożenia życia. Najczęstszym błędem na dyżurze jest opóźnienie podania antybiotyku i deksametazonu z powodu oczekiwania na tomografię głowy przed punkcją lędźwiową.</p>
+
+  <div class="flow" aria-label="Algorytm postępowania w podejrzeniu ostrego ZOMR">
+    <div class="fn start"><b>Podejrzenie ostrego ZOMR (gorączka + ból głowy + sztywność karku / zaburzenia świadomości)</b>Pobierz krew na posiewy (2 zestawy) i oceń kryteria bezpieczeństwa przed punkcją lędźwiową</div>
+    <div class="ar">↓</div>
+    <div class="fn amber"><b>Czy występują wskazania do TK głowy PRZED punkcją lędźwiową?</b>Ogniskowy deficyt · Tarcza zastoinowa · Drgawki de novo · GCS &lt; 10–12 · Ciężka immunosupresja / wywiad choroby OUN</div>
+    <div class="ar">↓</div>
+    <div class="branch">
+      <div>
+        <div class="fn red"><b>TAK · Konieczne TK przed LP</b>NATYCHMIAST: deksametazon i.v. + antybiotyk empiryczny i.v. (± acyklowir jeśli cechy zapalenia mózgu)</div>
+        <div class="ar">↓</div>
+        <div class="fn"><b>TK głowy bez kontrastu → LP</b>Jeśli brak efektu masy/wgłobienia, wykonaj LP (posiew, PCR, biochemia)</div>
+      </div>
+      <div>
+        <div class="fn green"><b>NIE · Brak wskazań do TK przed LP</b>Wykonaj nakłucie lędźwiowe niezwłocznie + podaj deksametazon i antybiotyk empiryczny zaraz po LP</div>
+        <div class="ar">↓</div>
+        <div class="fn blue"><b>Weryfikacja wyniku PMR i modyfikacja leczenia</b>Ropne vs wirusowe vs gruźlicze · PCR w kierunku HSV-1/VZV i enterowirusów</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tw" style="margin-top:1.4rem">
+    <table>
+      <thead><tr><th>Profil PMR</th><th>Wygląd i ciśnienie</th><th>Cytoza i przewaga</th><th>Białko</th><th>Glukoza (PMR/surowica)</th><th>Kluczowe rozpoznania</th></tr></thead>
+      <tbody>
+        <tr><td><b>Prawidłowy</b></td><td>Wodojasny, 80–180 mm H₂O</td><td>0–5/µl (limfocyty)</td><td>15–45 mg/dl</td><td>&gt; 50–60% (&gt; 45 mg/dl)</td><td>Wyklucza aktywne ropne ZOMR</td></tr>
+        <tr><td><b>Bakteryjne (ropne)</b></td><td>Mętny / ropny, wysokie</td><td><b>&gt; 1000/µl</b> (&gt; 80% neutrofile)</td><td><b>Wysokie</b> (&gt; 100–200 mg/dl)</td><td><b>Niska (&lt; 40%)</b> · ↑ mleczany</td><td><i>S. pneumoniae</i>, <i>N. meningitidis</i>, <i>Listeria</i></td></tr>
+        <tr><td><b>Wirusowe / HSV-1</b></td><td>Wodojasny / lekko opalizujący</td><td>20–500/µl (limfocyty)</td><td>Prawidłowe lub lekko ↑ (&lt; 100)</td><td><b>Prawidłowa (&gt; 50%)</b></td><td>Enterowirusy, kleszczowe; przy ognisku/drgawkach = <b>HSV-1!</b></td></tr>
+        <tr><td><b>Gruźlicze / grzybicze</b></td><td>Żółtawy, „siateczka włóknika”</td><td>50–500/µl (limfocyty)</td><td><b>Bardzo wysokie</b> (150–500+)</td><td><b>Niska (&lt; 40%)</b></td><td>Podstępny początek, porażenia nerwów podstawy (III, VI)</td></tr>
+        <tr><td><b>Krwawienie SAH</b></td><td>Krwisty (nie blednie w próbach), potem ksantochromia</td><td>Erytrocyty, wtórna pleocytoza</td><td>Lekko podwyższone</td><td>Prawidłowa</td><td>Wyklucz w TK/angio-TK tętniak przy piorunującym bólu głowy</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="grid2" style="margin-top:1.4rem">
+    <div class="card">
+      <h3>Najczęstsze etiologie bakteryjnego ZOMR dorosłych</h3>
+      <p class="small" style="margin-bottom:.6rem">Empirycznie u dorosłych 18–50 r.ż.: <b>ceftriakson (lub cefotaksym) + wankomycyna</b>; powyżej 50 r.ż., w ciąży lub immunosupresji zawsze dodaj <b>ampicylinę</b> (na <i>Listeria monocytogenes</i>). Przed lub z pierwszą dawką antybiotyku podaj <b>deksametazon 10 mg i.v.</b> (zmniejsza śmiertelność i powikłania w pneumokokowym ZOMR).</p>
+      <div class="bars" id="barsZomr"></div>
+    </div>
+    <div class="tcard b">
+      <h3>🦠 Opryszczkowe zapalenie mózgu (HSV-1)</h3>
+      <ul>
+        <li><b>Obraz kliniczny:</b> gorączka + zaburzenia świadomości, zmiany zachowania/osobowości, afazja, napady padaczkowe (często ogniskowe ze skroni).</li>
+        <li><b>Różnicowanie z wirusowym ZOMR:</b> czyste wirusowe ZOMR daje zespół oponowy bez zaburzeń świadomości i ogniska; zapalenie mózgu (<i>encephalitis</i>) daje objawy uszkodzenia miąższu!</li>
+        <li><b>Diagnostyka:</b> w PMR limfocyty ± erytrocyty (zmiany krwotoczno-martwicze) i prawidłowa glukoza; <b>PCR w kierunku HSV</b> (złoty standard); w <b>MRI (FLAIR/DWI)</b> hiperintensywność płatów skroniowych i wyspy; w EEG okresowe wyładowania skroniowe (PLEDs).</li>
+        <li><b>Leczenie:</b> <b>acyklowir 10 mg/kg i.v. co 8 h NATYCHMIAST</b> przy samym podejrzeniu klinicznym — nie czekaj na wynik PCR!</li>
+      </ul>
+    </div>
+  </div>
+</div></section>
+
+<!-- ============ E: URAZY OUN ============ -->
+<section id="urazy"><div class="wrap">
+  <div class="eyebrow">Część E · Urazy czaszkowo-mózgowe (U07)</div>
+  <h2>Wstrząśnienie mózgu, krwiaki EDH vs SDH i podstawa czaszki</h2>
+  <p class="lead">Kluczowym testem klinicznym i egzaminacyjnym po urazie głowy jest odróżnienie tętniczego krwiaka nadtwardówkowego (EDH) od żylnego krwiaka podtwardówkowego (SDH) oraz wczesne rozpoznanie złamania podstawy czaszki.</p>
+
+  <div class="grid2" style="align-items:start">
+    <figure class="fig wide" style="margin:0">
+      <svg viewBox="0 0 640 340" id="hematomaSvg" role="img" aria-label="Porównanie TK głowy: krwiak nadtwardówkowy (dwuwypukły, ograniczony szwami) vs podtwardówkowy (sierpowaty, przekracza szwy)">
+        <!-- Lewa głowa: EDH -->
+        <text x="165" y="28" text-anchor="middle" font-size="14" font-weight="800" fill="#8F5808">EDH · Nadtwardówkowy</text>
+        <text x="165" y="46" text-anchor="middle" font-size="12" fill="#596870">Tętnica oponowa środkowa</text>
+        <ellipse cx="165" cy="182" rx="108" ry="128" fill="#EEF2F0" stroke="#44545D" stroke-width="5"/>
+        <!-- Tkanka mózgowa w środku -->
+        <ellipse cx="170" cy="182" rx="94" ry="114" fill="#E1ECF9" stroke="#2B63AE" stroke-width="1.5"/>
+        <!-- Szwy czaszki (znaczniki na kości) -->
+        <line x1="76" y1="112" x2="94" y2="124" stroke="#13232C" stroke-width="3"/>
+        <line x1="74" y1="248" x2="92" y2="236" stroke="#13232C" stroke-width="3"/>
+        <text x="48" y="106" font-size="10.5" font-weight="700" fill="#44545D">Szew</text>
+        <text x="48" y="262" font-size="10.5" font-weight="700" fill="#44545D">Szew</text>
+        <!-- Sierp przesunięty w prawo -->
+        <path d="M165 68 Q186 182 165 296" stroke="#44545D" stroke-width="2" stroke-dasharray="4 3" fill="none"/>
+        <!-- Krwiak EDH soczewka między szwami -->
+        <path d="M81 122 C66 164 66 200 81 242 C112 214 114 150 81 122 Z" fill="#FCEFD6" stroke="#A82D1E" stroke-width="2.5"/>
+        <text x="165" y="328" text-anchor="middle" font-size="12" font-weight="700" fill="#8F5808">Dwuwypukła soczewka · NIE przekracza szwów</text>
+
+        <!-- Prawa głowa: SDH -->
+        <text x="475" y="28" text-anchor="middle" font-size="14" font-weight="800" fill="#A82D1E">SDH · Podtwardówkowy</text>
+        <text x="475" y="46" text-anchor="middle" font-size="12" fill="#596870">Żyły mostkowe (podeszły wiek, NOAC)</text>
+        <ellipse cx="475" cy="182" rx="108" ry="128" fill="#EEF2F0" stroke="#44545D" stroke-width="5"/>
+        <ellipse cx="482" cy="182" rx="94" ry="114" fill="#E1ECF9" stroke="#2B63AE" stroke-width="1.5"/>
+        <!-- Szwy czaszki -->
+        <line x1="386" y1="112" x2="404" y2="124" stroke="#13232C" stroke-width="3"/>
+        <line x1="384" y1="248" x2="402" y2="236" stroke="#13232C" stroke-width="3"/>
+        <text x="358" y="106" font-size="10.5" font-weight="700" fill="#44545D">Szew</text>
+        <text x="358" y="262" font-size="10.5" font-weight="700" fill="#44545D">Szew</text>
+        <!-- Sierp przesunięty w prawo -->
+        <path d="M475 68 Q498 182 475 296" stroke="#44545D" stroke-width="2" stroke-dasharray="4 3" fill="none"/>
+        <!-- Krwiak SDH sierpowaty przekraczający szwy aż do bieguna -->
+        <path d="M472 68 C392 74 374 140 374 182 C374 228 394 290 472 296 C418 272 396 226 396 182 C396 138 418 92 472 68 Z" fill="#FBE6E2" stroke="#A82D1E" stroke-width="2.5"/>
+        <text x="475" y="328" text-anchor="middle" font-size="12" font-weight="700" fill="#A82D1E">Sierpowaty · PRZEKRACZA szwy (do sierpa)</text>
+      </svg>
+      <figcaption>Opona twarda przyrasta ściśle do szwów czaszki (blokada dla EDH), lecz nie do opony pajęczej (SDH rozlewa się wzdłuż całej półkuli, zatrzymując się na sierpie).</figcaption>
+    </figure>
+
+    <div class="tw">
+      <table>
+        <thead><tr><th>Cecha</th><th>Krwiak nadtwardówkowy (EDH)</th><th>Krwiak podtwardówkowy (SDH)</th></tr></thead>
+        <tbody>
+          <tr><td><b>Źródło krwawienia</b></td><td>Zwykle <b>tętnicze</b> (t. oponowa środkowa, złamanie łuski kości skroniowej)</td><td><b>Żylne</b> (rozerwanie żył mostkowych kory)</td></tr>
+          <tr><td><b>Kształt w TK</b></td><td><b>Dwuwypukła soczewka</b> (wypukły od strony mózgu)</td><td><b>Sierpowaty</b> (wklęsły od strony mózgu)</td></tr>
+          <tr><td><b>Granice anatomiczne</b></td><td><b>Nie przekracza szwów</b> czaszki (może przekraczać sierp)</td><td><b>Przekracza szwy</b> czaszki, ograniczony sierpem i namiotem</td></tr>
+          <tr><td><b>Przebieg kliniczny</b></td><td>Młodzi po urazie; klasyczne <b>przejaśnienie świadomości (<em>lucid interval</em>)</b> → gwałtowne pogorszenie</td><td>Seniorzy, zanik mózgu, alkoholicy, <b>antykoagulanty (NOAC/VKA)</b>; ostry lub przewlekły (tygodnie po drobnym urazie)</td></tr>
+          <tr><td><b>Postępowanie</b></td><td>Pilna kraniotomia i ewakuacja krwiaka</td><td>Ewakuacja przy efekcie masy + <b>natychmiastowe odwrócenie NOAC/VKA</b> (4F-PCC + wit. K, idarucizumab)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="grid3" style="margin-top:1.4rem">
+    <div class="tcard g">
+      <h3>💫 Wstrząśnienie mózgu</h3>
+      <ul>
+        <li>Przemijające zaburzenie funkcji bez zmian strukturalnych w TK głowy.</li>
+        <li>Krótkotrwała utrata przytomności lub zmieszanie, niepamięć wsteczna/następcza, ból głowy, nudności.</li>
+        <li>Obserwacja i edukacja w zakresie <em>red flags</em> (powrót senności, wymioty, anizokoria).</li>
+      </ul>
+    </div>
+    <div class="tcard v">
+      <h3>⚡ Stłuczenie mózgu i DAI</h3>
+      <ul>
+        <li>Stłuczenia często w mechanizmie <em>coup–contrecoup</em> (płaty czołowe i bieguny skroniowe).</li>
+        <li><b>Rozlane uszkodzenie aksonalne (DAI):</b> siły ścinające; głęboka śpiączka od chwili urazu nieproporcjonalna do skąpego TK!</li>
+        <li>Rozstrzygające <b>MRI (SWI/T2*)</b>: mikrowylewy na granicy korowo-podkorowej, w ciele modzelowatym i pniu mózgu.</li>
+      </ul>
+    </div>
+    <div class="tcard r">
+      <h3>💀 Złamanie podstawy czaszki</h3>
+      <ul>
+        <li><b>Objawy:</b> krwiak okularowy („oczy szopa”), objaw Battle’a (zasinienie wyrostka sutkowatego), płynotok uszny lub nosowy (objaw podwójnego pierścienia), porażenie nn. I, II, VII, VIII.</li>
+        <li><b>KRYTYCZNY ZAKAZ:</b> nie zakładaj zgłębnika nosowo-żołądkowego i nie odsysaj przez nos (ryzyko wprowadzenia sondy do jamy czaszki!).</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout amber" style="margin-top:1.2rem">
+    <b class="k">📋 Canadian CT Head Rule — kiedy pilne TK po lekkim urazie (GCS 13–15)?</b>
+    GCS &lt; 15 po 2 h od urazu · podejrzenie złamania otwartego, z wgłobieniem lub podstawy czaszki · ≥ 2 epizody wymiotów · wiek ≥ 65 lat · niepamięć wsteczna &gt; 30 min · niebezpieczny mechanizm (potrącenie, wyrzucenie z pojazdu, upadek z &gt; 1 m) · <b>przyjmowanie antykoagulantów (NOAC/VKA)</b>.
+  </div>
+</div></section>
+
+<!-- ============ F: ZADANIA TESTOWE ============ -->
+<section id="zadania"><div class="wrap">
+  <div class="eyebrow">Część F · Trening egzaminacyjny</div>
+  <h2>Zadania testowe z modułów [1] i [3]</h2>
+  <p class="lead">Zestaw 7 pytań testowych typu egzaminu testowego (ET) PUM. Kliknij odpowiedź, aby wyświetlić omówienie, wskazówkę egzaminacyjną oraz porównanie z wytycznymi. Odpowiedzi synchronizują się automatycznie z postępem Hubu (<code>nagle-q1</code>…<code>nagle-q7</code>).</p>
+
+  <div class="card" style="margin-bottom:1.2rem">
+    <h3>Rozkład pytań w zestawie</h3>
+    <p class="small" style="margin-bottom:.6rem">Wszystkie 4 obszary tematyczne modułów [1] Stany nagłe i [3] Zaburzenia świadomości.</p>
+    <div class="bars" id="barsPool"></div>
+  </div>
+
+  <div class="qtools">
+    <div class="filters" id="qFilters" style="margin:0"></div>
+    <span class="sp"></span>
+    <button type="button" class="btn" id="rand10">🎲 Losuj zestaw</button>
+    <button type="button" class="btn o" id="resetQ">Resetuj</button>
+  </div>
+
+  <div id="quiz"></div>
+  <div class="score" id="score" role="status">Wynik: 0 / 0</div>
+</div></section>
+
+<!-- ============ G: KLUCZ VS WYTYCZNE ============ -->
+<section id="klucz"><div class="wrap">
+  <div class="eyebrow">Część G · Rozbieżności egzaminacyjne</div>
+  <h2>Pod zaliczenie kontra aktualnie klinicznie (wytyczne)</h2>
+  <p class="lead">Zestawienie najważniejszych różnic pomiędzy starszymi uproszczeniami podręcznikowymi a współczesnymi wytycznymi postępowania w stanach nagłych neurologii.</p>
+
+  <div class="tw">
+    <table id="gapTable">
+      <thead><tr><th>Zagadnienie</th><th>Pod zaliczenie (starsze ujęcie / skróty)</th><th>Aktualnie klinicznie (wytyczne)</th></tr></thead>
+      <tbody>
+        <tr><td><b>Steroidy (deksametazon) we wzmożonym ICP</b></td><td>Wymieniane ogólnie w schematach jako leki przeciwobrzękowe w OUN</td><td><b>Bezwzględnie przeciwwskazane w urazie mózgu (TBI, badanie CRASH)</b> i nieskuteczne w udarze; wskazane wyłącznie w obrzęku naczyniopochodnym wokół guza/ropnia oraz na początku bakteryjnego ZOMR</td></tr>
+        <tr><td><b>ZOMR a TK głowy przed punkcją lędźwiową</b></td><td>Klasyczny zapis: „rozpoznanie przez punkcję lędźwiową → wdrożenie antybiotyku”</td><td>Wytyczne <b>ESCMID/IDSA</b>: przy wskazaniach do TK (ognisko, GCS &lt; 10–12, drgawki, obrzęk tarczy II, immunosupresja) <b>najpierw posiew krwi + deksametazon + antybiotyk i.v.</b>, dopiero potem TK i LP</td></tr>
+        <tr><td><b>Próg wieku dla ampicyliny w ZOMR</b></td><td>Część starszych źródeł podaje wiek &gt; 60 lat jako wskazanie do ochrony przed <i>Listeria monocytogenes</i></td><td>Wytyczne <b>IDSA/ESCMID</b> zalecają dodanie ampicyliny do ceftriaksonu + wankomycyny już od <b>&gt; 50 r.ż.</b> (oraz w ciąży i immunosupresji)</td></tr>
+        <tr><td><b>Hiperwentylacja w ostrym wzmożonym ICP</b></td><td>Obniżanie PaCO₂ jako rutynowy element redukcji ciśnienia wewnątrzczaszkowego</td><td>Wytyczne <b>BTF</b>: utrzymywać <b>normokapnię (35–40 mmHg)</b>; umiarkowana hiperwentylacja (30–35 mmHg) tylko doraźnie jako pomost przy czynnym wgłobieniu (ryzyko skurczu naczyń i niedokrwienia)</td></tr>
+        <tr><td><b>Ocena świadomości w śpiączce i OIOM</b></td><td>Podział opisowy (somnolencja / sopor / śpiączka) oraz wyłącznie skala GCS</td><td>Obok GCS (3–15) standardem w intensywnej terapii jest skala <b>FOUR (0–16)</b>: działa u chorych zaintubowanych, ocenia odruchy pniowe i rozpoznaje zespół zamknięcia</td></tr>
+        <tr><td><b>Odwracanie antykoagulacji w SDH</b></td><td>Stosowanie osocza świeżo mrożonego (FFP) i witaminy K przy krwawieniu na warfarynie</td><td>Przy VKA lekiem z wyboru jest <b>4-czynnikowy PCC + wit. K i.v.</b> (szybki efekt); przy dabigatranie <b>idarucizumab</b>, a przy inhibitorach Xa (apiksaban, rywaroksaban) <b>andeksanet alfa lub 4F-PCC</b></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div></section>
+
+<!-- ============ H: PUŁAPKI ============ -->
+<section id="pulapki"><div class="wrap">
+  <div class="eyebrow">Część H · Najczęstsze błędy testowe</div>
+  <h2>Pułapki egzaminacyjne i kliniczne (PUM)</h2>
+  <p class="lead">Pięć klasycznych pułapek z modułów [1] i [3], które regularnie decydują o punktach na egzaminie testowym i podczas dyżuru.</p>
+
+  <div class="stack">
+    <div class="callout red">
+      <b class="k">🚨 1. Glukoza bez tiaminy u alkoholika oraz ukryty krwiak podtwardówkowy</b>
+      Podanie dożylnej glukozy pacjentowi niedożywionemu lub z chorobą alkoholową bez wcześniejszej/równoczesnej podaży <b>tiaminy (wit. B1)</b> może wyzwolić ostrą <b>encefalopatię Wernickego</b> (oftalmoplegia, ataksja, splątanie). Jednocześnie nie zrzucaj śpiączki wyłącznie na woń alkoholu — alkoholicy mają częste upadki i zaburzenia krzepnięcia, co czyni ich grupą najwyższego ryzyka ostrego i przewlekłego <b>SDH</b>.
+    </div>
+    <div class="callout amber">
+      <b class="k">⚠️ 2. Zjawisko Kernohana i fałszywa lokalizacja porażenia n. VI</b>
+      We wgłobieniu haka hipokampa poszerzenie źrenicy (ucisk n. III) wskazuje stronę zmiany, ale w 10–15% przypadków przeciwległy konar mózgu dociska się do krawędzi namiotu móżdżku — dając <b>niedowład po tej samej stronie co krwiak</b> (zjawisko wcięcia Kernohana)! Z kolei porażenie <b>n. VI</b> we wzmożonym ICP ma wartość fałszywie lokalizującą.
+    </div>
+    <div class="callout blue">
+      <b class="k">👁️ 3. Zakaz próby „oczu lalki” po urazie oraz sondy przez nos w złamaniu podstawy</b>
+      U pacjenta po urazie głowy nigdy nie wykonuj odruchu oczno-głowowego przed wykluczeniem uszkodzenia kręgosłupa szyjnego (zamiast tego użyj bezpiecznej próby kalorycznej po kontroli błony bębenkowej). Przy podejrzeniu złamania podstawy czaszki („oczy szopa”, objaw Battle’a, płynotok) obowiązuje bezwzględny zakaz zakładania zgłębnika przez nos.
+    </div>
+    <div class="callout">
+      <b class="k">🔒 4. Zespół zamknięcia (locked-in) pomylony ze śpiączką</b>
+      Zawał brzusznej części mostu (niedrożność t. podstawnej) poraża wszystkie 4 kończyny i mowę, pozostawiając <b>pełną świadomość</b> oraz <b>pionowe ruchy oczu i mruganie</b>. W skali GCS chory bez weryfikacji tych ruchów może otrzymać fałszywie niski wynik — zawsze testuj mruganie i patrzenie w górę/dół (skala FOUR).
+    </div>
+    <div class="callout green">
+      <b class="k">💉 5. Flumazenil w zatruciu mieszanym oraz brak acyklowiru przy cechach zapalenia mózgu</b>
+      Podanie flumazenilu przy nieznanym zatruciu (np. jednoczesne przyjęcie TLPD lub przewlekłe używanie BZD) może wywołać oporny stan padaczkowy. Z kolei w ZOMR z limfocytarnym PMR, prawidłową glukozą i objawami uszkodzenia miąższu (drgawki, afazja, zaburzenia zachowania) zawsze włącz <b>acyklowir i.v.</b> bez czekania na wynik PCR.
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:1.2rem">
+    <h3>Checklista 5 sekund przed zaznaczeniem odpowiedzi na ET</h3>
+    <ul class="chk" style="margin-top:.6rem">
+      <li><span>Czy chory ma najpierw zabezpieczone ABCDE i oznaczoną <b>glikemię</b> (z tiaminą przed glukozą u alkoholika)?</span></li>
+      <li><span>Czy przy podejrzeniu ropnego ZOMR i wskazaniach do TK podałeś <b>deksametazon + antybiotyk PRZED wyjazdem na TK</b>?</span></li>
+      <li><span>Czy odróżniasz w TK <b>EDH</b> (dwuwypukły, nie przekracza szwów, przejaśnienie świadomości) od <b>SDH</b> (sierpowaty, przekracza szwy)?</span></li>
+      <li><span>Czy pamiętasz, że deksametazon pomaga w obrzęku wokół guza/ropnia, ale jest <b>szkodliwy w urazie mózgu (TBI)</b>?</span></li>
+    </ul>
+  </div>
+</div></section>
+
+<!-- ============ I: ŹRÓDŁA ============ -->
+<section id="zrodla"><div class="wrap">
+  <div class="eyebrow">Część I · Literatura i wytyczne</div>
+  <h2>Źródła zgodne z sylabusem PUM 2026/2027</h2>
+  <p class="lead">Materiał przygotowany w oparciu o literaturę obowiązkową i uzupełniającą Kliniki Neurologii PUM (Wykłady TK01, TK02, Ćwiczenia TK02, TK03, U03, U05, U06, U07, W03i) oraz aktualne wytyczne towarzystw neurologicznych.</p>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>📚 Literatura sylabusa PUM 2026/2027</h3>
+      <ul class="tight small" style="margin-top:.5rem">
+        <li><b>Literatura podstawowa:</b> <i>Kompendium Neurologii</i>, red. Ryszard Podemski, Via Medica, Wyd. IV, Gdańsk 2019 (stany nagłe, zaburzenia przytomności i świadomości, urazy czaszkowo-mózgowe, neuroinfekcje).</li>
+        <li><b>Literatura uzupełniająca 1:</b> G. Fuller, <i>Badanie neurologiczne – to proste</i>, PZWL, Wyd. V, Warszawa 2022 (ocena pacjenta nieprzytomnego, skala GCS, odruchy pniowe).</li>
+        <li><b>Literatura uzupełniająca 2:</b> A. Stępień (red.), <i>Neurologia</i>, Tom I–III, Medical Tribune Polska, Wyd. II, Warszawa 2022.</li>
+        <li><b>Literatura uzupełniająca 3:</b> W. Kozubski, P. P. Liberski (red.), <i>Neurologia. Podręcznik dla studentów medycyny</i>, PZWL, Wyd. II, Warszawa 2021.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>🧭 Wytyczne kliniczne i piśmiennictwo referencyjne</h3>
+      <ul class="tight small" style="margin-top:.5rem">
+        <li><b>ESCMID / IDSA:</b> Wytyczne diagnostyki i leczenia ostrego bakteryjnego ZOMR oraz zapalenia mózgu (wskazania do TK przed LP, antybiotyk + deksametazon przed TK, acyklowir w HSV-1).</li>
+        <li><b>Brain Trauma Foundation (BTF):</b> Wytyczne postępowania w ciężkim urazie czaszkowo-mózgowym (progi ICP &gt; 22 mmHg, CPP 60–70 mmHg, mannitol/HTS, normokapnia) oraz badanie <b>CRASH</b> (przeciwwskazanie do GKS w TBI).</li>
+        <li><b>Wijdicks EFM et al.:</b> Walidacja skali <b>FOUR</b> (<i>Full Outline of UnResponsiveness</i>, <i>Ann Neurol</i> 2005) jako alternatywy dla GCS w intensywnej terapii neurologicznej.</li>
+        <li><b>Canadian CT Head Rule (Stiell et al.):</b> Kryteria kwalifikacji do pilnej TK głowy po lekkim urazie czaszkowo-mózgowym.</li>
+      </ul>
+    </div>
+  </div>
+</div></section>
+</main>
+
+<script src="../atlas-shared.js"></script>
+<script src="data.js"></script>
+<script src="app.js"></script>
+<script src="../atlas-hub-sync.js"></script>
+</body>
+</html>

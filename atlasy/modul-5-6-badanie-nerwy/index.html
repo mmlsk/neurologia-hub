@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<script>
+try{const t=localStorage.getItem('neurologia_hub_theme')||'auto';const d=['dark','navy','moss','espresso','ochre','purple','ocean'];if(d.includes(t)||(t==='auto'&&window.matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.dataset.theme='dark';}catch(e){}
+window.addEventListener('storage',e=>{if(e.key==='neurologia_hub_theme'){const t=e.newValue||'auto';const d=['dark','navy','moss','espresso','ochre','purple','ocean'];if(d.includes(t)||(t==='auto'&&window.matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.dataset.theme='dark';else delete document.documentElement.dataset.theme;}});
+window.addEventListener('message',e=>{if(e.data&&e.data.type==='SET_THEME'){const t=e.data.theme;const d=['dark','navy','moss','espresso','ochre','purple','ocean'];if(d.includes(t)||(t==='auto'&&window.matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.dataset.theme='dark';else delete document.documentElement.dataset.theme;}});
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>[5][6] Badanie neurologiczne, nerwy czaszkowe i mowa – Neurologia V</title>
+<link rel="preconnect" href="https://api.fontshare.com">
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&f[]=cabinet-grotesk@700,800&display=swap" rel="stylesheet" crossorigin="anonymous" media="print" onload="this.media='all'"><noscript><link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&f[]=cabinet-grotesk@700,800&display=swap" rel="stylesheet" crossorigin="anonymous"></noscript>
+<link rel="stylesheet" href="../atlas-base.css">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="../atlas-mobile.css">
+</head>
+<body>
+<nav class="nav" aria-label="Nawigacja"><div class="wrap">
+  <a class="hub-back" href="../../index.html">← Hub</a>
+  <div class="brand"><b>[5][6]</b> <span>Badanie &amp; Nerwy I–XII</span></div>
+  <ul id="navlist">
+    <li><a href="#technika">Badanie U02</a></li>
+    <li><a href="#neurony">UMN vs LMN</a></li>
+    <li><a href="#ataksja">Móżdżek vs sznury</a></li>
+    <li><a href="#nerwy">Nerwy I–XII</a></li>
+    <li><a href="#mowa">Afazja i dyzartria</a></li>
+    <li><a href="#zadania">Zadania testowe</a></li>
+    <li><a href="#klucz">Klucz vs wytyczne</a></li>
+    <li><a href="#pulapki">Pułapki</a></li>
+    <li><a href="#zrodla">Źródła</a></li>
+  </ul>
+</div></nav>
+
+<header class="hero"><div class="wrap grid">
+  <div>
+    <span class="tag">MODUŁY [5][6] · Neurologia V rok PUM · Semiologia U02</span>
+    <h1>Badanie <span>neurologiczne</span>,<br>nerwy I–XII i mowa</h1>
+    <p class="sub">Atlas egzaminacyjny wg sylabusa Kliniki Neurologii PUM 2026/2027 (Sem TK01, TK10; Ćw TK01, TK08; U02): protokół badania od głowy do stóp, UMN vs LMN, różnicowanie ataksji móżdżkowej i tylnosznurowej (próba Romberga), nerwy czaszkowe I–XII oraz afazja i dyzartria.</p>
+    <div class="chips">
+      <span class="chip s">👁️ III, IV, VI + Szczelina oczodołowa (V1)</span>
+      <span class="chip i">🗣️ VII czoło vs usta · IX/X firanka Verneta</span>
+      <span class="chip e">⚡ UMN vs LMN · MRC 0–5 i Babiński</span>
+      <span class="chip f">🌀 Móżdżek vs sznury tylne (Romberg)</span>
+    </div>
+    <div class="legend">
+      <div><span class="kb src">KLUCZ POTWIERDZONY</span> odpowiedź potwierdzona we wskazówkach egzaminacyjnych PUM, sylabusie i podręcznikach (Podemski, Fuller)</div>
+      <div><span class="kb inf">KLUCZ WNIOSKOWANY</span> odpowiedź wyprowadzona z zasad topodiagnostyki oraz porównania z aktualną praktyką kliniczną</div>
+      <div><span class="kb unk">KLUCZ NIEPEWNY</span> wariant o niuansie definicyjnym lub różnicy ujęć — zweryfikuj podczas seminarium</div>
+    </div>
+  </div>
+  <figure class="fig" aria-label="Schemat topodiagnostyczny dróg ruchowych, czuciowych i nerwów czaszkowych">
+    <svg viewBox="140 25 380 390" id="heroSvg" role="img" aria-label="Przekrój OUN: kora ruchowa i mowy, śródmózgowie, most, opuszka, móżdżek oraz rdzeń kręgowy">
+      <defs><linearGradient id="gbr" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E1ECF9"/><stop offset="1" stop-color="#CFE0F5"/></linearGradient></defs>
+      <!-- kora i półkula -->
+      <path d="M175 166 C165 86 245 42 330 45 C420 48 482 98 478 172 C476 200 442 220 400 220 L300 208 L246 198 C204 192 182 184 175 166Z" fill="url(#gbr)" stroke="#2B63AE" stroke-width="2.5"/>
+      <!-- ośrodki mowy (Broca / Wernicke) schematycznie -->
+      <ellipse cx="388" cy="138" rx="34" ry="18" fill="#E1ECF9" stroke="#2B63AE" stroke-width="1.6" stroke-dasharray="4 3"/>
+      <text x="388" y="142" font-size="11" font-weight="700" fill="#13232C" text-anchor="middle">Mowa / M1</text>
+      <!-- móżdżek -->
+      <path d="M188 212 C182 248 214 268 258 260 C294 252 298 228 288 210 C258 196 212 195 188 212Z" fill="#DDF1F2" stroke="#0C7A85" stroke-width="2.5"/>
+      <path d="M198 224 C224 234 258 236 284 226 M204 240 C228 248 256 250 278 242" stroke="#0C7A85" stroke-width="1.4" fill="none" opacity=".6"/>
+      <!-- pień: śródmózgowie + most -->
+      <path d="M302 208 L354 208 L360 245 C364 265 352 276 346 278 L312 278 L302 245Z" fill="#FCEFD6" stroke="#8F5808" stroke-width="2.5"/>
+      <!-- opuszka -->
+      <path d="M312 278 L346 278 L342 318 L316 318Z" fill="#FBE6E2" stroke="#A82D1E" stroke-width="2.5"/>
+      <!-- rdzeń kręgowy -->
+      <path d="M316 318 L342 318 L340 404 L318 404Z" fill="#E1EFF5" stroke="#245B7A" stroke-width="2.5"/>
+      <path d="M324 322 L324 398" stroke="#2B63AE" stroke-width="2" stroke-dasharray="4 3"/>
+      <path d="M335 322 L335 398" stroke="#245B7A" stroke-width="2"/>
+      <!-- markery 1-5 -->
+      <g font-size="13" font-weight="800" fill="#fff" text-anchor="middle">
+        <circle cx="268" cy="116" r="13" fill="#2B63AE"/><text x="268" y="121">1</text>
+        <circle cx="330" cy="242" r="13" fill="#8F5808"/><text x="330" y="247">2</text>
+        <circle cx="329" cy="298" r="13" fill="#A82D1E"/><text x="329" y="303">3</text>
+        <circle cx="238" cy="236" r="13" fill="#0C7A85"/><text x="238" y="241">4</text>
+        <circle cx="329" cy="364" r="13" fill="#245B7A"/><text x="329" y="369">5</text>
+      </g>
+    </svg>
+    <div class="herolist">
+      <div><b style="color:var(--blue)">1 Kora M1 &amp; Mowa</b> UMN, ośrodkowe VII, Broca/Wernicke</div>
+      <div><b style="color:var(--amber)">2 Śródmózgowie &amp; Most</b> III/IV; V, VI, obwodowe VII, VIII</div>
+      <div><b style="color:var(--red)">3 Opuszka (IX–XII)</b> firanka Verneta (X), język (XII)</div>
+      <div><b style="color:var(--teal-d)">4 Móżdżek</b> ataksja ipsilateralna już przy oczach otwartych</div>
+      <div><b style="color:var(--violet)">5 Rdzeń kręgowy</b> rogi przednie LMN oraz sznury tylne (Romberg)</div>
+    </div>
+    <figcaption>Przekrój topodiagnostyczny do szybkiego kojarzenia pięter układu nerwowego (moduły [5][6]).</figcaption>
+  </figure>
+</div></header>
+
+<main>
+<!-- ============ 1. BADANIE U02 ============ -->
+<section id="technika"><div class="wrap">
+  <div class="eyebrow">Część A · Moduł [5] · Sem TK01 &amp; Ćw TK01</div>
+  <h2>Technika badania neurologicznego (U02)</h2>
+  <p class="lead">Sprawny protokół badania od głowy do stóp według sylabusa U02: przytomność i mowa, nerwy I–XII, układ ruchowy (trofika, napięcie, siła MRC/Lovetta 0–5), odruchy fizjologiczne i patologiczne, czucie powierzchowne i głębokie, zborność oraz chód i objawy oponowe.</p>
+
+  <div class="kpis">
+    <div class="kpi"><b>7</b><span>etapów pełnego badania neurologicznego U02 (od świadomości po opony)</span></div>
+    <div class="kpi a"><b>0–5</b><span>stopni siły mięśniowej w skali MRC / Lovetta (3/5 = pokonuje grawitację)</span></div>
+    <div class="kpi v"><b>128 Hz</b><span>kamerton do oceny czucia wibracji (szlaki sznurów tylnych)</span></div>
+    <div class="kpi r"><b>&lt;45°</b><span>dodatni objaw Lasègue’a przy bólu korzeniowym poniżej kolana</span></div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>Skala siły mięśniowej MRC / Lovetta (0–5)</h3>
+      <p class="small" style="margin-bottom:.7rem">Oceniaj symetrycznie mięśnie proksymalne i dystalne; subtelny niedowład piramidowy wykaże <b>próba Barrego</b> (KG: dłonie w supinacji, pronacja i opadanie) oraz <b>Mingazziniego</b> (KD: zgięcie 90°).</p>
+      <div class="bars" id="barsMRC"></div>
+    </div>
+    <div class="card">
+      <h3>Kluczowe odruchy głębokie, powierzchowne i patologiczne</h3>
+      <div class="tw">
+        <table>
+          <thead><tr><th>Odruch</th><th>Poziom / nerw</th><th>Znaczenie kliniczne</th></tr></thead>
+          <tbody>
+            <tr><td><b>Dwugłowy (biceps)</b></td><td>C5–C6 · n. mięśniowo-skórny</td><td>Zniesiony w radikulopatii C5/C6; wygórowany w mielopatii szyjnej powyżej C5</td></tr>
+            <tr><td><b>Ramienno-promieniowy</b></td><td>C5–C6 · n. promieniowy</td><td>Odruch odwrócony (brak skurczu + zgięcie palców) = ognisko C5–C6</td></tr>
+            <tr><td><b>Trójgłowy (triceps)</b></td><td>C7–C8 · n. promieniowy</td><td>Osłabienie lub zniesienie typowe dla dyskopatii C6–C7 (korzeń C7)</td></tr>
+            <tr><td><b>Brzuszne skórne</b></td><td>Th7–Th12 (odruch skórny)</td><td>Wczesne zniesienie po stronie uszkodzenia piramidowego (np. w SM)</td></tr>
+            <tr><td><b>Kolanowy (rzepkowy)</b></td><td>L2–L4 · n. udowy</td><td>Wygórowany w UMN; zniesiony w ucisku L3/L4 i neuropatii udowej</td></tr>
+            <tr><td><b>Skokowy (Achillesa)</b></td><td>S1 · n. piszczelowy</td><td>Zniesiony w rwie S1 oraz wcześnie w polineuropatii cukrzycowej/GBS</td></tr>
+            <tr><td><b>Babiński · Hoffmann · Klonus</b></td><td>Grupa piramidowa (UMN)</td><td>Babiński (grzbietowe prostowanie palucha + wachlarz) u dorosłych = zawsze uszkodzenie UMN</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid3" style="margin-top:1rem">
+    <div class="tcard b">
+      <h3>Czucie powierzchowne i głębokie</h3>
+      <ul>
+        <li><b>Powierzchowne (ból, temp.):</b> droga rdzeniowo-wzgórzowa boczna — krzyżuje się w rdzeniu (1–2 segmenty powyżej wejścia).</li>
+        <li><b>Głębokie (ułożenie, wibracja 128 Hz):</b> sznury tylne (pęczek smukły KD, klinowaty KG) — krzyżują się dopiero w opuszce.</li>
+        <li><b>Punkty orientacyjne:</b> C6 kciuk · Th4 brodawki · Th10 pępek · L4 przyśrodkowa goleń · L5 grzbiet stopy/paluch · S1 mały palec.</li>
+      </ul>
+    </div>
+    <div class="tcard a">
+      <h3>Ocena chodu i stania</h3>
+      <ul>
+        <li><b>Na palcach (S1) / na piętach (L4–L5):</b> szybki przesiew korzeniowy i nerwu strzałkowego (opadanie stopy = chód brodzący).</li>
+        <li><b>Tandem („stopa za stopą”):</b> najczulszy test ataksji robaka móżdżku.</li>
+        <li><b>Chód koszący:</b> spastyczny niedowład połowiczy (UMN); <b>drobnokroczkowy z festynacją:</b> parkinsonizm; <b>kaczkowaty:</b> miopatia / obręcz biodrowa.</li>
+      </ul>
+    </div>
+    <div class="tcard g">
+      <h3>Objawy oponowe i rozciągowe</h3>
+      <ul>
+        <li><b>Oponowe:</b> sztywność karku (opór przy przygięciu brody do mostka), Brudziński karkowy i łonowy, Kernig (opór w kolanie przy zgiętym biodrze).</li>
+        <li><b>Lasègue’a (L4–S1):</b> ból korzeniowy poniżej kolana przy uniesieniu wyprostowanej nogi &lt;45° (skrzyżowany = wysoka swoistość przepukliny).</li>
+        <li><b>Mackiewicza (L2–L4):</b> ból przedniej powierzchni uda przy zgięciu kolana w leżeniu przodem.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:1rem">
+    <h3>Checklista kolejności badania U02 przy łóżku chorego</h3>
+    <ul class="chk" style="margin-top:.5rem">
+      <li><b>1. Przytomność i funkcje korowe:</b> GCS, orientacja auto-/allopsychiczna, ocena mowy (płynność, rozumienie, powtarzanie, nazywanie).</li>
+      <li><b>2. Nerwy czaszkowe I–XII:</b> II (ostrość, pole, dno), III/IV/VI (ruchy i źrenice), V (czucie + odruch rogówkowy), VII (czoło vs kącik ust), VIII (słuch, oczopląs), IX/X (łuki, języczek), XI (barki, MOS), XII (język).</li>
+      <li><b>3. Układ ruchowy i odruchy:</b> trofika i fascykulacje → napięcie bierne → siła 0–5 i próby opadania → odruchy głębokie (0–4+), skórne brzuszne i Babiński.</li>
+      <li><b>4. Czucie, zborność, chód i opony:</b> czucie bólu i wibracji → palec–nos, pięta–kolano, diadochokineza → próba Romberga (z asekuracją!) i chód → opony i objawy korzeniowe.</li>
+    </ul>
+  </div>
+</div></section>
+
+<!-- ============ 2. UMN VS LMN ============ -->
+<section id="neurony"><div class="wrap">
+  <div class="eyebrow">Część B · Moduł [5] · Wskazówka PUM #7</div>
+  <h2>Górny (UMN) vs dolny (LMN) neuron ruchowy</h2>
+  <p class="lead">Rozróżnienie uszkodzenia ośrodkowego (drogi korowo-rdzeniowe / korowo-jądrowe) od obwodowego (róg przedni rdzenia, korzeń, splot, nerw obwodowy) oraz pułapki ostrej fazy i zespołów mieszanych.</p>
+
+  <div class="tabs" role="tablist" id="umnTabs" aria-label="Widoki UMN i LMN">
+    <button type="button" role="tab" id="tab-umn-cmp" aria-selected="true" aria-controls="panel-umn-cmp">Porównanie UMN vs LMN</button>
+    <button type="button" role="tab" id="tab-umn-shock" aria-selected="false" aria-controls="panel-umn-shock">Ostra faza (pułapka szoku)</button>
+    <button type="button" role="tab" id="tab-umn-mix" aria-selected="false" aria-controls="panel-umn-mix">Zespoły mieszane (SLA, B12)</button>
+  </div>
+
+  <div class="panel" id="panel-umn-cmp" role="tabpanel" aria-labelledby="tab-umn-cmp">
+    <div class="tw">
+      <table>
+        <thead><tr><th>Cecha kliniczna</th><th>Górny neuron ruchowy (UMN)</th><th>Dolny neuron ruchowy (LMN)</th></tr></thead>
+        <tbody>
+          <tr><td><b>Lokalizacja ciała komórki</b></td><td>Kora ruchowa (M1, zakręt przedśrodkowy) → droga piramidowa</td><td>Róg przedni rdzenia kręgowego lub jądro ruchowe nerwu w pniu</td></tr>
+          <tr><td><b>Strona objawów</b></td><td>Powyżej skrzyżowania piramid: <b>przeciwstronnie</b>; w rdzeniu: <b>ipsilateralnie</b></td><td>Zawsze <b>po tej samej stronie (ipsilateralnie)</b></td></tr>
+          <tr><td><b>Napięcie mięśniowe</b></td><td><b>Spastyczność</b> („objaw scyzorykowy” — zależna od prędkości rozciągania)</td><td><b>Wiotkość</b> (hipotonia lub atonia)</td></tr>
+          <tr><td><b>Odruchy głębokie</b></td><td><b>Wygórowane (+++ / ++++)</b>, obecne klonusy rzepki i stopy</td><td><b>Osłabione lub zniesione (0 / +)</b></td></tr>
+          <tr><td><b>Odruch Babińskiego</b></td><td><b>Obecny (+)</b> · odruchy brzuszne skórne zwykle zniesione</td><td><b>Brak (–)</b> · odruch podeszwowy zgięciowy lub zniesiony</td></tr>
+          <tr><td><b>Zanik mięśni</b></td><td>Brak lub późny, umiarkowany (z nieczynności)</td><td><b>Wczesny i znaczny</b> (zanik neurogenny)</td></tr>
+          <tr><td><b>Fascykulacje</b></td><td><b>Brak</b></td><td><b>Obecne</b> (szczególnie przy zajęciu rogu przedniego rdzenia)</td></tr>
+          <tr><td><b>Rozkład niedowładu</b></td><td>Całe kończyny / grupy mięśniowe (przewaga prostowników KD, zginaczy KG)</td><td>Pojedyncze mięśnie, miotomy (korzeń) lub obszar nerwu obwodowego</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="panel" id="panel-umn-shock" role="tabpanel" aria-labelledby="tab-umn-shock" hidden>
+    <div class="grid2">
+      <div class="tcard r">
+        <h3>Pułapka ostrego szoku udarowego i rdzeniowego</h3>
+        <ul>
+          <li>Bezpośrednio po rozległym udarze półkulowym lub ostrym urazie rdzenia kręgowego przez <b>kilka dni do tygodni</b> występuje przejściowe zahamowanie łuków odruchowych.</li>
+          <li>Świeże uszkodzenie UMN daje wówczas <b>niedowład wiotki i brak odruchów głębokich</b> — nie wolno mylić go z polineuropatią czy zespołem ogona końskiego!</li>
+          <li>Spastyczność, hiperrefleksja i typowy objaw Babińskiego narastają wtórnie po ustąpieniu szoku.</li>
+        </ul>
+      </div>
+      <div class="tcard b">
+        <h3>Jak odróżnić szok rdzeniowy od ogona końskiego / GBS?</h3>
+        <ul>
+          <li><b>Poziom zaburzeń czucia na tułowiu</b> (np. Th8) + ostre zatrzymanie moczu po urazie = uszkodzenie rdzenia (pilne MRI odcinka szyjnego/piersiowego).</li>
+          <li><b>Ból korzeniowy + znieczulenie siodłowe (S2–S5)</b> bez poziomu na tułowiu = zespół ogona końskiego (trwałe LMN!).</li>
+          <li><b>Wstępująca symetryczna wiotkość z parestezjami</b> po infekcji = zespół Guillaina-Barrégo (LMN).</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel" id="panel-umn-mix" role="tabpanel" aria-labelledby="tab-umn-mix" hidden>
+    <div class="grid2">
+      <div class="tcard v">
+        <h3>SLA (stwardnienie zanikowe boczne) — Wskazówka PUM #9</h3>
+        <ul>
+          <li>Współistnienie objawów <b>UMN</b> (wygórowane odruchy, klonus, Babiński +) oraz <b>LMN</b> (zaniki mięśni rąk i języka, fascykulacje) w kilku piętrach jednocześnie.</li>
+          <li>Kluczowa cecha wykluczająca inną patologię: <b>prawidłowe czucie i zachowana funkcja zwieraczy</b>!</li>
+          <li>Jeśli chory z podejrzeniem SLA ma poziom zaburzeń czucia lub zatrzymanie moczu → wykonaj pilne MRI (mielopatia szyjna).</li>
+        </ul>
+      </div>
+      <div class="tcard a">
+        <h3>Mielopatia szyjna i niedobór witaminy B12</h3>
+        <ul>
+          <li><b>Mielopatia szyjna (np. dyskopatia C5–C6):</b> uszkodzenie LMN na poziomie ucisku (zniesiony odruch dwugłowy, zanik w C5–C6) + uszkodzenie UMN poniżej (hiperrefleksja i Babiński w nogach).</li>
+          <li><b>Zwyrodnienie powrózkowe rdzenia (B12):</b> sznury boczne (UMN: Babiński +) + sznury tylne (brak wibracji, Romberg +) + polineuropatia (zniesione odruchy skokowe).</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="flow" style="margin-top:1.2rem" aria-label="Przebieg drogi ruchowej">
+    <div class="fn start">Kora ruchowa (M1) → Torebka wewnętrzna (odnoga tylna) → Konary mózgu → Skrzyżowanie piramid w opuszce → Szlak korowo-rdzeniowy boczny [UMN]</div>
+    <div class="ar">↓</div>
+    <div class="fn blue">Synapsa w rogu przednim rdzenia (lub jądrze ruchowym n. czaszkowego) → Korzeń przedni → Splot / Nerw obwodowy → Mięsień [LMN]</div>
+  </div>
+
+  <div class="callout amber" style="margin-top:1rem">
+    <b class="k">Pułapka egzaminacyjna: Spastyczność (UMN) vs Sztywność (układ pozapiramidowy)</b>
+    <b>Spastyczność (piramidowa):</b> opór zależy od prędkości ruchu biernego i gwałtownie puszcza po przekroczeniu progu („objaw scyzorykowy”), towarzyszy jej wygórowanie odruchów i Babiński (+). <b>Sztywność (pozapiramidowa, np. Parkinson):</b> stały opór w całym zakresie ruchu niezależny od prędkości („rura ołowiana” lub „koło zębate”), brak Babińskiego i prawidłowe odruchy głębokie.
+  </div>
+</div></section>
+
+<!-- ============ 3. MÓŻDŻEK VS SZNURY TYLNE ============ -->
+<section id="ataksja"><div class="wrap">
+  <div class="eyebrow">Część C · Moduł [5] · Wskazówka PUM #10</div>
+  <h2>Zespół móżdżkowy vs zwyrodnienie sznurów tylnych</h2>
+  <p class="lead">Jedna z najważniejszych pułapek klinicznych: kiedy próba Romberga jest naprawdę dodatnia i dlaczego w uszkodzeniu półkuli móżdżku objawy występują po tej samej stronie.</p>
+
+  <div class="pw" style="margin-bottom:1rem">
+    <div class="a"><b>Móżdżek (ataksja móżdżkowa)</b>Chory chwieje się już przy <b>OCZACH OTWARTYCH</b>. Zamknięcie oczu nie pogarsza dramatycznie równowagi. Półkula daje objawy <b>ipsilateralnie</b> (dysmetria, dysdiadochokineza, drżenie zamiarowe).</div>
+    <div class="b"><b>Sznury tylne (ataksja czuciowa)</b>Chory stoi stabilnie przy <b>OCZACH OTWARTYCH</b> (wzrok kompensuje!), a gwałtownie traci równowagę i pada <b>PO ZAMKNIĘCIU OCZU (Romberg +)</b>. Zniesione czucie wibracji i ułożenia.</div>
+  </div>
+
+  <figure class="fig wide" style="margin-bottom:1.1rem">
+    <svg viewBox="0 0 720 185" id="rombergSvg" role="img" aria-label="Porównanie próby Romberga w zespole móżdżkowym i zwyrodnieniu sznurów tylnych">
+      <!-- Panel lewy: Mozdzek -->
+      <rect x="8" y="8" width="342" height="168" rx="12" fill="#FCEFD6" stroke="#8F5808" stroke-width="2"/>
+      <text x="179" y="30" font-size="13.5" font-weight="800" fill="#13232C" text-anchor="middle">MÓŻDŻEK (robak / półkula)</text>
+      <rect x="24" y="44" width="146" height="82" rx="8" fill="#FFFFFF" stroke="#DCE2E0"/>
+      <text x="97" y="64" font-size="11.5" font-weight="700" fill="#13232C" text-anchor="middle">Oczy otwarte</text>
+      <text x="97" y="86" font-size="11" fill="#A82D1E" font-weight="700" text-anchor="middle">Chwieje się już</text>
+      <text x="97" y="102" font-size="11" fill="#A82D1E" font-weight="700" text-anchor="middle">wyjściowo (~ ~)</text>
+      <rect x="188" y="44" width="146" height="82" rx="8" fill="#FFFFFF" stroke="#DCE2E0"/>
+      <text x="261" y="64" font-size="11.5" font-weight="700" fill="#13232C" text-anchor="middle">Oczy zamknięte</text>
+      <text x="261" y="86" font-size="11" fill="#44545D" text-anchor="middle">Podobna niestabilność</text>
+      <text x="261" y="102" font-size="11" fill="#44545D" text-anchor="middle">(brak skoku pogorszenia)</text>
+      <text x="179" y="154" font-size="11" font-weight="700" fill="#8F5808" text-anchor="middle">Próba Romberga NIE jest swoista dla móżdżku!</text>
+
+      <!-- Panel prawy: Sznury tylne -->
+      <rect x="370" y="8" width="342" height="168" rx="12" fill="#E1ECF9" stroke="#2B63AE" stroke-width="2"/>
+      <text x="541" y="30" font-size="13.5" font-weight="800" fill="#13232C" text-anchor="middle">SZNURY TYLNE (np. B12, kiła)</text>
+      <rect x="386" y="44" width="146" height="82" rx="8" fill="#FFFFFF" stroke="#DCE2E0"/>
+      <text x="459" y="64" font-size="11.5" font-weight="700" fill="#13232C" text-anchor="middle">Oczy otwarte</text>
+      <text x="459" y="86" font-size="11" fill="#216B3E" font-weight="700" text-anchor="middle">Stoi stabilnie</text>
+      <text x="459" y="102" font-size="11" fill="#44545D" text-anchor="middle">(wzrok kompensuje)</text>
+      <rect x="550" y="44" width="146" height="82" rx="8" fill="#FBE6E2" stroke="#A82D1E"/>
+      <text x="623" y="64" font-size="11.5" font-weight="700" fill="#13232C" text-anchor="middle">Oczy zamknięte</text>
+      <text x="623" y="86" font-size="11.5" fill="#A82D1E" font-weight="800" text-anchor="middle">ROMBERG (+)!</text>
+      <text x="623" y="102" font-size="11" fill="#A82D1E" text-anchor="middle">Gwałtowne zachwianie</text>
+      <text x="541" y="154" font-size="11" font-weight="700" fill="#2B63AE" text-anchor="middle">Zniesione czucie wibracji (128 Hz) i ułożenia</text>
+    </svg>
+    <figcaption>Zawsze asekuruj chorego w trakcie próby Romberga — pacjent z ataksją czuciową może upaść natychmiast po zamknięciu oczu.</figcaption>
+  </figure>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Parametr</th><th>Zespół móżdżkowy</th><th>Sznury tylne (ataksja czuciowa)</th><th>Układ przedsionkowy (błędnik / VIII)</th></tr></thead>
+      <tbody>
+        <tr><td><b>Próba Romberga</b></td><td>Niestabilny już przy oczach otwartych</td><td><b>Wybitnie dodatnia (+)</b> — upada po zamknięciu oczu</td><td>Zbaczanie w stronę uszkodzonego błędnika po zamknięciu oczu</td></tr>
+        <tr><td><b>Czucie głębokie (wibracja, ułożenie)</b></td><td><b>Prawidłowe</b></td><td><b>Zniesione dystalnie</b> (pęczek smukły / klinowaty)</td><td>Prawidłowe</td></tr>
+        <tr><td><b>Próba palec–nos / pięta–kolano</b></td><td><b>Dysmetria, drżenie zamiarowe</b> (nasilone u celu)</td><td>Zborność względnie dobra z oczami otwartymi, gorsza z zamkniętymi</td><td>Prawidłowa (ewent. zbaczanie ramion w teście wyciągniętych rąk)</td></tr>
+        <tr><td><b>Chód i mowa</b></td><td>Szeroka podstawa („pijacki”), mowa skandowana, hipotonia</td><td>Chód „tupiący”, nasilony w ciemności / pod prysznicem</td><td>Zbaczanie w jedną stronę, zawroty układowe (wirowanie), nudności</td></tr>
+        <tr><td><b>Strona deficytu &amp; przyczyny</b></td><td><b>Ipsilateralna</b> do półkuli (podwójne skrzyżowanie); udar, alkohol, SM, guz</td><td>Niedobór B12, kiła III-rzędowa (wiąd rdzenia), miedź, CIDP</td><td>Zapalenie błędnika vs udar PICA/AICA (<b>test HINTS!</b>)</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div></section>
+
+<!-- ============ 4. NERWY CZASZKOWE I–XII ============ -->
+<section id="nerwy"><div class="wrap">
+  <div class="eyebrow">Część D · Moduł [6] · Sem TK10 · Wskazówki PUM #1, #2, #3, #4</div>
+  <h2>Nerwy czaszkowe I–XII i zespoły podstawy czaszki</h2>
+  <p class="lead">Najważniejsze różnicowania egzaminacyjne z nerwów czaszkowych: gałkoruchowe III/IV/VI, szczelina oczodołowa górna (+ V1), nerw VII (ośrodkowy vs obwodowy) oraz niedowład podniebienia IX/X (objaw firanki Verneta) wobec nerwu XII.</p>
+
+  <figure class="fig wide" style="margin-bottom:1.1rem">
+    <svg viewBox="0 0 720 195" id="eyeSvg" role="img" aria-label="Ustawienie prawej gałki ocznej i źrenicy w porażeniu nerwów III, IV i VI">
+      <!-- III -->
+      <rect x="8" y="8" width="224" height="178" rx="12" fill="#FBE6E2" stroke="#A82D1E" stroke-width="2"/>
+      <text x="120" y="30" font-size="13" font-weight="800" fill="#13232C" text-anchor="middle">Porażenie n. III (prawy)</text>
+      <ellipse cx="120" cy="84" rx="58" ry="26" fill="#FFFFFF" stroke="#44545D" stroke-width="2"/>
+      <!-- opadnieta powieka -->
+      <path d="M62 84 C82 54 158 54 178 84 L178 72 C158 52 82 52 62 72Z" fill="#FCEFD6" stroke="#8F5808" stroke-width="1.5"/>
+      <line x1="63" y1="78" x2="177" y2="78" stroke="#8F5808" stroke-width="2"/>
+      <!-- galka w dol i na zewnatrz (u prawego oka zewnatrz = w lewo na schemacie pacjenta) -->
+      <circle cx="96" cy="92" r="14" fill="#2B63AE"/>
+      <circle cx="96" cy="92" r="9" fill="#13232C"/>
+      <text x="120" y="134" font-size="11.5" font-weight="700" fill="#A82D1E" text-anchor="middle">Ptoza (opadanie powieki)</text>
+      <text x="120" y="151" font-size="11" fill="#13232C" text-anchor="middle">Oko „w dół i na zewnątrz”</text>
+      <text x="120" y="168" font-size="11" font-weight="700" fill="#13232C" text-anchor="middle">Szeroka, sztywna źrenica</text>
+
+      <!-- IV -->
+      <rect x="248" y="8" width="224" height="178" rx="12" fill="#FCEFD6" stroke="#8F5808" stroke-width="2"/>
+      <text x="360" y="30" font-size="13" font-weight="800" fill="#13232C" text-anchor="middle">Porażenie n. IV (prawy)</text>
+      <ellipse cx="360" cy="84" rx="58" ry="26" fill="#FFFFFF" stroke="#44545D" stroke-width="2"/>
+      <circle cx="360" cy="77" r="13" fill="#2B63AE"/>
+      <circle cx="360" cy="77" r="5" fill="#13232C"/>
+      <path d="M368 92 L392 106" stroke="#A82D1E" stroke-width="2.2"/>
+      <text x="398" y="108" font-size="12" font-weight="800" fill="#A82D1E">✕</text>
+      <text x="360" y="134" font-size="11.5" font-weight="700" fill="#8F5808" text-anchor="middle">M. skośny górny (jedyny grzbietowy)</text>
+      <text x="360" y="151" font-size="11" fill="#13232C" text-anchor="middle">Diplopia pionowa: schody / czytanie</text>
+      <text x="360" y="168" font-size="11" font-weight="700" fill="#13232C" text-anchor="middle">Przechylenie głowy na zdrowy bark</text>
+
+      <!-- VI -->
+      <rect x="488" y="8" width="224" height="178" rx="12" fill="#E1ECF9" stroke="#2B63AE" stroke-width="2"/>
+      <text x="600" y="30" font-size="13" font-weight="800" fill="#13232C" text-anchor="middle">Porażenie n. VI (prawy)</text>
+      <ellipse cx="600" cy="84" rx="58" ry="26" fill="#FFFFFF" stroke="#44545D" stroke-width="2"/>
+      <!-- zez zbiezny: prawe oko ucieka przysrodkowo (w prawo na obrazie) -->
+      <circle cx="622" cy="84" r="13" fill="#2B63AE"/>
+      <circle cx="622" cy="84" r="5" fill="#13232C"/>
+      <path d="M582 84 L556 84" stroke="#A82D1E" stroke-width="2.2"/>
+      <text x="546" y="88" font-size="12" font-weight="800" fill="#A82D1E">✕</text>
+      <text x="600" y="134" font-size="11.5" font-weight="700" fill="#2B63AE" text-anchor="middle">Zez zbieżny (brak odwodzenia)</text>
+      <text x="600" y="151" font-size="11" fill="#13232C" text-anchor="middle">Diplopia pozioma przy patrzeniu w bok</text>
+      <text x="600" y="168" font-size="11" font-weight="700" fill="#13232C" text-anchor="middle">Częsty objaw rzekomy przy wzroście ICP</text>
+    </svg>
+    <figcaption>Wskazówka PUM #1: Oko prawe pacjenta oglądane od przodu (lewa strona schematu = strona skroniowa/zewnętrzna pacjenta, prawa = strona nosowa).</figcaption>
+  </figure>
+
+  <div class="grid2" style="margin-bottom:1.2rem">
+    <div class="tcard r">
+      <h3>Wskazówka #1 · Nerwy gałkoruchowe (III, IV, VI)</h3>
+      <ul>
+        <li><b>n. III:</b> ptoza + oko <b>„w dół i na zewnątrz”</b> + szeroka sztywna źrenica. Tętniak PComA / wgłobienie zajmuje włókna źreniczne wcześnie; niedokrwienie cukrzycowe często źrenicę <b>oszczędza</b>.</li>
+        <li><b>n. IV:</b> jedyny nerw wychodzący <b>grzbietowo</b> z pnia i całkowicie skrzyżowany. Dwojenie pionowe przy patrzeniu <b>w dół i do środka</b> (schody); test Bielschowsky’ego (+).</li>
+        <li><b>n. VI:</b> m. prosty boczny → <b>zez zbieżny</b> i brak odwodzenia; najczęstszy fałszywie lokalizujący objaw wzmożonego ICP.</li>
+      </ul>
+    </div>
+    <div class="tcard v">
+      <h3>Wskazówka #4 · Szczelina oczodołowa górna vs Szczyt oczodołu</h3>
+      <ul>
+        <li><b>Szczelina oczodołowa górna (Rochon-Duvigneaud):</b> porażenie <b>III, IV, VI + gałęzi V1</b> (brak czucia na czole i brak odruchu rogówkowego) przy <b>ZACHOWANEJ ostrości wzroku</b>.</li>
+        <li><b>Zespół szczytu oczodołu:</b> III, IV, VI + V1 <b>ORAZ nerw wzrokowy II</b> → spadek ostrości wzroku / ślepota i RAPD (Marcus-Gunn).</li>
+        <li><b>Zatoka jamista:</b> III, IV, VI + V1 <b>+ V2</b> + włókna współczulne Hornera wokół tętnicy szyjnej wewnętrznej.</li>
+      </ul>
+    </div>
+    <div class="tcard b">
+      <h3>Wskazówka #3 · Nerw VII: Ośrodkowy vs Obwodowy</h3>
+      <ul>
+        <li><b>Ośrodkowy (nadjądrowy — kora/torebka):</b> górne piętro twarzy ma obustronne unerwienie korowe → <b>czoło marszczy się symetrycznie</b>, szpara powiekowa domyka się; opada wyłącznie dolny kącik ust po stronie przeciwnej.</li>
+        <li><b>Obwodowy (jądro w moście / pień VII, np. Bell, borelioza, VZV Ramsay-Hunt):</b> porażenie <b>całej połowy twarzy po tej samej stronie</b> — gładkie czoło, niedomykalność oka (<b>objaw Bella</b>), opadnięty kącik ust, możliwa hiperakuzja i brak smaku 2/3 przednich języka.</li>
+      </ul>
+    </div>
+    <div class="tcard a">
+      <h3>Wskazówka #2 · Podniebienie (IX, X) vs Język (XII)</h3>
+      <ul>
+        <li><b>n. IX i X (otwór szyjny):</b> przy fonacji „aaa” porażony łuk podniebienny zwisa niżej, a <b>języczek i tylna ściana gardła (objaw firanki Verneta) odchylają się W STRONĘ ZDROWĄ</b>. Chrypka, dysfagia, brak odruchu gardłowego.</li>
+        <li><b>n. XII (podjęzykowy):</b> wysunięty język zbacza <b>W STRONĘ CHORĄ</b> (zdrowy m. bródkowo-językowy popycha język na stronę porażoną) + w LMN zanik i fascykulacje połowy języka.</li>
+        <li><b>n. XI (dodatkowy):</b> opadnięcie barku ipsilateralnie + osłabiony skręt głowy w stronę <b>ZDROWĄ</b> (prawy MOS obraca głowę w lewo).</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="filters" id="cnFilters" role="group" aria-label="Filtruj tabelę nerwów czaszkowych">
+    <button type="button" data-grp="all" aria-pressed="true">Wszystkie I–XII</button>
+    <button type="button" data-grp="eye" aria-pressed="false">Oko i źrenica (II–VI)</button>
+    <button type="button" data-grp="face" aria-pressed="false">Twarz i słuch (V, VII, VIII)</button>
+    <button type="button" data-grp="bulbar" aria-pressed="false">Grupa opuszkowa (IX–XII)</button>
+  </div>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Nerw</th><th>Rodzaj i otwór podstawy</th><th>Badanie przy łóżku (U02)</th><th>Objawy uszkodzenia i pułapka</th></tr></thead>
+      <tbody id="cnBody">
+        <tr data-grp="all"><td><b>I · Węchowy</b></td><td>czuciowy · blaszka sitowa</td><td>Łagodne zapachy (kawa, mięta) każdym otworem osobno</td><td>Anosmia (nie używaj amoniaku — drażni n. V!); zespół Fostera-Kennedy’ego</td></tr>
+        <tr data-grp="eye"><td><b>II · Wzrokowy</b></td><td>czuciowy · kanał wzrokowy</td><td>Ostrość, pole konfrontacyjne, dno oka, RAPD</td><td>Ślepota oka, hemianopsja dwuskroniowa (skrzyżowanie), jednoimienna (pasmo)</td></tr>
+        <tr data-grp="eye"><td><b>III · Okoruchowy</b></td><td>ruchowy + przywsp. · szczelina oczod. górna</td><td>Ruchy w górę/dół/do nosa, powieka, źrenica</td><td>Ptoza, oko „w dół i na zewnątrz”, szeroka źrenica (tętniak PComA vs cukrzyca)</td></tr>
+        <tr data-grp="eye"><td><b>IV · Bloczkowy</b></td><td>ruchowy · szczelina oczod. górna</td><td>Patrzenie w dół przy przywiedzeniu; test Bielschowsky’ego</td><td>Diplopia pionowo-skośna (schody, czytanie); głowa przechylona na zdrowy bark</td></tr>
+        <tr data-grp="eye face"><td><b>V · Trójdzielny</b></td><td>mieszany · V1 szcz. ocz. g. · V2 okrągły · V3 owalny</td><td>Czucie V1–V3, odruch rogówkowy (V1), żwacze (V3)</td><td>Neuralgia V2/V3; w uszkodzeniu V3 żuchwa zbacza w stronę chorą</td></tr>
+        <tr data-grp="eye"><td><b>VI · Odwodzący</b></td><td>ruchowy · szczelina oczod. górna</td><td>Odwodzenie gałki ocznej na zewnątrz</td><td>Zez zbieżny, dwojenie poziome; rzekomy objaw lokalizujący wzmożonego ICP</td></tr>
+        <tr data-grp="face"><td><b>VII · Twarzowy</b></td><td>mieszany + przywsp. · otwór rylcowo-sutkowy</td><td>Marszczenie czoła, zaciskanie powiek, uśmiech, smak 2/3</td><td>Ośrodkowy: oszczędza czoło; obwodowy: cała połowa twarzy + objaw Bella</td></tr>
+        <tr data-grp="face"><td><b>VIII · Przedsionkowo-ślimakowy</b></td><td>czuciowy · przewód słuchowy wew.</td><td>Szept, próby Webera/Rinnego, oczopląs, test HINTS</td><td>Niedosłuch odbiorczy, zawroty układowe; zespół kąta mostowo-móżdżkowego (V, VII, VIII)</td></tr>
+        <tr data-grp="bulbar"><td><b>IX · Językowo-gardłowy</b></td><td>mieszany · otwór szyjny</td><td>Czucie ściany gardła (dośrodkowa odruchu), smak 1/3 tylnej</td><td>Zniesiony odruch gardłowy, dysfagia, neuralgia gardłowa (zespół Verneta z X, XI)</td></tr>
+        <tr data-grp="bulbar"><td><b>X · Błędny</b></td><td>mieszany + przywsp. · otwór szyjny</td><td>Unoszenie łuków („aaa”), położenie języczka, kaszel</td><td>Opadnięcie łuku, chrypka; <b>języczek i firanka Verneta uciekają W STRONĘ ZDROWĄ</b></td></tr>
+        <tr data-grp="bulbar"><td><b>XI · Dodatkowy</b></td><td>ruchowy · otwór szyjny</td><td>Unoszenie barków (m. czworoboczny), skręt głowy (m. MOS)</td><td>Opadnięcie barku po stronie chorej + osłabienie skrętu głowy w stronę ZDROWĄ</td></tr>
+        <tr data-grp="bulbar"><td><b>XII · Podjęzykowy</b></td><td>ruchowy · kanał n. podjęzykowego</td><td>Wysunięcie języka, ocena zaniku i fascykulacji</td><td>Wysunięty język zbacza <b>W STRONĘ CHORĄ</b>; w LMN (SLA) zanik i fascykulacje</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div></section>
+
+<!-- ============ 5. AFAZJA I DYZARTRIA ============ -->
+<section id="mowa"><div class="wrap">
+  <div class="eyebrow">Część E · Moduł [6] · Ćw TK08</div>
+  <h2>Afazja, dyzartria i badanie mowy przy łóżku</h2>
+  <p class="lead">Najpierw odróżnij korowe zaburzenie języka (afazję) od zaburzenia wykonawczego artykulacji (dyzartrii), a następnie w 4 krokach określ dokładny typ afazji.</p>
+
+  <div class="pw" style="margin-bottom:1.1rem">
+    <div class="b"><b>Afazja (uszkodzenie kory półkuli dominującej)</b>Zaburzenie przetwarzania symboli językowych — tworzenia lub rozumienia mowy, zwykle z agrafią i aleksją. Dotyczy lewej półkuli u ~95% praworęcznych i ~70% leworęcznych.</div>
+    <div class="a"><b>Dyzartria (zaburzenie aparatu wykonawczego)</b>Język wewnętrzny, rozumienie, gramatyka, czytanie i pisanie są <b>PRAWIDŁOWE</b>. Chory ma niewyraźną, nosową, skandowaną lub cichą artykulację (drogi piramidowe, opuszka, móżdżek, PD, miastenia).</div>
+  </div>
+
+  <div class="flow" style="margin-bottom:1.2rem" aria-label="4 kroki badania afazji przy łóżku">
+    <div class="fn start">4 pytania przy łóżku: 1) Płynność mowy spontanicznej → 2) Rozumienie poleceń → 3) Powtarzanie zdań → 4) Nazywanie przedmiotów</div>
+  </div>
+
+  <div class="tw" style="margin-bottom:1.1rem">
+    <table>
+      <thead><tr><th>Typ afazji</th><th>Płynność</th><th>Rozumienie</th><th>Powtarzanie</th><th>Nazywanie</th><th>Lokalizacja i obraz kliniczny</th></tr></thead>
+      <tbody>
+        <tr><td><b>Ruchowa (Broca)</b></td><td><span class="pill r">NIE</span></td><td><span class="pill g">TAK</span></td><td><span class="pill r">NIE</span></td><td><span class="pill r">NIE</span></td><td>Zakręt czołowy dolny (44/45, górna gałąź MCA); styl telegraficzny, frustracja, zwykle niedowład prawej ręki</td></tr>
+        <tr><td><b>Czuciowa (Wernickego)</b></td><td><span class="pill g">TAK</span></td><td><span class="pill r">NIE</span></td><td><span class="pill r">NIE</span></td><td><span class="pill r">NIE</span></td><td>Tylny zakręt skroniowy górny (22, dolna gałąź MCA); parafazje, neologizmy („sałatka słowna”), często brak niedowładu i anozognozja</td></tr>
+        <tr><td><b>Przewodzenia (kondukcyjna)</b></td><td><span class="pill g">TAK</span></td><td><span class="pill g">TAK</span></td><td><span class="pill r">NIE</span></td><td><span class="pill a">± / NIE</span></td><td>Pęczek łukowaty (fasciculus arcuatus); chory płynnie mówi i świetnie rozumie, lecz nie potrafi powtórzyć słów</td></tr>
+        <tr><td><b>Globalna (całkowita)</b></td><td><span class="pill r">NIE</span></td><td><span class="pill r">NIE</span></td><td><span class="pill r">NIE</span></td><td><span class="pill r">NIE</span></td><td>Rozległy zawał całego obszaru okołosylwiuszowego (pień M1 lewej MCA / lewa ICA); ciężki niedowład prawostronny</td></tr>
+        <tr><td><b>Transkorowe (ruch./czuc.)</b></td><td>NIE / TAK</td><td>TAK / NIE</td><td><span class="pill g">TAK!</span></td><td><span class="pill r">NIE</span></td><td>Strefy graniczne („watershed”) poza pęczkiem łukowatym — powtarzanie pozostaje <b>zachowane</b></td></tr>
+        <tr><td><b>Anomiczna (amnestyczna)</b></td><td><span class="pill g">TAK</span></td><td><span class="pill g">TAK</span></td><td><span class="pill g">TAK</span></td><td><span class="pill r">NIE</span></td><td>Najczęstszy łagodny deficyt poudarowy lub faza zdrowienia innych afazji; omówienia zamiast nazw</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="grid2">
+    <div class="tcard a">
+      <h3>Typy dyzartrii wg lokalizacji</h3>
+      <ul>
+        <li><b>Opuszkowa (wiotka, LMN IX–XII):</b> mowa cicha, nosowa, niewyraźna, z zanikiem i fascykulacjami języka (SLA, guzy opuszki).</li>
+        <li><b>Rzekomoopuszkowa (spastyczna, UMN):</b> mowa powolna, napięta, „ściśnięta”; wygórowany odruch żuchwowy oraz patologiczny śmiech i płacz.</li>
+        <li><b>Móżdżkowa (ataktyczna):</b> mowa <b>skandowana</b>, wybuchowa, z nierówną głośnością i intonacją (SM, zespół móżdżkowy).</li>
+        <li><b>Hipokinetyczna (parkinsonizm):</b> mowa cicha (hipofonia), monotonna, z przyspieszaniem pod koniec zdania.</li>
+        <li><b>Miasteniczna:</b> głos słabnący i nosowy w miarę długiego mówienia (nużliwość złącza NM).</li>
+      </ul>
+    </div>
+    <div class="tcard v">
+      <h3>Zespół opuszkowy (LMN) vs rzekomoopuszkowy (UMN)</h3>
+      <ul>
+        <li><b>Zespół opuszkowy:</b> obustronne lub jednostronne uszkodzenie jąder/nerwów IX–XII; <b>zniesione</b> odruchy podniebienny i gardłowy, <b>zanik i fascykulacje języka</b>, brak nietrzymania afektu.</li>
+        <li><b>Zespół rzekomoopuszkowy:</b> obustronne uszkodzenie dróg korowo-jądrowych (np. wieloogniskowe udary lakunarne, SLA); <b>wygórowany odruch żuchwowy</b>, zachowane/żywe odruchy gardłowe, <b>brak zaniku języka</b>, przymusowy śmiech i płacz.</li>
+      </ul>
+    </div>
+  </div>
+</div></section>
+
+<!-- ============ 6. ZADANIA TESTOWE ============ -->
+<section id="zadania"><div class="wrap">
+  <div class="eyebrow">Część F · Trening egzaminacyjny · ET PUM</div>
+  <h2>Zadania testowe z omówieniami</h2>
+  <p class="lead">7 pytań przekrojowych modułów [5][6] opartych na wskazówkach egzaminacyjnych PUM, sylabusie U02 i wytycznych klinicznych. Po wyborze odpowiedzi zobaczysz klucz, uzasadnienie oraz ewentualną rozbieżność „Pod zaliczenie vs klinika”.</p>
+  <div class="qtools">
+    <div id="qFilters" class="filters" role="group" aria-label="Filtruj zadania według tematu"></div>
+    <div class="sp"></div>
+    <button type="button" class="btn o" id="rand10">Losuj zestaw</button>
+    <button type="button" class="btn o" id="resetQ">Resetuj wyniki</button>
+  </div>
+  <div id="quiz"></div>
+  <div class="score" id="score" aria-live="polite">Wynik: 0 / 0</div>
+  <div class="card" style="margin-top:1.4rem">
+    <h3>Rozkład zadań w puli modułu [5][6]</h3>
+    <div class="bars" id="barsPool" style="margin-top:.7rem"></div>
+  </div>
+</div></section>
+
+<!-- ============ 7. KLUCZ VS WYTYCZNE ============ -->
+<section id="klucz"><div class="wrap">
+  <div class="eyebrow">Część G · Rozbieżności egzaminacyjne</div>
+  <h2>Pod zaliczenie vs aktualnie klinicznie (wytyczne)</h2>
+  <p class="lead">Zestawienie klasycznych skrótów egzaminacyjnych z niuansami współczesnej neurologii klinicznej (Podemski, Fuller, ESO/AAN).</p>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Temat</th><th>Pod zaliczenie (klasyka / test)</th><th>Aktualnie klinicznie (wytyczne)</th></tr></thead>
+      <tbody>
+        <tr><td><b>Odruch Babińskiego i napięcie w UMN</b></td><td>Uszkodzenie UMN = wygórowane odruchy, spastyczność i Babiński (+); LMN = wiotkość i arefleksja.</td><td>W ostrej fazie rozległego udaru lub urazu rdzenia (faza szoku) świeże uszkodzenie UMN przebiega przejściowo z wiotkością i zniesieniem odruchów, zanim pojawi się spastyczność.</td></tr>
+        <tr><td><b>Próba Romberga</b></td><td>W pytaniach testowych bywa mylnie kojarzona przez studentów z badaniem móżdżku; klucz PUM #10: bada sznury tylne.</td><td>Chory z uszkodzeniem móżdżku chwieje się już z otwartymi oczami; wyraźne pogorszenie dopiero po zamknięciu oczu (Romberg +) oznacza ataksję czuciową (sznury tylne) lub przedsionkową.</td></tr>
+        <tr><td><b>Źrenica w porażeniu n. III</b></td><td>Klasyczna triada testowa n. III: ptoza + oko w dół i na zewnątrz + szeroka sztywna źrenica.</td><td>Bolesne porażenie n. III z szeroką źrenicą to alarm tętniaka PComA (pilne angio-TK/MR); niedokrwienne porażenie n. III w cukrzycy zazwyczaj oszczędza włókna źreniczne.</td></tr>
+        <tr><td><b>Skala siły Lovetta vs MRC</b></td><td>W polskim sylabusie U02 tradycyjnie funkcjonuje zamiennie nazwa „skala Lovetta 0–5”.</td><td>Międzynarodowym standardem badań i wytycznych jest skala MRC (Medical Research Council) z doprecyzowaniem podstopni 4– / 4 / 4+ dla subtelnych różnic siły.</td></tr>
+        <tr><td><b>Badanie czucia bólu i rogówki</b></td><td>Podręcznikowe opisy wspominają badanie „szpilką” lub dotknięcie rogówki „kawałkiem waty”.</td><td>Ze względów sanitarnych do czucia bólu stosuje się wyłącznie jednorazowe tępe neurotipy/wyłamane szpatułki, a odruch rogówkowy bada się jałowym kosmykiem gazy na bocznej części rogówki/twardówki.</td></tr>
+        <tr><td><b>Idiopatyczne porażenie Bella (VII)</b></td><td>Różnicowanie skupia się na wykazaniu zajęcia czoła (obwodowe VII) vs zaoszczędzenia czoła (ośrodkowe VII).</td><td>Po wykluczeniu udaru pnia, boreliozy i zespołu Ramsaya-Hunta (VZV) kluczowe jest włączenie doustnego glikokortykosteroidu w ciągu 72 h oraz ochrona rogówki (nawilżanie/zaklejanie na noc) przy niedomykalności powieki.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div></section>
+
+<!-- ============ 8. PUŁAPKI ============ -->
+<section id="pulapki"><div class="wrap">
+  <div class="eyebrow">Część H · Najczęstsze błędy na egzaminie i oddziale</div>
+  <h2>5 pułapek modułów [5][6]</h2>
+  <div class="stack">
+    <div class="callout red">
+      <b class="k">1 · Języczek (X) ucieka w stronę ZDROWĄ, a język (XII) w stronę CHORĄ</b>
+      Nie odwracaj kierunków: w niedowładzie podniebienia miękkiego (IX/X) sprawna połowa pociąga języczek i ścianę gardła w stronę zdrową (objaw firanki Verneta). Natomiast wysunięty język (XII) jest spychany przez zdrowy m. bródkowo-językowy w stronę chorą.
+    </div>
+    <div class="callout amber">
+      <b class="k">2 · Nigdy nie rozpoznawaj porażenia Bella bez sprawdzenia czoła i kończyn</b>
+      Oszczędzenie mięśni czoła i domknięcia powiek wyklucza porażenie Bella — wskazuje na ośrodkowe uszkodzenie drogi korowo-jądrowej (np. udar MCA). Równoczesne porażenie n. VI po jednej stronie i niedowład kończyn z ośrodkowym VII po stronie przeciwnej to zespół skrzyżowany mostu!
+    </div>
+    <div class="callout blue">
+      <b class="k">3 · Szczelina oczodołowa górna NIE zawiera nerwu wzrokowego (II)</b>
+      Przez szczelinę przechodzą III, IV, VI oraz V1 (brak czucia na czole i brak odruchu rogówkowego). Jeśli u chorego dołącza spadek ostrości wzroku lub RAPD, ognisko obejmuje również kanał wzrokowy → jest to zespół szczytu oczodołu.
+    </div>
+    <div class="callout red">
+      <b class="k">4 · Dodatnia próba Romberga nie oznacza choroby móżdżku</b>
+      Pacjent móżdżkowy jest niestabilny już z oczami otwartymi. Dopiero wyraźny kontrast („stoi stabilnie z otwartymi oczami, pada po zamknięciu”) wskazuje na utratę czucia głębokiego w sznurach tylnych (niedobór B12, wiąd rdzenia) lub uszkodzenie błędnika.
+    </div>
+    <div class="callout amber">
+      <b class="k">5 · Test HINTS w ostrym zawrocie głowy i dyzartria vs afazja</b>
+      W ostrym zespole przedsionkowym PRAWIDŁOWY odruch pchnięcia głowy (brak sakkady korekcyjnej) przemawia za udarem pnia/móżdżku, a nie zapaleniem błędnika! A przy zaburzeniach mowy u chorego rozumiejącego polecenia sprawdź powtarzanie — jego wybiórcza utrata definiuje afazję przewodzenia, natomiast zachowane rozumienie i pismo z niewyraźną wymową to dyzartria.
+    </div>
+  </div>
+</div></section>
+
+<!-- ============ 9. ŹRÓDŁA ============ -->
+<section id="zrodla"><div class="wrap">
+  <div class="eyebrow">Część I · Sylabus PUM 2026/2027 i literatura</div>
+  <h2>Źródła obowiązkowe i odniesienia kliniczne</h2>
+  <div class="grid2">
+    <div class="card">
+      <h3>Literatura z sylabusa Kliniki Neurologii PUM 2026/2027</h3>
+      <ul class="tight" style="margin-top:.5rem">
+        <li><b>Literatura podstawowa:</b> <i>Kompendium Neurologii</i>, red. Ryszard Podemski, Via Medica, Wyd. IV, Gdańsk 2019.</li>
+        <li><b>Uzupełniająca 1:</b> <i>Badanie neurologiczne – to proste</i>, Geraint Fuller, PZWL, Wyd. V, Warszawa 2022.</li>
+        <li><b>Uzupełniająca 2:</b> <i>Neurologia</i>, Tom I–III, Adam Stępień, Medical Tribune Polska, Wyd. II, 2022.</li>
+        <li><b>Uzupełniająca 3:</b> <i>Neurologia. Podręcznik dla studentów medycyny</i>, Wojciech Kozubski, Paweł Liberski [red.], PZWL, Wyd. 2, Warszawa 2021.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Zakres modułów [5][6] i standardy kliniczne</h3>
+      <ul class="tight" style="margin-top:.5rem">
+        <li><b>Sylabus PUM:</b> Sem TK01 (Neurofizjologia w zarysie), Sem TK10 (Nerwy czaszkowe), Ćw TK01 (Badanie neurologiczne U02), Ćw TK08 (Zaburzenia mowy).</li>
+        <li><b>Wskazówki egzaminacyjne PUM:</b> #1 (III, IV, VI), #2 (IX, X — firanka Verneta), #3 (VII ośrodkowy vs obwodowy), #4 (szczelina oczodołowa górna), #7 (UMN vs LMN), #10 (móżdżek vs sznury tylne / próba Romberga).</li>
+        <li><b>Wytyczne kliniczne:</b> ESO / AHA (różnicowanie pniowe i HINTS w ostrym udarze), AAN (leczenie idiopatycznego porażenia Bella w oknie 72 h).</li>
+      </ul>
+    </div>
+  </div>
+</div></section>
+</main>
+
+<footer><div class="wrap">
+  <p><b>Neurologia V · Hub nauki</b> · Atlas modułów [5][6]: Badanie neurologiczne U02, nerwy czaszkowe I–XII oraz zaburzenia mowy. <a href="../../index.html">Powrót do Hubu</a></p>
+</div></footer>
+
+<script src="../atlas-shared.js"></script>
+<script src="data.js"></script>
+<script src="app.js"></script>
+<script src="../atlas-hub-sync.js"></script>
+</body>
+</html>

@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<script>
+try{
+  if(window.self!==window.top)document.documentElement.classList.add('hub-embedded');
+  const darkThemes={dark:1,navy:1,moss:1,espresso:1,ochre:1,purple:1,ocean:1};
+  const isDark=v=>!!darkThemes[v]||(v==='auto'&&window.matchMedia('(prefers-color-scheme: dark)').matches);
+  const t=localStorage.getItem('neurologia_hub_theme')||'auto';
+  if(isDark(t))document.documentElement.dataset.theme='dark';
+  window.addEventListener('storage',e=>{
+    if(e.key==='neurologia_hub_theme'){
+      if(isDark(e.newValue||'auto'))document.documentElement.dataset.theme='dark';
+      else delete document.documentElement.dataset.theme;
+    }
+  });
+  window.addEventListener('message',e=>{
+    if(e.data&&e.data.type==='SET_THEME'){
+      if(e.data.theme==='dark'||darkThemes[e.data.theme])document.documentElement.dataset.theme='dark';
+      else delete document.documentElement.dataset.theme;
+    }
+  });
+}catch(e){}
+</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>[7][8] Bóle głowy, neuralgia V oraz bóle barku i krzyża – Neurologia V Hub</title>
+<link rel="preconnect" href="https://api.fontshare.com">
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&f[]=cabinet-grotesk@700,800&display=swap" rel="stylesheet" crossorigin="anonymous" media="print" onload="this.media='all'"><noscript><link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&f[]=cabinet-grotesk@700,800&display=swap" rel="stylesheet" crossorigin="anonymous"></noscript>
+<link rel="stylesheet" href="../atlas-base.css">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="../atlas-mobile.css">
+</head>
+<body>
+<nav class="nav" aria-label="Nawigacja sekcji"><div class="wrap">
+  <a class="hub-back" href="../../index.html">← Hub</a>
+  <div class="brand"><b>[7][8]</b> <span>Bóle głowy &amp; Kręgosłup</span></div>
+  <ul id="navlist">
+    <li><a href="#glowa">Klasyfikacja i SNOOP</a></li>
+    <li><a href="#migrena">Migrena i TAC</a></li>
+    <li><a href="#neuralgia">Neuralgia V</a></li>
+    <li><a href="#kregoslup">Bóle barku i krzyża</a></li>
+    <li><a href="#ogon">Zespół ogona końskiego</a></li>
+    <li><a href="#zadania">Zadania testowe</a></li>
+    <li><a href="#klucz">Klucz vs wytyczne</a></li>
+    <li><a href="#pulapki">Pułapki</a></li>
+    <li><a href="#zrodla">Źródła</a></li>
+  </ul>
+</div></nav>
+
+<header class="hero"><div class="wrap grid">
+  <div>
+    <span class="tag">MODUŁY [7][8] · Neurologia V rok · Sylabus PUM 2026/2027</span>
+    <h1>Bóle <span>głowy</span>, neuralgia V<br>oraz bóle barku i krzyża</h1>
+    <p class="sub">Kompendium do zaliczenia (W03a, W03h, Wykład TK03, Sem TK11, Ćw TK04, TK12): czerwone flagi SNOOP10, pierwotne bóle głowy i TAC, neuralgia nerwu V, topografia korzeniowa C5–C8 i L4–S1 oraz zespół ogona końskiego.</p>
+    <div class="chips">
+      <span class="chip s">🚩 SNOOP10: wyklucz SAH, ZOMR, GCA i ICP</span>
+      <span class="chip i">⚡ Neuralgia V: karbamazepina I rzut</span>
+      <span class="chip e">🌬️ Klaster: 100% O₂ + sumatryptan s.c.</span>
+      <span class="chip f">🦴 Ogon koński: pilne MRI i odbarczenie</span>
+    </div>
+    <div class="legend">
+      <div><span class="kb src">KLUCZ POTWIERDZONY</span> odpowiedź potwierdzona w materiale wykładowym / podręczniku sylabusowym PUM</div>
+      <div><span class="kb inf">KLUCZ WNIOSKOWANY</span> odpowiedź wynikająca z zasad topodiagnostyki i aktualnych wytycznych klinicznych</div>
+      <div><span class="kb unk">KLUCZ NIEPEWNY</span> pytanie o możliwym rozbieżnym wariancie sformułowania; sprawdź porównanie wytycznych</div>
+    </div>
+  </div>
+  <figure class="fig" aria-label="Schemat bólów głowy, gałęzi nerwu V oraz korzeni lędźwiowo-krzyżowych">
+    <svg viewBox="0 0 640 360" id="heroSvg" role="img" aria-label="Topografia pierwotnych bólów głowy, gałęzi nerwu trójdzielnego V1–V3 oraz stożka rdzeniowego i korzeni L4–S1">
+      <!-- Panel lewy: głowa i nerw V -->
+      <rect x="10" y="10" width="302" height="340" rx="14" fill="#EEF2F0" stroke="#DCE2E0" stroke-width="1.5"/>
+      <text x="161" y="34" text-anchor="middle" font-size="13.5" font-weight="800" fill="#13232C">Głowa i twarz · Moduł [7]</text>
+      <!-- Sylwetka głowy -->
+      <path d="M92 225 C84 165 88 92 156 76 C224 62 262 114 252 178 C248 205 262 216 254 226 C246 234 236 238 238 250 C240 264 224 274 202 276 L192 310 L114 310 L114 256 C100 248 94 238 92 225Z" fill="#fff" stroke="#44545D" stroke-width="2"/>
+      <!-- Opaska TTH -->
+      <path d="M91 132 C125 118 208 118 248 134 L244 152 C205 138 128 138 89 150Z" fill="#E1ECF9" stroke="#2B63AE" stroke-width="1.6"/>
+      <!-- Strefa migreny jednostronna -->
+      <ellipse cx="146" cy="112" rx="44" ry="26" fill="#E1EFF5" stroke="#245B7A" stroke-width="1.8" stroke-dasharray="4 3"/>
+      <!-- Oczodół klasterowy TAC -->
+      <circle cx="215" cy="160" r="18" fill="#FBE6E2" stroke="#A82D1E" stroke-width="2"/>
+      <circle cx="220" cy="160" r="5" fill="#A82D1E"/>
+      <!-- Strefy V2 i V3 -->
+      <path d="M174 186 Q216 184 244 202 Q226 226 178 220 Z" fill="#FCEFD6" stroke="#8F5808" stroke-width="1.6"/>
+      <path d="M158 226 Q204 228 236 244 Q220 272 162 266 Z" fill="#FCEFD6" stroke="#8F5808" stroke-width="1.6"/>
+      <!-- Etykiety lewy panel -->
+      <text x="146" y="116" text-anchor="middle" font-size="11.5" font-weight="800" fill="#245B7A">Migrena (4–72 h)</text>
+      <text x="166" y="146" text-anchor="middle" font-size="10.5" font-weight="700" fill="#2B63AE">Napięciowy (opaska)</text>
+      <text x="242" y="140" font-size="11" font-weight="800" fill="#A82D1E">Klaster</text>
+      <text x="208" y="208" text-anchor="middle" font-size="11" font-weight="800" fill="#8F5808">V2</text>
+      <text x="196" y="251" text-anchor="middle" font-size="11" font-weight="800" fill="#8F5808">V3 · Neuralgia</text>
+      <text x="161" y="334" text-anchor="middle" font-size="11" fill="#44545D">SNOOP10 przed rozpoznaniem pierwotnym!</text>
+
+      <!-- Panel prawy: rdzeń, ogon koński, L4-S1 -->
+      <rect x="328" y="10" width="302" height="340" rx="14" fill="#EEF2F0" stroke="#DCE2E0" stroke-width="1.5"/>
+      <text x="479" y="34" text-anchor="middle" font-size="13.5" font-weight="800" fill="#13232C">Kanał kręgowy i korzenie · Moduł [8]</text>
+      <!-- Kanał kręgowy -->
+      <rect x="382" y="54" width="66" height="268" rx="12" fill="#fff" stroke="#44545D" stroke-width="2"/>
+      <!-- Rdzeń kończy się na L1/L2 -->
+      <path d="M398 58 L432 58 L428 134 Q415 156 402 134 Z" fill="#DDF1F2" stroke="#0C7A85" stroke-width="2"/>
+      <text x="415" y="96" text-anchor="middle" font-size="10.5" font-weight="800" fill="#075760">Rdzeń</text>
+      <text x="415" y="112" text-anchor="middle" font-size="9.5" font-weight="700" fill="#075760">L1–L2</text>
+      <!-- Ogon koński -->
+      <path d="M405 144 L398 312 M412 146 L410 314 M418 146 L422 314 M425 144 L434 312" stroke="#A82D1E" stroke-width="2" stroke-dasharray="5 3"/>
+      <rect x="386" y="156" width="58" height="44" rx="8" fill="#FBE6E2" stroke="#A82D1E" stroke-width="1.6"/>
+      <text x="415" y="175" text-anchor="middle" font-size="10.5" font-weight="800" fill="#A82D1E">Ogon</text>
+      <text x="415" y="190" text-anchor="middle" font-size="10" font-weight="700" fill="#A82D1E">koński</text>
+      <!-- Wyjścia korzeni L4, L5, S1 -->
+      <path d="M430 218 L472 218" stroke="#8F5808" stroke-width="3"/>
+      <rect x="472" y="200" width="146" height="36" rx="8" fill="#FCEFD6" stroke="#8F5808" stroke-width="1.5"/>
+      <text x="480" y="215" font-size="11" font-weight="800" fill="#8F5808">L4 (dysk L3–L4)</text>
+      <text x="480" y="229" font-size="10" fill="#13232C">odruch kolanowy · Mackiewicz</text>
+
+      <path d="M430 262 L472 262" stroke="#2B63AE" stroke-width="3"/>
+      <rect x="472" y="244" width="146" height="36" rx="8" fill="#E1ECF9" stroke="#2B63AE" stroke-width="1.5"/>
+      <text x="480" y="259" font-size="11" font-weight="800" fill="#2B63AE">L5 (dysk L4–L5)</text>
+      <text x="480" y="273" font-size="10" fill="#13232C">opadanie stopy · odruchy OK!</text>
+
+      <path d="M430 306 L472 306" stroke="#245B7A" stroke-width="3"/>
+      <rect x="472" y="288" width="146" height="36" rx="8" fill="#E1EFF5" stroke="#245B7A" stroke-width="1.5"/>
+      <text x="480" y="303" font-size="11" font-weight="800" fill="#245B7A">S1 (dysk L5–S1)</text>
+      <text x="480" y="317" font-size="10" fill="#13232C">brak odruchu skokowego</text>
+
+      <rect x="466" y="74" width="152" height="58" rx="9" fill="#DDF1F2" stroke="#0C7A85" stroke-width="1.5"/>
+      <text x="474" y="92" font-size="11" font-weight="800" fill="#075760">Stożek (L1–L2)</text>
+      <text x="474" y="108" font-size="10" fill="#13232C">wczesne zab. zwieraczy,</text>
+      <text x="474" y="122" font-size="10" fill="#13232C">symetryczne, UMN/LMN</text>
+      <text x="479" y="340" text-anchor="middle" font-size="10.5" fill="#44545D">CES = pilne MRI i odbarczenie &lt;24–48 h</text>
+    </svg>
+    <div class="herolist">
+      <div><b style="color:#245B7A">Migrena</b> jednostronna, pulsująca, wysiłek nasila</div>
+      <div><b style="color:#A82D1E">Klaster (TAC)</b> oko + łzawienie/Horner, niepokój</div>
+      <div><b style="color:#8F5808">Neuralgia V</b> V2/V3 „rażenie prądem”, karbamazepina</div>
+      <div><b style="color:#A82D1E">Ogon koński</b> spodenki jeździeckie + pęcherz (LMN)</div>
+    </div>
+    <figcaption>Synteza topograficzna modułów [7] i [8]: różnicowanie bólów głowy i twarzy (po lewej) oraz zespołów stożka rdzeniowego, ogona końskiego i korzeni L4–S1 (po prawej).</figcaption>
+  </figure>
+</div></header>
+
+<main>
+<!-- ============ 1. GLOWA & SNOOP ============ -->
+<section id="glowa"><div class="wrap">
+  <div class="eyebrow">Część A · Moduł [7] · Wykład TK03 / Sem TK11</div>
+  <h2>Klasyfikacja bólów głowy i czerwone flagi (SNOOP10)</h2>
+  <p class="lead">Ponad 90% bólów głowy w praktyce klinicznej ma charakter pierwotny (napięciowy, migrena, TAC), jednak zadaniem lekarza jest w pierwszej kolejności wykluczenie wtórnych stanów zagrożenia życia na podstawie kryteriów alarmowych SNOOP10.</p>
+
+  <div class="kpis">
+    <div class="kpi"><b>&gt;90%</b><span>bólów głowy to bóle pierwotne (najczęstszy: TTH; najbardziej upośledzający: migrena)</span></div>
+    <div class="kpi r"><b>&lt; 1 min</b><span>szczyt narastania bólu piorunującego (thunderclap) — zawsze wyklucz SAH</span></div>
+    <div class="kpi a"><b>&gt; 50 r.ż.</b><span>nowy ból głowy: oznacz OB/CRP i zbadaj t. skroniową (olbrzymiokomórkowe zapalenie)</span></div>
+    <div class="kpi v"><b>6 h</b><span>okno blisko 100% czułości TK bez kontrastu w SAH — powyżej 6 h wykonaj LP</span></div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>Rozpowszechnienie i priorytet triage</h3>
+      <p class="small" style="margin-bottom:.6rem">Roczna częstość w populacji dorosłych wg ICHD-3 oraz priorytet pilnej diagnostyki w SOR*.</p>
+      <div class="bars" id="barsHeadache"></div>
+    </div>
+    <div class="flow">
+      <div class="fn start">Pacjent ze świeżym lub nietypowym bólem głowy</div>
+      <div class="ar">↓</div>
+      <div class="fn amber"><b>Przesiew czerwonych flag SNOOP10</b>gorączka · deficyt · nagły początek &lt;1 min · wiek &gt;50 lat · obrzęk tarczy n. II · ciąża · nowotwór</div>
+      <div class="branch">
+        <div>
+          <div class="fn red"><b>TAK — obecna choćby 1 flaga</b>Ból potencjalnie WTÓRNY</div>
+          <div class="ar">↓</div>
+          <div class="fn"><b>Pilna diagnostyka celowana</b>TK/angio-TK (SAH, CVST, udar) · OB/CRP (GCA) · LP po wykluczeniu masy/ICP (ZOMR, SAH &gt;6 h)</div>
+        </div>
+        <div>
+          <div class="fn green"><b>NIE — brak flag alarmowych</b>Kryteria czasowe i objawowe ICHD-3</div>
+          <div class="ar">↓</div>
+          <div class="fn"><b>Rozpoznanie PIERWOTNE</b>TTH (30 min–7 d) · Migrena (4–72 h) · Klaster/TAC (15–180 min)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="margin:1.6rem 0 .6rem">Rozwinięcie akronimu SNOOP10 (czerwone flagi)</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Litera</th><th>Objaw alarmowy (Red Flag)</th><th>Kluczowe podejrzenie wtórne</th><th>Pilne badanie / działanie</th></tr></thead>
+      <tbody>
+        <tr><td><b>S</b> — Systemic</td><td>Gorączka, sztywność karku, wybroczyny, utrata masy ciała, wywiad nowotworu lub immunosupresji/HIV</td><td>Bakteryjne/wirusowe ZOMR, ropień mózgu, przerzuty do OUN, guz</td><td>Antybiotyk + deksametazon przed TK przy podejrzeniu ZOMR; MRI z kontrastem</td></tr>
+        <tr><td><b>N</b> — Neurologic</td><td>Ogniskowy ubytek neurologiczny, zaburzenia przytomności, napad drgawkowy, obrzęk tarczy n. II</td><td>Udar niedokrwienny/krwotoczny, guz OUN, krwiak, zakrzepica zatok (CVST)</td><td>Pilne TK bez kontrastu / MRI + angio-TK lub wenografia (MRV/CTV)</td></tr>
+        <tr><td><b>O</b> — Onset</td><td>Nagły, eksplodujący początek (<em>thunderclap</em> — szczyt &lt;60 s), ból przy wysiłku lub stosunku</td><td>Krwotok podpajęczynówkowy (SAH), RCVS, rozwarstwienie t. szyjnej/kręgowej, udar przysadki</td><td>Natychmiastowe TK głowy; jeśli ujemne &gt;6 h → nakłucie lędźwiowe (ksantochromia) + angio-TK</td></tr>
+        <tr><td><b>O</b> — Older age</td><td>Pierwszy w życiu ból głowy u osoby &gt;50. r.ż., chromanie żuchwy, tkliwość t. skroniowej, PMR</td><td>Olbrzymiokomórkowe zapalenie tętnic (GCA — ryzyko nieodwracalnej ślepoty!), guz</td><td>Pilne OB/CRP, USG tętnic skroniowych, biopsja; w GCA nie czekaj z wysoką dawką GKS</td></tr>
+        <tr><td><b>P</b> — Pattern / Positional / Pregnancy</td><td>Zmiana dotychczasowego wzorca, ból nasilany kaszlem/leżeniem (ICP) vs pionizacją (hipotensja PMR), ciąża/połóg</td><td>Guz OUN, wodogłowie, zakrzepica zatok żylnych (CVST), stan przedrzucawkowy</td><td>MRI + MRV (w ciąży bez gadolinu), pomiar ciśnienia tętniczego i białkomoczu</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout red" style="margin-top:1rem"><b class="k">Zasada bezpieczeństwa [7][2][16]</b>Pierwszy w życiu piorunujący ból głowy wymaga pilnego TK bez kontrastu. Jeśli wynik TK wykonanego po &gt;6 godzinach od początku bólu jest prawidłowy, badanie NIE wyklucza SAH — obowiązkowe jest nakłucie lędźwiowe w poszukiwaniu ksantochromii lub angio-TK.</div>
+</div></section>
+
+<!-- ============ 2. MIGRENA I TAC ============ -->
+<section id="migrena"><div class="wrap">
+  <div class="eyebrow">Część B · Moduł [7] · Sem TK11 · Pierwotne bóle głowy</div>
+  <h2>Migrena, ból napięciowy i trójdzielno-autonomiczne bóle głowy (TAC)</h2>
+  <p class="lead">Różnicowanie pierwotnych zespołów bólowych opiera się na czasie trwania pojedynczego napadu, zachowaniu chorego podczas bólu, objawach autonomicznych oraz doborze swoistego leczenia przerywającego i profilaktycznego.</p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>Cecha</th><th>Migrena (z aurą / bez aury)</th><th>Napięciowy ból głowy (TTH)</th><th>Klasterowy ból głowy (TAC)</th></tr></thead>
+      <tbody>
+        <tr><td><b>Czas napadu (nieleczony)</b></td><td><b>4–72 h</b></td><td><b>30 min – 7 dni</b></td><td><b>15–180 min</b> (1–8 razy/dobę, serie „klastry”)</td></tr>
+        <tr><td><b>Lokalizacja i charakter</b></td><td>Zwykle jednostronny (60%), pulsujący, umiarkowany lub silny</td><td>Obustronny („opaska/obręcz”), uciskowy, lekki lub umiarkowany</td><td>Ściśle jednostronny (oczodół, nadoczodół, skroń), rozrywający, bardzo silny</td></tr>
+        <tr><td><b>Wpływ wysiłku i zachowanie</b></td><td>Wysiłek nasila ból; chory szuka ciszy i ciemności (leży)</td><td>Zwykły wysiłek fizyczny nie nasila bólu</td><td><b>Pobudzenie psychoruchowe</b> — chory chodzi, kołysze się, nie może usiedzieć</td></tr>
+        <tr><td><b>Objawy towarzyszące</b></td><td>Nudności/wymioty, fotofobia i fonofobia; u ~25–30% aura (5–60 min, typowo wzrokowa)</td><td>Brak nudności i wymiotów; dopuszczalna najwyżej fotofobia LUB fonofobia</td><td><b>Ipsilateralne objawy autonomiczne</b>: łzawienie, przekrwienie spojówki, wyciek/blokada nosa, zespół Hornera</td></tr>
+        <tr><td><b>Leczenie doraźne</b></td><td>Lekkie: NLPZ/paracetamol; średnie/ciężkie: <b>tryptany</b> (sumatryptan), <b>gepanty</b> (rimegepant), ditany</td><td>Paracetamol, ibuprofen, naproksen, ASA (ogranicz dni użycia, aby zapobiec MOH!)</td><td><b>100% tlen</b> (12–15 L/min, maska z rezerwuarem 15 min) + <b>sumatryptan 6 mg s.c.</b> (lub donosowo)</td></tr>
+        <tr><td><b>Profilaktyka</b></td><td>Propranolol/metoprolol, topiramat, amitryptylina, kandesartan; <b>przeciwciała anty-CGRP</b>, gepanty (atogepant); toksyna botulinowa A (przewlekła)</td><td>Amitryptylina, mirtazapina, wenlafaksyna (w przewlekłym TTH)</td><td>Pomostowo: prednizon lub blokada n. potylicznego; przewlekle: <b>werapamil</b> (kontrola EKG / odstęp PQ!), lit, topiramat</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="grid3" style="margin-top:1.2rem">
+    <div class="tcard b">
+      <h3>🌈 Aura migrenowa vs TIA</h3>
+      <ul>
+        <li>Aura narasta stopniowo przez <b>≥5 min</b> i trwa <b>5–60 min</b>; przeważają zjawiska dodatnie (mroczki błyskające, widma fortyfikacyjne) z pełnym ustąpieniem.</li>
+        <li>TIA ma początek nagły (sekundy) i objawy ujemne (niedowład, ślepota jednooczna).</li>
+        <li>U kobiet z <b>migreną z aurą</b> przeciwwskazana jest antykoncepcja estrogenowa (ryzyko udaru).</li>
+      </ul>
+    </div>
+    <div class="tcard g">
+      <h3>🧭 Pozostałe zespoły TAC</h3>
+      <ul>
+        <li><b>Hemikrania napadowa:</b> ból jak w klasterze, ale trwa <b>2–30 min</b> (&gt;5 napadów/d); <b>100% odpowiedź na indometacynę</b> (kryterium diagnostyczne!).</li>
+        <li><b>SUNCT / SUNA:</b> bardzo krótkie (<b>1–600 s</b>), dziesiątki–setki napadów dziennie w zakresie V1 z łzawieniem; lek I rzutu: <b>lamotrygina</b>.</li>
+        <li>Każdy nowy TAC wymaga <b>MRI mózgu</b> (wykluczenie guza przysadki / zatoki jamistej).</li>
+      </ul>
+    </div>
+    <div class="tcard v">
+      <h3>💊 Polekowy ból głowy (MOH)</h3>
+      <ul>
+        <li>Rozpoznawany przy bólu <b>≥15 dni/mies. przez &gt;3 mies.</b> u chorego nadużywającego leków doraźnych.</li>
+        <li>Próg: tryptany, opioidy, leki złożone/ergotamina <b>≥10 dni/mies.</b>; proste NLPZ/paracetamol <b>≥15 dni/mies.</b></li>
+        <li>Postępowanie: edukacja, przerwanie nadużywania leku doraźnego oraz włączenie profilaktyki.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:1.2rem">
+    <h3>Lista kontrolna przed podaniem tryptanu</h3>
+    <ul class="chk no" style="margin-top:.6rem">
+      <li>Choroba niedokrwienna serca, przebyty zawał mięśnia sercowego, dławica Prinzmetala (skurcz naczyń!)</li>
+      <li>Niekontrolowane nadciśnienie tętnicze, przebyty udar mózgu / TIA, miażdżyca naczyń obwodowych</li>
+      <li>Migrena hemiplegiczna lub migrena z aurą pniową (klasyczne przeciwwskazanie — alternatywa: gepanty)</li>
+      <li>Łączenie z pochodnymi ergotaminy w odstępie &lt;24 h oraz podanie w trakcie samej aury (podaj na początku bólu)</li>
+    </ul>
+  </div>
+</div></section>
+
+<!-- ============ 3. NEURALGIA V ============ -->
+<section id="neuralgia"><div class="wrap">
+  <div class="eyebrow">Część C · Moduł [7] · Wykład TK03 / Ćw TK04 · Nerw trójdzielny</div>
+  <h2>Neuralgia nerwu trójdzielnego (n. V) i różnicowanie bólów twarzy</h2>
+  <p class="lead">Klasyczna neuralgia nerwu V jest najczęstszym nerwobólem twarzy — wywołuje ją najczęściej konflikt naczyniowo-nerwowy w strefie wejścia korzenia, ale u młodszych chorych zawsze wymaga wykluczenia stwardnienia rozsianego (SM).</p>
+
+  <div class="grid2">
+    <div class="tcard a">
+      <h3>⚡ Obraz klasycznej neuralgii n. V</h3>
+      <ul>
+        <li>Jednostronne, nawracające wyładowania bólowe trwające <b>od ułamka sekundy do 2 minut</b>, opisywane jako „rażenie prądem” lub „pchnięcie nożem”.</li>
+        <li>Zajmuje głównie gałąź <b>V2 (szczękową) i V3 (żuchwową)</b>; izolowane zajęcie V1 (&lt;5%) wymaga wykluczenia półpaśca i SUNCT.</li>
+        <li><b>Strefy spustowe (trigger zones):</b> delikatny dotyk, mycie zębów, golenie, żucie, mówienie, podmuch wiatru.</li>
+        <li>W postaci klasycznej <b>brak ubytków czucia</b> i zachowany odruch rogówkowy (okres refrakcji po wyładowaniu).</li>
+      </ul>
+    </div>
+    <div class="tcard r">
+      <h3>🚩 Kiedy podejrzewać neuralgię wtórną?</h3>
+      <ul>
+        <li><b>Wiek zachorowania &lt; 40. r.ż.</b> lub ból <b>obustronny</b> — kluczowy sygnał <b>stwardnienia rozsianego (SM)</b> [9]!</li>
+        <li>Współistniejący <b>deficyt czuciowy w V1–V3</b>, osłabienie/zniesienie <b>odruchu rogówkowego</b> lub niedowład żwaczy (V3).</li>
+        <li>Zajęcie innych nerwów czaszkowych (VII, VIII — guz kąta mostowo-móżdżkowego: nerwiak, oponiak).</li>
+        <li><b>Badanie z wyboru:</b> MRI mózgu z kontrastem + sekwencje cienkowarstwowe (CISS/FIESTA) dla oceny konfliktu naczyniowo-nerwowego (najczęściej t. móżdżkowa górna — SCA).</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="tw" style="margin-top:1.2rem">
+    <table>
+      <thead><tr><th>Jednostka</th><th>Czas napadu i lokalizacja</th><th>Czynnik wyzwalający / towarzyszący</th><th>Leczenie z wyboru</th></tr></thead>
+      <tbody>
+        <tr><td><b>Neuralgia nerwu V</b></td><td>&lt;1 s – 2 min; jednostronnie V2/V3</td><td>Dotyk, żucie, golenie; brak istotnego łzawienia</td><td><b>Karbamazepina</b> lub okskarbazepina; oporne: MVD (Jannetta)</td></tr>
+        <tr><td><b>Klasterowy ból (TAC)</b></td><td>15–180 min; oczodół/skroń (V1)</td><td>Alkohol, sen REM; łzawienie, Horner, niepokój</td><td>100% O₂ + sumatryptan s.c.; profilaktyka: werapamil</td></tr>
+        <tr><td><b>SUNCT / SUNA</b></td><td>1–600 s; okolica oczodołu (V1)</td><td>Bardzo liczne serie (do 100/d) z nasilonym łzawieniem</td><td><b>Lamotrygina</b> (doraźnie w szpitalu lidokaina i.v.)</td></tr>
+        <tr><td><b>Neuralgia popółpaścowa</b></td><td>Ciągły ból piekący; V1 (czoło/oko)</td><td>Przebyte pęcherzyki (VZV), przeczulica i blizny</td><td>Pregabalina, gabapentyna, amitryptylina, lidokaina miejscowo</td></tr>
+        <tr><td><b>Zapalenie t. skroniowej (GCA)</b></td><td>Ciągły tępy/pulsujący ból skroni &gt;50 r.ż.</td><td>Chromanie żuchwy, tkliwa t. skroniowa, wysokie OB/CRP</td><td>Natychmiast wysokie dawki GKS (ochrona wzroku przed AION!)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout" style="margin-top:1rem"><b class="k">Farmakoterapia i neurochirurgia neuralgii V</b>Lekiem pierwszego rzutu wg sylabusa PUM i wytycznych EAN jest <b>karbamazepina</b> (powolne miareczkowanie 200→1200 mg/d; kontroluj sód, morfologię, próby wątrobowe i interakcje CYP) lub lepiej tolerowana <b>okskarbazepina</b>. Zwykłe NLPZ i opioidy są nieskuteczne. W II rzucie stosuje się lamotryginę, baklofen lub gabapentynowce; w oporności i potwierdzonym konflikcie naczyniowo-nerwowym wykonuje się <b>mikronaczyniową dekompresję (MVD)</b>, zabiegi na zwoju Gassera lub radiochirurgię stereotaktyczną.</div>
+</div></section>
+
+<!-- ============ 4. BOLE BARKU I KRZYZA ============ -->
+<section id="kregoslup"><div class="wrap">
+  <div class="eyebrow">Część D · Moduł [8] · W03h / Sem TK11 / Ćw TK12 · Radikulopatie</div>
+  <h2>Bóle barku, bóle krzyża i radikulopatie (C5–C8, L4–S1)</h2>
+  <p class="lead">Rozpoznanie poziomu ucisku korzenia nerwowego w badaniu przedmiotowym opiera się na trzech filarach: rozkładzie bólu (dermatom), osłabieniu mięśnia wskaźnikowego (miotom) oraz zniesieniu swoistego odruchu głębokiego.</p>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>Udział poziomów w przepuklinie krążka L-S</h3>
+      <p class="small" style="margin-bottom:.6rem">Ponad 90% zespołów korzeniowych lędźwiowo-krzyżowych dotyczy poziomów L4–L5 oraz L5–S1.</p>
+      <div class="bars" id="barsRadic"></div>
+      <div class="callout blue" style="margin-top:1rem"><b class="k">Objawy rozciągowe lędźwiowe (Ćw TK12)</b>
+        <ul class="tight">
+          <li><b>Objaw Lasègue’a (SLR):</b> uniesienie wyprostowanej nogi u leżącego na plecach — ból korzeniowy poniżej kolana w zakresie <b>30°–70°</b> wskazuje na korzenie <b>L5 lub S1</b> (wzmocnienie zgięciem grzbietowym stopy = objaw Bragarda).</li>
+          <li><b>Skrzyżowany objaw Lasègue’a:</b> uniesienie zdrowej nogi wywołuje ból w chorej kończynie — wysoka swoistość dla dużej przepukliny.</li>
+          <li><b>Objaw Mackiewicza (odwrócony Lasègue):</b> zgięcie kolana w leżeniu na brzuchu daje ból przedniej powierzchni uda — rozciąga nerw udowy (<b>korzenie L2–L4</b>).</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Ból barku vs radikulopatia szyjna (C5–C8)</h3>
+      <p class="small" style="margin-bottom:.5rem">W odróżnieniu od zmian w stawie barkowym (ograniczenie odwodzenia czynnego, ból przy ucisku stożka rotatorów), rwa barkowa nasila się przy próbie <b>Spurlinga</b> i maleje po uniesieniu ręki za głowę (objaw <b>Bakody’ego</b>).</p>
+      <div class="tw">
+        <table>
+          <thead><tr><th>Korzeń</th><th>Dermatom (palce)</th><th>Osłabienie ruchowe</th><th>Odruch głęboki</th></tr></thead>
+          <tbody>
+            <tr><td><b>C5</b></td><td>Zewn. powierzchnia ramienia</td><td>M. naramienny (odwodzenie ramienia)</td><td>Dwugłowy (częściowo)</td></tr>
+            <tr><td><b>C6</b></td><td>Kciuk i palec wskazujący</td><td>Dwugłowy i prostowniki nadgarstka</td><td><b>Ramienno-promieniowy</b> / dwugłowy</td></tr>
+            <tr><td><b>C7</b> ★</td><td><b>Palec środkowy</b> (najczęstsza!)</td><td><b>M. trójgłowy</b> (wyprost łokcia)</td><td><b>Trójgłowy ramienia</b></td></tr>
+            <tr><td><b>C8</b></td><td>Palec serdeczny i mały</td><td>Zginacze palców i mięśnie drobne ręki</td><td>Brak swoistego odruchu</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="small" style="margin-top:.6rem"><b>Mielopatia szyjna:</b> ucisk samego rdzenia szyjnego daje cechy <b>LMN</b> na poziomie zwężenia + cechy <b>UMN</b> poniżej (wygórowane odruchy w nogach, Babiński, objaw Lhermitte’a).</p>
+    </div>
+  </div>
+
+  <h3 style="margin:1.6rem 0 .6rem">Topografia zespołów korzeniowych lędźwiowo-krzyżowych (L4 vs L5 vs S1)</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Korzeń (typowa przepuklina)</th><th>Promieniowanie bólu i czucie</th><th>Niedowład ruchowy (miotom)</th><th>Odruch głęboki</th><th>Test funkcjonalny i rozciągowy</th></tr></thead>
+      <tbody>
+        <tr><td><b>L4</b> (dysk L3–L4)</td><td>Przednia strona uda → przyśrodkowa strona podudzia i kostka przyśrodkowa</td><td>M. czworogłowy uda (wyprost kolana) i piszczelowy przedni</td><td><b>Kolanowy</b> osłabiony / zniesiony</td><td>Trudność wstawania z przysiadu; <b>Mackiewicz (+)</b></td></tr>
+        <tr><td><b>L5</b> (dysk L4–L5)</td><td>Boczna strona uda i podudzia → grzbiet stopy i <b>paluch</b></td><td>Prostownik długi palucha (EHL) i prostowniki stopy (<b>opadanie stopy</b>)</td><td><b>PRAWIDŁOWE</b> (kolanowy i skokowy zachowane!)</td><td><b>Nie stanie na piętach</b>; chód brodzący; Lasègue (+)</td></tr>
+        <tr><td><b>S1</b> (dysk L5–S1)</td><td>Tylna strona uda i łydki → podeszwa i brzeg boczny stopy (<b>palec V</b>)</td><td>M. trójgłowy łydki / zginacze podeszwowe stopy</td><td><b>Skokowy (Achillesa)</b> osłabiony / zniesiony</td><td><b>Nie stanie na palcach</b>; Lasègue (+)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout amber" style="margin-top:1rem"><b class="k">Nieswoisty ból krzyża — zasada 4–6 tygodni</b>Ostry ból krzyża bez czerwonych flag i bez postępującego niedowładu nie wymaga rutynowego RTG, TK ani MRI w pierwszych 4–6 tygodniach. Zalecaj utrzymanie umiarkowanej aktywności fizycznej, krótkotrwałe NLPZ i edukację — unieruchomienie w łóżku pogarsza rokowanie.</div>
+</div></section>
+
+<!-- ============ 5. ZESPOL OGONA KONSKIEGO ============ -->
+<section id="ogon"><div class="wrap">
+  <div class="eyebrow">Część E · Moduł [8] &amp; [13] · Stan nagły kręgosłupa</div>
+  <h2>Zespół ogona końskiego (CES) vs zespół stożka rdzeniowego</h2>
+  <p class="lead">Ostre uszkodzenie korzeni ogona końskiego poniżej stożka rdzeniowego (L1–L2) jest stanem bezpośredniego zagrożenia trwałym kalectwem zwieraczy i wymaga pilnego MRI oraz odbarczenia neurochirurgicznego.</p>
+
+  <div class="flow">
+    <div class="fn start">Ból krzyża / rwa kulszowa + czerwona flaga kręgosłupa</div>
+    <div class="ar">↓</div>
+    <div class="fn red"><b>Znieczulenie „spodenki jeździeckie” · zatrzymanie/nietrzymanie moczu lub stolca · wiotki niedowład obu kończyn · zniesienie napięcia zwieracza odbytu</b></div>
+    <div class="branch">
+      <div>
+        <div class="fn red"><b>PODEJRZENIE CES (stan nagły!)</b>Pilne MRI kręgosłupa L-S (&lt;4 h)</div>
+        <div class="ar">↓</div>
+        <div class="fn"><b>Natychmiastowa konsultacja neurochirurgiczna</b>Dekompresja operacyjna optymalnie &lt;24–48 h</div>
+      </div>
+      <div>
+        <div class="fn amber"><b>Wywiad onkologiczny / ból nocny / gorączka</b>Podejrzenie przerzutu (MSCC) lub ropnia</div>
+        <div class="ar">↓</div>
+        <div class="fn"><b>Deksametazon i.v. + MRI całego kręgosłupa</b>(przy ropniu: najpierw posiewy + antybiotyk, bez steroidów)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tw" style="margin-top:1.4rem">
+    <table>
+      <thead><tr><th>Cecha kliniczna</th><th>Zespół stożka rdzeniowego (poziom L1–L2)</th><th>Zespół ogona końskiego (korzenie poniżej L1/L2)</th></tr></thead>
+      <tbody>
+        <tr><td><b>Typ uszkodzenia</b></td><td>Dystalny odcinek rdzenia kręgowego (S2–S5) — cechy mieszane <b>UMN + LMN</b></td><td>Wyłącznie korzenie nerwowe w worku oponowym — czysty <b>LMN</b> (niedowład wiotki)</td></tr>
+        <tr><td><b>Początek i symetria</b></td><td>Zwykle <b>nagły i symetryczny</b> (obustronny)</td><td>Częściej stopniowy (lub ostry w dużej przepuklinie), zwykle <b>asymetryczny</b></td></tr>
+        <tr><td><b>Ból korzeniowy</b></td><td>Łagodny lub nieobecny (dominuje ból pleców/krocza)</td><td><b>Bardzo silny, promieniujący do kończyn</b> (często obustronna rwa)</td></tr>
+        <tr><td><b>Zaburzenia czucia</b></td><td>Symetryczne w okolicy krocza („spodenki jeździeckie”), bywa rozszczepienie czucia</td><td>„Spodenki jeździeckie” często asymetryczne, zniesienie wszystkich rodzajów czucia</td></tr>
+        <tr><td><b>Zaburzenia zwieraczy</b></td><td><b>Bardzo wczesne</b> zatrzymanie moczu z przepełnienia, nietrzymanie stolca, impotencja</td><td>Pojawiają się później niż ból, ale w ostrym CES są objawem alarmowym (retencja moczu)</td></tr>
+        <tr><td><b>Odruchy głębokie</b></td><td>Kolanowy i skokowy zazwyczaj <b>zachowane</b> (zniesiony odruch odbytowy i opuszkowo-jamisty)</td><td><b>Osłabione lub zniesione</b> odruchy kolanowe/skokowe (zależnie od korzeni) oraz odbytowy</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout red" style="margin-top:1rem"><b class="k">Czerwone flagi kręgosłupa (TUNA FISH)</b><b>T</b>rauma (uraz), <b>U</b>nexplained weight loss (spadek masy / nowotwór), <b>N</b>eurologic deficit (niedowład/CES), <b>A</b>ge &gt;50 lub &lt;20 lat, <b>F</b>ever (gorączka — ropień/spondylodiscitis), <b>I</b>V drug use, <b>S</b>teroids (złamanie osteoporotyczne), <b>H</b>istory of cancer. Każdy chory onkologiczny z bólem nocnym pleców wymaga pilnego MRI całego kręgosłupa!</div>
+</div></section>
+
+<!-- ============ 6. ZADANIA TESTOWE ============ -->
+<section id="zadania"><div class="wrap">
+  <div class="eyebrow">Część F · Trening egzaminacyjny ET</div>
+  <h2>Zadania testowe i omówienia</h2>
+  <p class="lead">Zestaw zadań sprawdzających najważniejsze punkty sylabusa PUM 2026/2027 dla modułów [7] i [8]. Wybierz odpowiedź, aby zobaczyć uzasadnienie, wskazówkę oraz ewentualne rozbieżności między kluczem zaliczeniowym a aktualnymi wytycznymi.</p>
+
+  <div class="card" style="margin-bottom:1.2rem">
+    <h3>Rozkład zadań według bloków</h3>
+    <p class="small" style="margin-bottom:.6rem">Liczba zadań w bieżącym atlasie z podziałem na obszary tematyczne.</p>
+    <div class="bars" id="barsPool"></div>
+  </div>
+
+  <div class="qtools">
+    <div class="filters" id="qFilters" style="margin:0"></div>
+    <span class="sp"></span>
+    <button type="button" class="btn" id="rand10">🎲 Losuj</button>
+    <button type="button" class="btn o" id="resetQ">Resetuj</button>
+  </div>
+  <div id="quiz"></div>
+  <div class="score" id="score" role="status">Wynik: 0 / 0</div>
+</div></section>
+
+<!-- ============ 7. KLUCZ VS WYTYCZNE ============ -->
+<section id="klucz"><div class="wrap">
+  <div class="eyebrow">Część G · Zgodność z wytycznymi</div>
+  <h2>Pod zaliczenie kontra aktualnie klinicznie (wytyczne)</h2>
+  <p class="lead">Zestawienie klasycznych sformułowań egzaminacyjnych z aktualizacjami międzynarodowych towarzystw naukowych (ICHD-3, IHS 2024, EAN, NICE/BASS).</p>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Obszar</th><th>Pod zaliczenie (klasyczne ujęcie)</th><th>Aktualnie klinicznie (wytyczne)</th></tr></thead>
+      <tbody>
+        <tr><td><b>Ostre przerywanie migreny</b></td><td>NLPZ w lekkich napadach, tryptany (np. sumatryptan) w napadach umiarkowanych i ciężkich</td><td>Dodatkowo <b>gepanty</b> (rimegepant) i ditany (lasmiditan) — skuteczne i bezpieczne przy przeciwwskazaniach naczyniowych do tryptanów</td></tr>
+        <tr><td><b>Profilaktyka migreny</b></td><td>Leki doustne I rzutu: propranolol, topiramat, amitryptylina, kwas walproinowy</td><td><b>Przeciwciała anty-CGRP</b> (erenumab, fremanezumab, galkanezumab, eptinezumab) i gepanty (atogepant, rimegepant) wg IHS/EAN także wcześnie; <b>bezwzględnie unikaj walproinianu</b> u kobiet w wieku rozrodczym</td></tr>
+        <tr><td><b>Podejrzenie SAH z ujemnym TK</b></td><td>Ujemne TK nie wyklucza SAH — konieczne nakłucie lędźwiowe</td><td>Reguła 6 h (Ottawa SAH / ESO): czułość TK wielorzędowego &lt;6 h sięga ~99–100%, natomiast <b>&gt;6 h</b> obowiązkowe jest nakłucie lędźwiowe (ksantochromia) lub angio-TK</td></tr>
+        <tr><td><b>Neuralgia nerwu V</b></td><td>Karbamazepina jako standardowy lek pierwszego rzutu</td><td>Wytyczne EAN stawiają <b>karbamazepinę i okskarbazepinę</b> równorzędnie w I rzucie (lepsza tolerancja okskarbazepiny); w ostrym kryzysie fenytoina lub lidokaina i.v.; zawsze MRI z oceną kąta M-M</td></tr>
+        <tr><td><b>Nieswoisty ból krzyża</b></td><td>Często wczesne zlecenie RTG odcinka L-S i okresowe leżenie w łóżku</td><td>Zdecydowanie <b>odradza się rutynowe obrazowanie</b> w pierwszych 4–6 tygodniach bez czerwonych flag; zaleca się utrzymanie aktywności zamiast leżenia w łóżku</td></tr>
+        <tr><td><b>Zespół ogona końskiego (CES)</b></td><td>Pełna triada: ból korzeniowy, spodenki jeździeckie, zatrzymanie/nietrzymanie moczu</td><td>Wytyczne NICE/BASS nakazują pilne MRI już na etapie <b>CES-suspected / incomplete</b> (zmienione czucie krocza lub osłabienie strumienia moczu), przed wystąpieniem retencji z przepełnienia</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div></section>
+
+<!-- ============ 8. PULAPKI ============ -->
+<section id="pulapki"><div class="wrap">
+  <div class="eyebrow">Część H · Najczęstsze błędy</div>
+  <h2>Pułapki egzaminacyjne i kliniczne</h2>
+  <p class="lead">Pięć klasycznych rozstrzygnięć, na których najczęściej gubi się punkty w testach z modułów [7] i [8].</p>
+  <div class="stack">
+    <div class="callout red"><b class="k">Pułapka 1 · Przepuklina L4–L5 (korzeń L5) a odruchy głębokie</b>Najczęstsza przepuklina krążka międzykręgowego w odcinku lędźwiowym (<b>L4–L5</b>) uciska korzeń <b>L5</b> i powoduje opadanie stopy/palucha (trudność stania na piętach), ale <b>nie znosi ani odruchu kolanowego (L3–L4), ani skokowego (S1)</b>! Odruch skokowy zanika dopiero przy ucisku <b>S1</b> (przepuklina L5–S1).</div>
+    <div class="callout amber"><b class="k">Pułapka 2 · Neuralgia V vs klasterowy ból głowy vs SUNCT</b>W neuralgii V wyładowania trwają <b>ułamek sekundy do 2 min</b> w gałęziach V2/V3 i wyzwalane są dotykiem lub żuciem. Klaster trwa <b>15–180 min</b> wokół oka z pobudzeniem i łzawieniem/Hornerem. Sekundowe salwy w V1 z obfitym łzawieniem to <b>SUNCT</b> (lamotrygina), a nie typowa neuralgia V.</div>
+    <div class="callout blue"><b class="k">Pułapka 3 · Neuralgia V u osoby młodej (&lt;40 r.ż.) lub obustronna</b>Nigdy nie ograniczaj się do wypisania karbamazepiny. Obustronna neuralgia V, początek &lt;40. r.ż., niedoczulica na twarzy lub osłabiony odruch rogówkowy nakazują wykonać <b>MRI z kontrastem</b> w kierunku <b>stwardnienia rozsianego (SM)</b> lub guza kąta mostowo-móżdżkowego.</div>
+    <div class="callout red"><b class="k">Pułapka 4 · Złożona antykoncepcja i tryptany w migrenie z aurą</b>Doustna antykoncepcja zawierająca estrogeny u pacjentek z <b>migreną z aurą</b> wyraźnie zwiększa ryzyko udaru niedokrwiennego i jest przeciwwskazana. Tryptanu nie podaje się w trakcie aury ani w ciągu 24 h od ergotaminy.</div>
+    <div class="callout amber"><b class="k">Pułapka 5 · Ogon koński nie ma objawu Babińskiego</b>Ogon koński tworzą korzenie nerwowe (LMN) poniżej stożka L1/L2 — w badaniu stwierdzamy <b>wiotki niedowład i zniesienie odruchów</b>. Współistnienie objawu Babińskiego i spastyczności wskazuje na uszkodzenie samego rdzenia kręgowego (stożek, nadstożcze lub odcinek Th/C).</div>
+  </div>
+</div></section>
+
+<!-- ============ 9. ZRODLA ============ -->
+<section id="zrodla"><div class="wrap">
+  <div class="eyebrow">Część I · Literatura i wytyczne</div>
+  <h2>Źródła sylabusa PUM 2026/2027 i rekomendacje</h2>
+  <div class="grid2" style="margin-top:1rem">
+    <div class="card">
+      <h3>Literatura sylabusa PUM 2026/2027</h3>
+      <ul class="tight" style="margin-top:.5rem">
+        <li><b>Podstawowa:</b> <em>Kompendium Neurologii</em>, red. Ryszard Podemski, Via Medica, Wyd. IV, Gdańsk 2019 (bóle głowy, neuralgie, zespoły korzeniowe i rdzeniowe).</li>
+        <li><b>Uzupełniająca 1:</b> <em>Badanie neurologiczne – to proste</em>, Geraint Fuller, PZWL, Wyd. V, 2022 (badanie nerwu V, objawy rozciągowe, topografia C5–C8 i L4–S1).</li>
+        <li><b>Uzupełniająca 2:</b> <em>Neurologia</em>, Tom I–III, Adam Stępień, Medical Tribune Polska, Wyd. II, 2022 (szczegółowa klasyfikacja i terapia bólów głowy, TAC i zespołów kręgosłupowych).</li>
+        <li><b>Uzupełniająca 3:</b> <em>Neurologia. Podręcznik dla studentów medycyny</em>, W. Kozubski, P. Liberski [red.], PZWL, Warszawa, Wyd. 2, 2021.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Aktualne wytyczne kliniczne</h3>
+      <ul class="tight" style="margin-top:.5rem">
+        <li><b>ICHD-3 (2018):</b> International Classification of Headache Disorders, 3rd edition (kryteria migreny, TTH, klasterowego bólu głowy, SUNCT, MOH, neuralgii V).</li>
+        <li><b>IHS (2024) &amp; EAN (2022–2023):</b> Zalecenia dotyczące profilaktyki i leczenia doraźnego migreny (anty-CGRP, gepanty) oraz klasterowego bólu głowy.</li>
+        <li><b>EAN (2019):</b> Wytyczne postępowania w neuralgii nerwu trójdzielnego (karbamazepina, okskarbazepina, MVD, cienkowarstwowe MRI).</li>
+        <li><b>NICE / BASS (2023) &amp; ESO:</b> Ścieżka wczesnego rozpoznawania zespołu ogona końskiego (CES) oraz reguła 6-godzinna TK/LP w podejrzeniu SAH.</li>
+      </ul>
+    </div>
+  </div>
+  <p class="small" style="margin-top:1.2rem">Zakres merytoryczny dopasowany do wykładów W03a, W03h, TK03, seminarium TK11 oraz ćwiczeń TK04 i TK12 Katedry i Kliniki Neurologii PUM.</p>
+</div></section>
+</main>
+
+<script src="../atlas-shared.js"></script>
+<script src="data.js"></script>
+<script src="app.js"></script>
+<script src="../atlas-hub-sync.js"></script>
+</body>
+</html>
