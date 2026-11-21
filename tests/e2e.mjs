@@ -150,6 +150,12 @@ async function run() {
       await waitFor(`!!document.querySelector('${sel}') && !!(window.HUB_META?.OSCE_STATIONS?.length > 0)`);
     }
 
+    // 3b. Articles / blog module (#/wpisy and #/wpisy/<id>)
+    await evalJS(`location.hash = '#/wpisy'`);
+    await waitFor(`!!document.querySelector('.art-grid .art-card') && !!(window.HUB_ARTICLES?.length > 0)`);
+    await evalJS(`location.hash = '#/wpisy/tromboliza-tnk-vs-rtpa'`);
+    await waitFor(`!!document.querySelector('.art-reader .art-body')`);
+
     // 4. Service Worker offline check
     await waitFor(`navigator.serviceWorker.ready.then(() => true)`);
     await send('Network.emulateNetworkConditions', { offline: true, latency: 0, downloadThroughput: -1, uploadThroughput: -1 }, sessionId);

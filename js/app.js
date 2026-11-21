@@ -359,6 +359,11 @@ async function ensureClinical(kind) {
   }
 }
 
+async function ensureArticles() {
+  if (!window.HUB_ARTICLES) await loadScript('js/articles-data.js');
+  return window.HUB_ARTICLES || [];
+}
+
 
 
 /* ---------- dane pochodne ---------- */
@@ -802,7 +807,7 @@ let SESSION = null;
 let pendingRetryIds = null;
 let pendingAutoTrain = false;
 const KLINIKA_ROUTES = new Set(['pacjent', 'kalkulator', 'badania', 'badanie-neuro']);
-const WIECEJ_ROUTES = new Set(['egzamin', 'polaczenia', 'graf', 'notatki', 'postep']);
+const WIECEJ_ROUTES = new Set(['egzamin', 'wpisy', 'polaczenia', 'graf', 'notatki', 'postep']);
 
 function closeNavDropdowns() {
   $$('.nav-dd').forEach(dd => {
@@ -852,20 +857,22 @@ async function route() {
   });
   const needsQ = new Set(['trening', 'egzamin', 'pytania', 'polaczenia', 'graf', 'postep']);
   const needsClin = new Set(['pacjent', 'kalkulator', 'badania']);
+  const needsArt = name === 'wpisy' && !window.HUB_ARTICLES;
   const routeToken = name + ':' + (parts[1] || '');
   current = { name, id: parts[1] || null };
-  if ((needsQ.has(name) && !_qLoaded) || needsClin.has(name)) {
+  if ((needsQ.has(name) && !_qLoaded) || needsClin.has(name) || needsArt) {
     main.innerHTML = '<section class="blk"><div class="wrap"><p class="muted">Ładowanie modułu…</p></div></section>';
     try {
       if (needsQ.has(name)) await ensureQuestions();
       if (needsClin.has(name)) await ensureClinical(name);
+      if (needsArt) await ensureArticles();
     } catch (e) {
       main.innerHTML = `<section class="blk"><div class="wrap"><div class="card"><p class="muted">${esc(e.message || 'Błąd ładowania modułu.')}</p></div></div></section>`;
       return;
     }
     if (current.name + ':' + (current.id || '') !== routeToken) return;
   }
-  const v = { start: viewStart, atlasy: viewGallery, atlas: viewReader, trening: viewTrening, egzamin: viewExam, pacjent: clinicalPatient.viewPatient, kalkulator: (parts, params) => clinicalCalc.viewCalculator(params), 'badanie-neuro': viewNeuroExam, badania: (parts, params) => clinicalDiagnostics.viewDiagnostics(params), pytania: viewQuestions, notatki: viewNotes, polaczenia: viewConnections, graf: viewKnowledgeGraph, postep: viewProgress }[name];
+  const v = { start: viewStart, atlasy: viewGallery, atlas: viewReader, wpisy: viewArticles, trening: viewTrening, egzamin: viewExam, pacjent: clinicalPatient.viewPatient, kalkulator: (parts, params) => clinicalCalc.viewCalculator(params), 'badanie-neuro': viewNeuroExam, badania: (parts, params) => clinicalDiagnostics.viewDiagnostics(params), pytania: viewQuestions, notatki: viewNotes, polaczenia: viewConnections, graf: viewKnowledgeGraph, postep: viewProgress }[name];
   main.classList.remove('view'); void main.offsetWidth; main.classList.add('view');
   if (!v) { location.hash = '#/'; return; }
   v(parts, params);
@@ -987,6 +994,105 @@ function viewStart() {
   const hg = renderGraph($('#heroGraph'), { labels: false, draw: true, onNode: id => { const m = modById[id]; location.hash = m.at ? '#/atlas/' + m.at + '/' + m.a : '#/polaczenia?mod=' + id; } });
   // licznik
   if (!reduce) $$('[data-n]').forEach(el => { const t = +el.dataset.n; const t0 = performance.now(); (function tick(now) { const p = Math.min(1, (now - t0) / 900); el.textContent = Math.round(t * (1 - Math.pow(1 - p, 3))); if (p < 1) requestAnimationFrame(tick); })(t0); });
+}
+
+/* ---------- WPISY I ARTYKUŁY ---------- */
+function viewArticles(parts, params) {
+  const articles = window.HUB_ARTICLES || [];
+  const slug = parts[1];
+  if (slug) {
+    const idx = articles.findIndex(a => a.id === slug);
+    const art = idx >= 0 ? articles[idx] : null;
+    if (!art) {
+      main.innerHTML = `<section class="blk" style="border:0"><div class="wrap art-reader"><div class="card"><p class="muted">Nie znaleziono wpisu.</p><p style="margin-top:.8rem"><a class="btn sec sm" href="#/wpisy">← Wszystkie wpisy</a></p></div></div></section>`;
+      return;
+    }
+    const gColor = (GROUPS[art.group] && GROUPS[art.group].color) || 'var(--teal)';
+    const prev = idx > 0 ? articles[idx - 1] : null;
+    const next = idx < articles.length - 1 ? articles[idx + 1] : null;
+    const modLinks = (art.mods || []).map(id => {
+      const m = modById[id];
+      return m && m.at ? `<a class="chip m" href="#/atlas/${m.at}/${m.a}" style="color:${gOf(id).color};text-decoration:none">[${id}] ${esc(SHORT[id] || m.n)} →</a>` : `<span class="chip m">[${id}]</span>`;
+    }).join('');
+    main.innerHTML = `<section class="blk" style="border:0"><div class="wrap art-reader">
+      <div class="crumbs"><a href="#/wpisy">← Wszystkie wpisy</a><span>/</span><span>${esc(art.category)}</span></div>
+      <article>
+        <header class="art-head">
+          <div class="art-meta">
+            <span class="chip" style="border-color:${gColor};color:${gColor}">${esc(art.category)}</span>
+            <span>${esc(art.date)}</span>
+            <span>·</span>
+            <span>${art.readMin} min czytania</span>
+          </div>
+          <h1>${esc(art.title)}</h1>
+          <p class="art-sub">${esc(art.subtitle)}</p>
+          <div class="pillrow" style="margin-top:.85rem">${modLinks}${(art.tags || []).map(t => `<span class="chip">${esc(t)}</span>`).join('')}</div>
+        </header>
+        ${art.takeaway ? `<div class="art-takeaway"><b>Kluczowy wniosek</b><div>${esc(art.takeaway)}</div></div>` : ''}
+        <div class="art-body">${parseMarkdown(art.body || '')}</div>
+      </article>
+      <nav class="art-pager" aria-label="Nawigacja między wpisami">
+        <div>${prev ? `<a class="btn sec sm" href="#/wpisy/${prev.id}">← ${esc(prev.title)}</a>` : ''}</div>
+        <div style="text-align:right">${next ? `<a class="btn sec sm" href="#/wpisy/${next.id}">${esc(next.title)} →</a>` : ''}</div>
+      </nav>
+    </div></section>`;
+    return;
+  }
+
+  const cats = ['Wszystkie', ...new Set(articles.map(a => a.category))];
+  let activeCat = params.cat && cats.includes(params.cat) ? params.cat : 'Wszystkie';
+  let qText = params.q || '';
+
+  main.innerHTML = `<section class="blk" style="border:0"><div class="wrap">
+    <div class="eyebrow">Wpisy i artykuły</div>
+    <h2>Krótkie opracowania kliniczne</h2>
+    <p class="lead">Zwięzłe artykuły uzupełniające atlasy: aktualizacje wytycznych, algorytmy dyżurowe i najczęstsze pułapki egzaminacyjne.</p>
+    <div class="art-toolbar">
+      <div class="pillrow" id="artCats" role="tablist" aria-label="Kategorie wpisów">
+        ${cats.map(c => `<button type="button" class="tgl${c === activeCat ? ' on' : ''}" data-art-cat="${esc(c)}" aria-pressed="${c === activeCat}">${esc(c)}</button>`).join('')}
+      </div>
+      <input type="search" id="artSearch" class="art-search" placeholder="Szukaj we wpisach…" value="${esc(qText)}" aria-label="Szukaj we wpisach">
+    </div>
+    <div class="art-grid" id="artGrid"></div>
+  </div></section>`;
+
+  const renderGrid = () => {
+    const nq = norm(qText);
+    const list = articles.filter(a => {
+      if (activeCat !== 'Wszystkie' && a.category !== activeCat) return false;
+      if (!nq) return true;
+      return norm(`${a.title} ${a.subtitle} ${a.category} ${(a.tags || []).join(' ')} ${a.takeaway || ''}`).includes(nq);
+    });
+    const grid = $('#artGrid');
+    if (!grid) return;
+    grid.innerHTML = list.length ? list.map(a => {
+      const gc = (GROUPS[a.group] && GROUPS[a.group].color) || 'var(--teal)';
+      const modsHtml = (a.mods || []).map(m => `<span class="chip m" style="color:${gOf(m).color}">[${m}]</span>`).join('');
+      return `<a class="art-card" href="#/wpisy/${a.id}" style="--gc:${gc}">
+        <div class="art-meta"><span class="chip">${esc(a.category)}</span><span>${esc(a.date)}</span><span>· ${a.readMin} min</span></div>
+        <h3>${esc(a.title)}</h3>
+        <p>${esc(a.subtitle)}</p>
+        <div class="art-foot"><span class="pillrow">${modsHtml}</span><span>Czytaj wpis →</span></div>
+      </a>`;
+    }).join('') : '<div class="card"><p class="muted">Brak wpisów pasujących do filtra.</p></div>';
+  };
+
+  $('#artCats')?.addEventListener('click', e => {
+    const b = e.target.closest('[data-art-cat]');
+    if (!b) return;
+    activeCat = b.dataset.artCat;
+    $$('#artCats [data-art-cat]').forEach(x => {
+      const on = x === b;
+      x.classList.toggle('on', on);
+      x.setAttribute('aria-pressed', String(on));
+    });
+    renderGrid();
+  });
+  $('#artSearch')?.addEventListener('input', e => {
+    qText = e.target.value;
+    renderGrid();
+  });
+  renderGrid();
 }
 
 /* ---------- GALERIA ATLASÓW ---------- */
@@ -5132,6 +5238,7 @@ const VIEWS = [
   ['Atlasy', '#/atlasy'],
   ['Trening mieszany', '#/trening'],
   ['Egzamin próbny (ET)', '#/egzamin'],
+  ['Wpisy i artykuły', '#/wpisy'],
   ['Pacjent (SOR & OSCE)', '#/pacjent'],
   ['Skale & Dawki (NIHSS/rtPA)', '#/kalkulator'],
   ['Badanie neurologiczne U02', '#/badanie-neuro'],
@@ -5151,6 +5258,7 @@ function buildSearchIndex() {
     ...(SEMANTIC_GAPS || []).map(g => ({ k: 'Luka wiedzy', t: g.title, h: `#/graf?gap=${g.id}`, n: norm(`${g.title} ${g.clinicalReason} ${g.examTrap}`) })),
     ...MODS.map(m => ({ k: 'Moduł', t: `[${m.id}] ${m.n}`, h: m.at ? `#/atlas/${m.at}/${m.a}` : `#/polaczenia?mod=${m.id}`, n: norm(`${m.id} ${m.n} ${m.desc || m.d || ''}`) })),
     ...ATLASES.flatMap(a => a.secs.map(s => ({ k: 'Sekcja', t: `${ASHORT[a.id]} › ${s[1]}`, h: `#/atlas/${a.id}/${s[0]}`, n: norm(`${ASHORT[a.id]} ${s[1]}`) }))),
+    ...(window.HUB_ARTICLES || []).map(a => ({ k: 'Wpis', t: a.title, h: '#/wpisy/' + a.id, n: norm(`${a.title} ${a.subtitle} ${a.category} ${(a.tags || []).join(' ')}`) })),
     ...Q.map(q => ({ k: 'Zadanie', t: q.stem.length > 120 ? q.stem.slice(0, 118) + '…' : q.stem, h: `#/pytania?q=${encodeURIComponent(q.stem.slice(0, 40))}`, n: getQNorm(q) }))
   ];
 }
@@ -5170,8 +5278,11 @@ function palOpen() {
   palIn.value = '';
   palRender();
   palIn.focus();
-  if (!_qLoaded) {
-    ensureQuestions().then(() => {
+  if (!_qLoaded || !window.HUB_ARTICLES) {
+    Promise.all([
+      _qLoaded ? Promise.resolve() : ensureQuestions(),
+      window.HUB_ARTICLES ? Promise.resolve() : ensureArticles()
+    ]).then(() => {
       ALL = buildSearchIndex();
       if (pal.open) palRender();
     }).catch(() => {});
