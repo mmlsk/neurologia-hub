@@ -122,9 +122,9 @@ async function run() {
       throw new Error(`Timed out waiting for: ${fnExpr}`);
     };
 
-    // 1. Start route (#/) — verify lazy modules are NOT loaded yet
+    // 1. Start route (#/) — verify lazy modules are NOT loaded yet & latest articles strip renders
     await send('Page.navigate', { url: `${baseUrl}/index.html#/` }, sessionId);
-    await waitFor(`!!document.querySelector('section.hero h1')`);
+    await waitFor(`!!document.querySelector('section.hero h1') && document.querySelectorAll('.art-strip .art-card').length === 3`);
     const initialHasOsce = await evalJS(`!!window.HUB_META?.OSCE_STATIONS`);
     const initialHasQ = await evalJS(`!!window.HUB_MODULOWA_Q`);
     assert.equal(initialHasOsce, false, 'OSCE_STATIONS should not load on #/');
@@ -150,11 +150,11 @@ async function run() {
       await waitFor(`!!document.querySelector('${sel}') && !!(window.HUB_META?.OSCE_STATIONS?.length > 0)`);
     }
 
-    // 3b. Articles / blog module (#/wpisy and #/wpisy/<id>)
+    // 3b. Articles / blog module (#/wpisy and #/wpisy/<id> with TOC, wikilinks, backlinks & related)
     await evalJS(`location.hash = '#/wpisy'`);
-    await waitFor(`!!document.querySelector('.art-grid .art-card') && !!(window.HUB_ARTICLES?.length > 0)`);
-    await evalJS(`location.hash = '#/wpisy/tromboliza-tnk-vs-rtpa'`);
-    await waitFor(`!!document.querySelector('.art-reader .art-body')`);
+    await waitFor(`document.querySelectorAll('.art-grid .art-card').length >= 8 && !!(window.HUB_ARTICLES?.length >= 8)`);
+    await evalJS(`location.hash = '#/wpisy/guzy-oun-icp'`);
+    await waitFor(`!!document.querySelector('.art-reader .art-toc') && !!document.querySelector('.art-body table') && !!document.querySelector('.art-wiki')`);
 
     // 4. Service Worker offline check
     await waitFor(`navigator.serviceWorker.ready.then(() => true)`);
@@ -170,7 +170,7 @@ async function run() {
   } finally {
     proc.kill('SIGKILL');
     srv.close();
-    fs.rmSync(profileDir, { recursive: true, force: true });
+    try { fs.rmSync(profileDir, { recursive: true, force: true, maxRetries: 3, retryDelay: 100 }); } catch {}
   }
 }
 

@@ -990,16 +990,204 @@ function viewStart() {
     <p class="lead">Najczęstsze pomyłki powstają na styku modułów. Mapa powiązań zbiera je w jednym widoku.</p>
     <div class="agrid">${TRAPS.slice(0, 3).map(t => `<a class="acard" href="#/polaczenia?trap=${TRAPS.indexOf(t)}" style="--c1:var(--red);--c2:var(--amber)"><div class="pillrow">${t.mods.map(m => `<span class="chip m" style="color:${gOf(m).color}">[${m}]</span>`).join('')}</div><h3>${esc(t.t)}</h3><p>${esc(t.eq)}</p><p style="color:var(--red);font-weight:800">${esc(t.out)}</p></a>`).join('')}</div>
     <p style="margin-top:1.2rem"><a class="btn pri" href="#/polaczenia">Otwórz mapę powiązań →</a></p>
-  </div></section>${isReturning ? '</div></details>' : ''}`;
+  </div></section>${isReturning ? '</div></details>' : ''}
+  <section class="blk"><div class="wrap">
+    <div class="eyebrow">Wpisy i artykuły</div><h2>Najnowsze opracowania kliniczne</h2>
+    <p class="lead">Krótsza, artykułowa forma obok atlasów: wytyczne, wykłady PUM 2026 i szybkie powtórki dyżurowe.</p>
+    <div class="art-strip">${[
+      { id: 'guzy-oun-icp', cat: 'Wykład PUM 2026', g: 'D', min: 8, title: 'Guzy OUN i doktryna Monro–Kelliego', sub: 'Objawy ogniskowe, zespoły płatowe oraz różnicowanie guzów nad- i podnamiotowych.' },
+      { id: 'autoimmunologiczne-zapalenia-oun-azo', cat: 'Wykład PUM 2026', g: 'C', min: 9, title: 'Autoimmunologiczne zapalenia mózgu (AZO) oraz ZGB i CIDP', sub: 'Przeciwciała anty-NMDAR/LGI1 oraz warianty AIDP, AMAN i zespół Millera-Fishera.' },
+      { id: 'tromboliza-tnk-vs-rtpa', cat: 'Wytyczne', g: 'A', min: 3, title: 'Tenekteplaza (TNK) vs Alteplaza (rtPA) w ostrym udarze', sub: 'Kiedy pojedynczy bolus TNK zastępuje godzinny wlew rtPA w oknie 4,5 h.' }
+    ].map(a => `<a class="art-card" href="#/wpisy/${a.id}" style="--gc:${(GROUPS[a.g] && GROUPS[a.g].color) || 'var(--teal)'}"><div class="art-meta"><span class="chip">${a.cat}</span><span>· ${a.min} min</span></div><h3>${a.title}</h3><p>${a.sub}</p><div class="art-foot"><span>Czytaj wpis →</span></div></a>`).join('')}</div>
+    <p style="margin-top:1.1rem"><a class="btn sec" href="#/wpisy">Zobacz wszystkie wpisy →</a></p>
+  </div></section>`;
   const hg = renderGraph($('#heroGraph'), { labels: false, draw: true, onNode: id => { const m = modById[id]; location.hash = m.at ? '#/atlas/' + m.at + '/' + m.a : '#/polaczenia?mod=' + id; } });
   // licznik
   if (!reduce) $$('[data-n]').forEach(el => { const t = +el.dataset.n; const t0 = performance.now(); (function tick(now) { const p = Math.min(1, (now - t0) / 900); el.textContent = Math.round(t * (1 - Math.pow(1 - p, 3))); if (p < 1) requestAnimationFrame(tick); })(t0); });
 }
 
 /* ---------- WPISY I ARTYKUŁY ---------- */
+const CUSTOM_ART_KEY = 'neurologia_hub_custom_articles_v1';
+function getCustomArticles() {
+  try {
+    const raw = localStorage.getItem(CUSTOM_ART_KEY);
+    const parsed = raw ? JSON.parse(raw) : [];
+    return Array.isArray(parsed) ? parsed.map(a => ({ ...a, isCustom: true })) : [];
+  } catch (e) { return []; }
+}
+function saveCustomArticles(list) {
+  const clean = (list || []).map(({ isCustom, ...rest }) => rest);
+  safeStorageSet(CUSTOM_ART_KEY, JSON.stringify(clean));
+  ALL = null;
+}
+function getAllArticles() {
+  return [...getCustomArticles(), ...(window.HUB_ARTICLES || [])];
+}
+function slugifyArticle(title) {
+  const s = norm(title || '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 56);
+  return s || ('wpis-' + Date.now());
+}
+function renderArticleMarkdown(md, allArticles) {
+  const byId = Object.fromEntries((allArticles || []).map(a => [a.id, a]));
+  let html = parseMarkdown(md || '');
+  html = html.replace(/\[\[([^\]|]+?)(?:\|([^\]]+?))?\]\]/g, (_, targetRaw, labelRaw) => {
+    const target = String(targetRaw || '').trim();
+    const label = labelRaw ? String(labelRaw).trim() : '';
+    if (target.startsWith('mod:')) {
+      const id = target.slice(4).trim();
+      const m = modById[id];
+      const text = label || (m ? `[${id}] ${SHORT[id] || m.n}` : target);
+      return m && m.at ? `<a class="art-wiki" href="#/atlas/${m.at}/${m.a}">${esc(text)}</a>` : `<span class="art-wiki missing">${esc(text)}</span>`;
+    }
+    if (target.startsWith('atlas:')) {
+      const aid = target.slice(6).trim();
+      const at = atById[aid];
+      const text = label || (at ? ASHORT[aid] || at.n : target);
+      return at ? `<a class="art-wiki" href="#/atlas/${aid}">${esc(text)}</a>` : `<span class="art-wiki missing">${esc(text)}</span>`;
+    }
+    const art = byId[target];
+    const text = label || (art ? art.title : target);
+    return art ? `<a class="art-wiki" href="#/wpisy/${art.id}">${esc(text)}</a>` : `<span class="art-wiki missing" title="Brak wpisu: ${esc(target)}">${esc(text)}</span>`;
+  });
+  return html;
+}
+function getBacklinks(articleId, allArticles) {
+  const re = new RegExp(`\\[\\[${articleId.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?:\\|[^\\]]*)?\\]\\]`);
+  return (allArticles || []).filter(a => a.id !== articleId && re.test(`${a.body || ''}\n${a.takeaway || ''}`));
+}
+function getRelatedArticles(art, allArticles) {
+  const mods = new Set(art.mods || []);
+  const tags = new Set((art.tags || []).map(t => norm(t)));
+  return (allArticles || [])
+    .filter(a => a.id !== art.id)
+    .map(a => {
+      let score = 0;
+      (a.mods || []).forEach(m => { if (mods.has(m)) score += 3; });
+      if (a.category === art.category) score += 2;
+      (a.tags || []).forEach(t => { if (tags.has(norm(t))) score += 1; });
+      return { a, score };
+    })
+    .filter(x => x.score > 0)
+    .sort((x, y) => y.score - x.score)
+    .slice(0, 3)
+    .map(x => x.a);
+}
+function downloadTextFile(filename, content, mime = 'text/plain;charset=utf-8') {
+  const blob = new Blob([content], { type: mime });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+function exportArticleMd(art) {
+  const fm = [
+    `# ${art.title}`,
+    `> ${art.subtitle || ''}`,
+    `Kategoria: ${art.category} | Obszar: ${art.group || 'A'} | Moduły: ${(art.mods || []).join(', ')} | Data: ${art.date || ''}`,
+    art.takeaway ? `\n**Kluczowy wniosek:** ${art.takeaway}` : '',
+    '',
+    art.body || ''
+  ].filter(Boolean).join('\n');
+  downloadTextFile(`${art.id || 'wpis'}.md`, fm, 'text/markdown;charset=utf-8');
+}
+
 function viewArticles(parts, params) {
-  const articles = window.HUB_ARTICLES || [];
+  const articles = getAllArticles();
   const slug = parts[1];
+  const openEditor = (existing = null) => {
+    let dlg = $('#artEditorModal');
+    if (!dlg) {
+      dlg = document.createElement('dialog');
+      dlg.id = 'artEditorModal';
+      dlg.className = 'art-modal';
+      dlg.setAttribute('aria-label', 'Edytor wpisu');
+      document.body.appendChild(dlg);
+    }
+    const isEdit = !!existing;
+    dlg.innerHTML = `<form class="art-form" id="artForm">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:.5rem">
+        <h3 style="margin:0">${isEdit ? 'Edytuj własny wpis' : 'Nowy wpis kliniczny'}</h3>
+        <button type="button" class="btn sec sm" id="artModalClose" aria-label="Zamknij">✕</button>
+      </div>
+      <label>Tytuł wpisu<input id="artTitle" required value="${esc(existing?.title || '')}" placeholder="np. Zespół Wallenberga w praktyce SOR"></label>
+      <label>Krótki opis (lead)<input id="artSub" value="${esc(existing?.subtitle || '')}" placeholder="1 zdanie podsumowania na listę wpisów"></label>
+      <div class="art-form-row">
+        <label>Kategoria<input id="artCat" value="${esc(existing?.category || 'Własny wpis')}" placeholder="np. Wytyczne, Pułapki"></label>
+        <label>Obszar<select id="artGroup">${Object.keys(GROUPS).map(g => `<option value="${g}"${(existing?.group || 'A') === g ? ' selected' : ''}>Obszar ${g} (${GROUPS[g].name.split(',')[0]})</option>`).join('')}</select></label>
+        <label>Moduły (np. 2, 6)<input id="artMods" value="${esc((existing?.mods || []).join(', '))}" placeholder="2, 6"></label>
+      </div>
+      <label>Kluczowy wniosek<input id="artTakeaway" value="${esc(existing?.takeaway || '')}" placeholder="Najważniejsza zasada kliniczna lub pułapka egzaminacyjna"></label>
+      <div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.35rem">
+          <span style="font-size:.82rem;font-weight:700;color:var(--ink-2)">Treść Markdown (obsługuje tabele i [[wikilinki]])</span>
+          <button type="button" class="btn sec sm" id="artTogglePrev">Podgląd</button>
+        </div>
+        <textarea id="artBodyIn" required placeholder="## Nagłówek&#10;&#10;Treść z odnośnikami [[tromboliza-tnk-vs-rtpa]] lub [[mod:2]]...">${esc(existing?.body || '')}</textarea>
+        <div id="artBodyPrev" class="art-body card" hidden style="max-height:260px;overflow:auto"></div>
+      </div>
+      <div style="display:flex;justify-content:flex-end;gap:.55rem;flex-wrap:wrap">
+        <button type="button" class="btn sec sm" id="artCancel">Anuluj</button>
+        <button type="submit" class="btn pri sm">${isEdit ? 'Zapisz zmiany' : 'Opublikuj wpis'}</button>
+      </div>
+    </form>`;
+    dlg.showModal();
+    const close = () => dlg.close();
+    $('#artModalClose', dlg).onclick = close;
+    $('#artCancel', dlg).onclick = close;
+    let prevOn = false;
+    $('#artTogglePrev', dlg).onclick = () => {
+      prevOn = !prevOn;
+      const ta = $('#artBodyIn', dlg), pv = $('#artBodyPrev', dlg), btn = $('#artTogglePrev', dlg);
+      if (prevOn) {
+        pv.innerHTML = renderArticleMarkdown(ta.value, getAllArticles()) || '<p class="muted">Brak treści…</p>';
+        ta.hidden = true; pv.hidden = false; btn.textContent = 'Edycja';
+      } else {
+        ta.hidden = false; pv.hidden = true; btn.textContent = 'Podgląd';
+      }
+    };
+    $('#artForm', dlg).onsubmit = e => {
+      e.preventDefault();
+      const title = $('#artTitle', dlg).value.trim();
+      const body = $('#artBodyIn', dlg).value.trim();
+      if (!title || !body) return;
+      const mods = $('#artMods', dlg).value.split(/[\s,;]+/).map(x => x.trim()).filter(x => modById[x]);
+      const words = body.split(/\s+/).filter(Boolean).length;
+      const readMin = Math.max(1, Math.round(words / 160));
+      const custom = getCustomArticles().map(({ isCustom, ...r }) => r);
+      const id = existing ? existing.id : (() => {
+        let base = slugifyArticle(title), k = 2;
+        const used = new Set(getAllArticles().map(a => a.id));
+        while (used.has(base)) { base = slugifyArticle(title) + '-' + (k++); }
+        return base;
+      })();
+      const entry = {
+        id,
+        title,
+        subtitle: $('#artSub', dlg).value.trim() || 'Własny wpis kliniczny użytkownika.',
+        category: $('#artCat', dlg).value.trim() || 'Własny wpis',
+        group: $('#artGroup', dlg).value || 'A',
+        mods,
+        date: new Date().toISOString().slice(0, 10),
+        readMin,
+        tags: ['Własny'],
+        takeaway: $('#artTakeaway', dlg).value.trim(),
+        body
+      };
+      const idx = custom.findIndex(x => x.id === id);
+      if (idx >= 0) custom[idx] = entry;
+      else custom.unshift(entry);
+      saveCustomArticles(custom);
+      close();
+      toast(isEdit ? 'Zapisano zmiany we wpisie' : 'Dodano nowy wpis');
+      location.hash = '#/wpisy/' + id;
+      route();
+    };
+  };
+
   if (slug) {
     const idx = articles.findIndex(a => a.id === slug);
     const art = idx >= 0 ? articles[idx] : null;
@@ -1014,28 +1202,80 @@ function viewArticles(parts, params) {
       const m = modById[id];
       return m && m.at ? `<a class="chip m" href="#/atlas/${m.at}/${m.a}" style="color:${gOf(id).color};text-decoration:none">[${id}] ${esc(SHORT[id] || m.n)} →</a>` : `<span class="chip m">[${id}]</span>`;
     }).join('');
+    const bodyHtml = renderArticleMarkdown(art.body || '', articles);
+    const backlinks = getBacklinks(art.id, articles);
+    const related = getRelatedArticles(art, articles);
+    const trainHref = (art.mods && art.mods.length) ? `#/trening?mods=${art.mods.join(',')}` : '#/trening';
+
     main.innerHTML = `<section class="blk" style="border:0"><div class="wrap art-reader">
       <div class="crumbs"><a href="#/wpisy">← Wszystkie wpisy</a><span>/</span><span>${esc(art.category)}</span></div>
       <article>
         <header class="art-head">
           <div class="art-meta">
             <span class="chip" style="border-color:${gColor};color:${gColor}">${esc(art.category)}</span>
-            <span>${esc(art.date)}</span>
+            ${art.isCustom ? '<span class="chip">Własny wpis</span>' : ''}
+            <span>${esc(art.date || '')}</span>
             <span>·</span>
-            <span>${art.readMin} min czytania</span>
+            <span>${art.readMin || 3} min czytania</span>
           </div>
           <h1>${esc(art.title)}</h1>
-          <p class="art-sub">${esc(art.subtitle)}</p>
+          <p class="art-sub">${esc(art.subtitle || '')}</p>
           <div class="pillrow" style="margin-top:.85rem">${modLinks}${(art.tags || []).map(t => `<span class="chip">${esc(t)}</span>`).join('')}</div>
+          <div class="acts" style="margin-top:.9rem;display:flex;flex-wrap:wrap;gap:.45rem">
+            <a class="btn pri sm" href="${trainHref}">Trenuj pytania z modułów →</a>
+            <button type="button" class="btn sec sm" id="artExportMd">Eksportuj .md</button>
+            ${art.isCustom ? '<button type="button" class="btn sec sm" id="artEditCustom">Edytuj</button><button type="button" class="btn sec sm" id="artDelCustom" style="color:var(--red)">Usuń</button>' : ''}
+          </div>
         </header>
         ${art.takeaway ? `<div class="art-takeaway"><b>Kluczowy wniosek</b><div>${esc(art.takeaway)}</div></div>` : ''}
-        <div class="art-body">${parseMarkdown(art.body || '')}</div>
+        <div id="artTocHost"></div>
+        <div class="art-body" id="artBodyEl">${bodyHtml}</div>
       </article>
+      ${backlinks.length ? `<div class="art-section-box"><h3>Linkują tutaj (${backlinks.length})</h3><div class="pillrow">${backlinks.map(b => `<a class="chip" href="#/wpisy/${b.id}" style="text-decoration:none">← ${esc(b.title)}</a>`).join('')}</div></div>` : ''}
+      ${related.length ? `<div class="art-section-box"><h3>Wpisy powiązane</h3><div class="art-strip">${related.map(r => `<a class="art-card" href="#/wpisy/${r.id}" style="--gc:${(GROUPS[r.group] && GROUPS[r.group].color) || 'var(--teal)'}"><div class="art-meta"><span class="chip">${esc(r.category)}</span><span>· ${r.readMin || 3} min</span></div><h3>${esc(r.title)}</h3><div class="art-foot"><span>Czytaj wpis →</span></div></a>`).join('')}</div></div>` : ''}
       <nav class="art-pager" aria-label="Nawigacja między wpisami">
         <div>${prev ? `<a class="btn sec sm" href="#/wpisy/${prev.id}">← ${esc(prev.title)}</a>` : ''}</div>
         <div style="text-align:right">${next ? `<a class="btn sec sm" href="#/wpisy/${next.id}">${esc(next.title)} →</a>` : ''}</div>
       </nav>
     </div></section>`;
+
+    // Budowa spisu treści (TOC) z nagłówków H2/H3
+    const bodyEl = $('#artBodyEl');
+    const tocHost = $('#artTocHost');
+    if (bodyEl && tocHost) {
+      const hs = $$('h2, h3', bodyEl);
+      if (hs.length >= 2) {
+        const items = hs.map((h, i) => {
+          const hid = 'art-sec-' + (i + 1);
+          h.id = hid;
+          return `<li class="${h.tagName === 'H3' ? 'toc-h3' : ''}"><a href="#${hid}" data-toc-id="${hid}">${esc(h.textContent)}</a></li>`;
+        }).join('');
+        tocHost.innerHTML = `<details class="art-toc" open><summary>Spis treści (${hs.length})</summary><ul>${items}</ul></details>`;
+        tocHost.addEventListener('click', e => {
+          const a = e.target.closest('[data-toc-id]');
+          if (!a) return;
+          e.preventDefault();
+          document.getElementById(a.dataset.tocId)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      }
+    }
+
+    $('#artExportMd')?.addEventListener('click', () => exportArticleMd(art));
+    $('#artEditCustom')?.addEventListener('click', () => openEditor(art));
+    const delBtn = $('#artDelCustom');
+    if (delBtn) {
+      delBtn.onclick = () => {
+        if (!delBtn.dataset.s) {
+          delBtn.dataset.s = '1';
+          delBtn.textContent = 'Potwierdź usunięcie';
+          setTimeout(() => { if (delBtn) { delete delBtn.dataset.s; delBtn.textContent = 'Usuń'; } }, 3000);
+          return;
+        }
+        saveCustomArticles(getCustomArticles().filter(x => x.id !== art.id));
+        toast('Usunięto własny wpis');
+        location.hash = '#/wpisy';
+      };
+    }
     return;
   }
 
@@ -1046,19 +1286,26 @@ function viewArticles(parts, params) {
   main.innerHTML = `<section class="blk" style="border:0"><div class="wrap">
     <div class="eyebrow">Wpisy i artykuły</div>
     <h2>Krótkie opracowania kliniczne</h2>
-    <p class="lead">Zwięzłe artykuły uzupełniające atlasy: aktualizacje wytycznych, algorytmy dyżurowe i najczęstsze pułapki egzaminacyjne.</p>
+    <p class="lead">Zwięzłe artykuły uzupełniające atlasy: wykłady PUM 2026, aktualizacje wytycznych, wikilinki oraz własne wpisy Markdown.</p>
     <div class="art-toolbar">
       <div class="pillrow" id="artCats" role="tablist" aria-label="Kategorie wpisów">
         ${cats.map(c => `<button type="button" class="tgl${c === activeCat ? ' on' : ''}" data-art-cat="${esc(c)}" aria-pressed="${c === activeCat}">${esc(c)}</button>`).join('')}
       </div>
-      <input type="search" id="artSearch" class="art-search" placeholder="Szukaj we wpisach…" value="${esc(qText)}" aria-label="Szukaj we wpisach">
+      <div style="display:flex;flex-wrap:wrap;gap:.45rem;align-items:center">
+        <input type="search" id="artSearch" class="art-search" placeholder="Szukaj we wpisach…" value="${esc(qText)}" aria-label="Szukaj we wpisach">
+        <button type="button" class="btn pri sm" id="artNewBtn">+ Nowy wpis</button>
+        <button type="button" class="btn sec sm" id="artExpJson">Eksport JSON</button>
+        <button type="button" class="btn sec sm" id="artImpBtn">Import JSON/.md</button>
+        <input type="file" id="artImpFile" accept=".json,.md,.txt" hidden>
+      </div>
     </div>
     <div class="art-grid" id="artGrid"></div>
   </div></section>`;
 
   const renderGrid = () => {
     const nq = norm(qText);
-    const list = articles.filter(a => {
+    const curList = getAllArticles();
+    const list = curList.filter(a => {
       if (activeCat !== 'Wszystkie' && a.category !== activeCat) return false;
       if (!nq) return true;
       return norm(`${a.title} ${a.subtitle} ${a.category} ${(a.tags || []).join(' ')} ${a.takeaway || ''}`).includes(nq);
@@ -1069,9 +1316,9 @@ function viewArticles(parts, params) {
       const gc = (GROUPS[a.group] && GROUPS[a.group].color) || 'var(--teal)';
       const modsHtml = (a.mods || []).map(m => `<span class="chip m" style="color:${gOf(m).color}">[${m}]</span>`).join('');
       return `<a class="art-card" href="#/wpisy/${a.id}" style="--gc:${gc}">
-        <div class="art-meta"><span class="chip">${esc(a.category)}</span><span>${esc(a.date)}</span><span>· ${a.readMin} min</span></div>
+        <div class="art-meta"><span class="chip">${esc(a.category)}</span>${a.isCustom ? '<span class="chip">Własny</span>' : ''}<span>${esc(a.date || '')}</span><span>· ${a.readMin || 3} min</span></div>
         <h3>${esc(a.title)}</h3>
-        <p>${esc(a.subtitle)}</p>
+        <p>${esc(a.subtitle || '')}</p>
         <div class="art-foot"><span class="pillrow">${modsHtml}</span><span>Czytaj wpis →</span></div>
       </a>`;
     }).join('') : '<div class="card"><p class="muted">Brak wpisów pasujących do filtra.</p></div>';
@@ -1091,6 +1338,61 @@ function viewArticles(parts, params) {
   $('#artSearch')?.addEventListener('input', e => {
     qText = e.target.value;
     renderGrid();
+  });
+  $('#artNewBtn')?.addEventListener('click', () => openEditor(null));
+  $('#artExpJson')?.addEventListener('click', () => {
+    const custom = getCustomArticles().map(({ isCustom, ...r }) => r);
+    if (!custom.length) { toast('Brak własnych wpisów do eksportu'); return; }
+    downloadTextFile(`neurologia-wpisy-${new Date().toISOString().slice(0, 10)}.json`, JSON.stringify(custom, null, 2), 'application/json;charset=utf-8');
+    toast(`Wyeksportowano ${custom.length} wpisów`);
+  });
+  const impFile = $('#artImpFile');
+  $('#artImpBtn')?.addEventListener('click', () => impFile?.click());
+  impFile?.addEventListener('change', async () => {
+    const f = impFile.files?.[0];
+    if (!f) return;
+    const text = await f.text();
+    const custom = getCustomArticles().map(({ isCustom, ...r }) => r);
+    try {
+      if (f.name.endsWith('.json')) {
+        const arr = JSON.parse(text);
+        if (!Array.isArray(arr)) throw new Error('JSON musi być tablicą wpisów');
+        const map = new Map(custom.map(x => [x.id, x]));
+        let added = 0;
+        arr.forEach(x => {
+          if (x && x.title && x.body) {
+            const id = x.id || slugifyArticle(x.title);
+            map.set(id, { ...x, id });
+            added++;
+          }
+        });
+        saveCustomArticles([...map.values()]);
+        toast(`Zaimportowano ${added} wpisów`);
+      } else {
+        const firstH = (text.match(/^#\s+(.+)$/m) || [])[1] || f.name.replace(/\.[^.]+$/, '');
+        const id = slugifyArticle(firstH);
+        const words = text.split(/\s+/).filter(Boolean).length;
+        custom.unshift({
+          id,
+          title: firstH.trim(),
+          subtitle: 'Zaimportowano z pliku Markdown.',
+          category: 'Import MD',
+          group: 'A',
+          mods: [],
+          date: new Date().toISOString().slice(0, 10),
+          readMin: Math.max(1, Math.round(words / 160)),
+          tags: ['Import'],
+          takeaway: '',
+          body: text.replace(/^#\s+.+\n?/, '').trim()
+        });
+        saveCustomArticles(custom);
+        toast('Zaimportowano wpis Markdown');
+      }
+      renderGrid();
+    } catch (err) {
+      toast('Błąd importu: ' + (err.message || 'niepoprawny format'));
+    }
+    impFile.value = '';
   });
   renderGrid();
 }
@@ -5258,7 +5560,7 @@ function buildSearchIndex() {
     ...(SEMANTIC_GAPS || []).map(g => ({ k: 'Luka wiedzy', t: g.title, h: `#/graf?gap=${g.id}`, n: norm(`${g.title} ${g.clinicalReason} ${g.examTrap}`) })),
     ...MODS.map(m => ({ k: 'Moduł', t: `[${m.id}] ${m.n}`, h: m.at ? `#/atlas/${m.at}/${m.a}` : `#/polaczenia?mod=${m.id}`, n: norm(`${m.id} ${m.n} ${m.desc || m.d || ''}`) })),
     ...ATLASES.flatMap(a => a.secs.map(s => ({ k: 'Sekcja', t: `${ASHORT[a.id]} › ${s[1]}`, h: `#/atlas/${a.id}/${s[0]}`, n: norm(`${ASHORT[a.id]} ${s[1]}`) }))),
-    ...(window.HUB_ARTICLES || []).map(a => ({ k: 'Wpis', t: a.title, h: '#/wpisy/' + a.id, n: norm(`${a.title} ${a.subtitle} ${a.category} ${(a.tags || []).join(' ')}`) })),
+    ...(getAllArticles()).map(a => ({ k: 'Wpis', t: a.title, h: '#/wpisy/' + a.id, n: norm(`${a.title} ${a.subtitle} ${a.category} ${(a.tags || []).join(' ')}`) })),
     ...Q.map(q => ({ k: 'Zadanie', t: q.stem.length > 120 ? q.stem.slice(0, 118) + '…' : q.stem, h: `#/pytania?q=${encodeURIComponent(q.stem.slice(0, 40))}`, n: getQNorm(q) }))
   ];
 }

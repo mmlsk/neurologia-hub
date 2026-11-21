@@ -448,6 +448,28 @@ dialog.pal::backdrop{background:rgba(14,28,36,.5);-webkit-backdrop-filter:blur(3
 .art-body p{margin-bottom:.9rem}
 .art-body ul,.art-body ol{margin:0 0 1rem 1.35rem;display:grid;gap:.4rem}
 .art-pager{display:grid;grid-template-columns:1fr 1fr;gap:.85rem;margin-top:2rem;padding-top:1.25rem;border-top:1px solid var(--line)}
+.art-toc{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:.9rem 1.1rem;margin-bottom:1.4rem}
+.art-toc summary{cursor:pointer;font-weight:800;font-size:.86rem;color:var(--teal-d);list-style:none}
+.art-toc ul{margin:.6rem 0 0;padding-left:1rem;display:grid;gap:.3rem;font-size:.88rem}
+.art-toc li.toc-h3{margin-left:1rem;font-size:.84rem}
+.art-toc a{color:var(--ink-2);text-decoration:none}
+.art-toc a:hover{color:var(--teal-d);text-decoration:underline}
+.art-body table{width:100%;border-collapse:collapse;margin:1rem 0 1.25rem;font-size:.9rem;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:block;overflow-x:auto}
+.art-body th,.art-body td{padding:.6rem .75rem;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+.art-body th{background:var(--surface-2);font-weight:800;color:var(--ink)}
+.art-wiki{color:var(--teal-d);font-weight:700;text-decoration:underline;text-decoration-style:dotted;text-underline-offset:3px}
+.art-wiki.missing{color:var(--muted);text-decoration:none;border-bottom:1px dashed var(--line)}
+.art-section-box{margin-top:1.6rem;padding-top:1.2rem;border-top:1px solid var(--line)}
+.art-section-box h3{font-size:1rem;margin-bottom:.7rem}
+.art-modal{width:min(760px,calc(100vw - 1.5rem));max-height:90dvh;margin:auto;padding:1.35rem;border:1px solid var(--line);border-radius:var(--r-lg);background:var(--surface);color:var(--ink);box-shadow:var(--shadow-lg)}
+.art-modal::backdrop{background:rgba(9,12,14,.55)}
+.art-form{display:grid;gap:.85rem}
+.art-form-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.65rem}
+.art-form label{display:grid;gap:.3rem;font-size:.82rem;font-weight:700;color:var(--ink-2)}
+.art-form input,.art-form select,.art-form textarea{width:100%;padding:.55rem .75rem;border:1.5px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit;font-size:.92rem}
+.art-form textarea{min-height:200px;resize:vertical;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.86rem}
+.art-strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;margin-top:1rem}
+@media (max-width:860px){.art-strip{grid-template-columns:1fr}.art-form-row{grid-template-columns:1fr}}
 @media (max-width:640px){.art-pager{grid-template-columns:1fr}}
 
 footer.ft{background:var(--ft-bg);color:var(--ft-ink);padding:2.6rem env(safe-area-inset-right) calc(3rem + env(safe-area-inset-bottom)) env(safe-area-inset-left);margin-top:auto}
