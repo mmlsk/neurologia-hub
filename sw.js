@@ -6,6 +6,8 @@ const PRECACHE_ASSETS = [
   './index.html',
   './manifest.webmanifest',
   './css/hub.css',
+  './css/clinical.css',
+  './share.jpg',
   './fonts/cabinet-grotesk-700.woff2',
   './fonts/cabinet-grotesk-800.woff2',
   './fonts/satoshi-400.woff2',

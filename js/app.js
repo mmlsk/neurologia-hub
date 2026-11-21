@@ -327,7 +327,23 @@ async function ensureQuestions() {
   ALL = null;
 }
 
+const _stylePromises = {};
+function loadStylesheet(href) {
+  if (!_stylePromises[href]) {
+    _stylePromises[href] = new Promise((resolve, reject) => {
+      const l = document.createElement('link');
+      l.rel = 'stylesheet';
+      l.href = href;
+      l.onload = () => resolve();
+      l.onerror = () => { delete _stylePromises[href]; reject(new Error('Nie udało się załadować stylów: ' + href)); };
+      document.head.appendChild(l);
+    });
+  }
+  return _stylePromises[href];
+}
+
 async function ensureClinical(kind) {
+  await loadStylesheet('css/clinical.css');
   if (!window.HUB_META.OSCE_STATIONS) {
     await loadScript('js/clinical-data.js');
   }
