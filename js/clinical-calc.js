@@ -208,7 +208,16 @@ window.HUB_CLINICAL.calc = function (ctx) {
         <h4>Kontekst kwalifikacji (PUM #6)</h4>
         <p>${res.total >= 6 ? '<strong>NIHSS ≥6 pkt</strong> + okluzja dużego naczynia (LVO) w angio-TK = rozważ <strong>trombektomię mechaniczną</strong> (≤6 h lub 6–24 h przy mismatch) równolegle z trombolizą i.v.' : '<strong>Niski NIHSS (1–5 pkt)</strong> nie wyklucza trombolizy i.v., jeśli deficyt powoduje istotną niesprawność (np. izolowana afazja lub niedowidzenie).'} Dla masy <strong>${state.w} kg</strong>: alteplaza <strong>${dose.totalMg} mg</strong>, TNK <strong>${dose.tnkMg} mg</strong>.</p>
       </div>
-      ${NIHSS_DOMAINS.map(d => renderScaleRow(d.label, d.opts, state.nihss[d.id] || 0, 'nihss-item', d.id)).join('')}
+      ${[
+        ['1. Świadomość i orientacja', ['1a', '1b', '1c']],
+        ['2. Wzrok i nerwy czaszkowe', ['2', '3', '4']],
+        ['3. Ruch i ataksja kończyn', ['5a', '5b', '6a', '6b', '7']],
+        ['4. Czucie, mowa i zaniedbywanie', ['8', '9', '10', '11']]
+      ].map(([title, ids]) => {
+        const items = ids.map(id => NIHSS_DOMAINS.find(d => d.id === id)).filter(Boolean);
+        const secPts = items.reduce((sum, d) => sum + (Number(state.nihss[d.id]) || 0), 0);
+        return `<details class="adv-filters" open style="margin-bottom:.75rem"><summary style="display:flex;justify-content:space-between"><span>${title}</span><span class="chip m">${secPts} pkt</span></summary><div style="padding-top:.4rem">${items.map(d => renderScaleRow(d.label, d.opts, state.nihss[d.id] || 0, 'nihss-item', d.id)).join('')}</div></details>`;
+      }).join('')}
       <div class="acts" style="margin-top:1.1rem;padding-top:.9rem;border-top:1px solid var(--line-2)">
         <button type="button" class="btn pri sm" id="btnExportNihss">📝 Eksportuj wynik do Notatnika</button>
         <button type="button" class="btn sec sm" id="btnCopyNihss">📋 Kopiuj podsumowanie</button>
@@ -247,10 +256,14 @@ window.HUB_CLINICAL.calc = function (ctx) {
   function renderUdar() {
     const d = calcAlteplaseDose(state.w);
     const checked = RTPA_CONTRA.filter(c => state.rtpaContra[c.id]);
+    const hasContra = checked.length > 0;
+    const isHemorrhage = !!(state.rtpaContra.ich || state.rtpaContra.sah);
+    const blockedBanner = hasContra ? `<div class="presc-warning-box" style="margin:.45rem 0;padding:.45rem .65rem;font-size:.82rem"><strong>⛔ PRZECIWWSKAZANE — NIE PODAWAJ</strong> (${checked.length} p/wsk.)</div>` : '';
     return `<div class="drug-grid">
-      <div class="drug-card">
+      <div class="drug-card"${hasContra ? ' style="opacity:.62;border-color:var(--red)"' : ''}>
         <div class="drug-header"><div><div class="eyebrow" style="color:var(--red)">Tromboliza i.v. · I rzut (≤4,5 h)</div><div class="drug-title">Alteplaza (rtPA · 1 mg/ml)</div></div><span class="chip m">0,9 mg/kg (max 90)</span></div>
-        <div class="drug-result-box"><div><div class="drug-formula">Dawka całkowita (${d.weight} kg)</div><div class="drug-result-dose">${d.totalMg} mg</div></div><div class="drug-result-vol">${d.totalMg} ml</div></div>
+        ${blockedBanner}
+        <div class="drug-result-box"><div><div class="drug-formula">Dawka całkowita (${d.weight} kg)</div><div class="drug-result-dose">${hasContra ? `<del>${d.totalMg} mg</del>` : `${d.totalMg} mg`}</div></div><div class="drug-result-vol">${hasContra ? `<del>${d.totalMg} ml</del>` : `${d.totalMg} ml`}</div></div>
         <div class="presc-calc-summary" style="margin-top:.2rem">
           ${calcRow('1. Bolus i.v. (10% w 1 min):', `${d.bolusMg} mg (${d.bolusMl} ml)`)}
           ${calcRow('2. Wlew i.v. (90% w 60 min):', `${d.infusionMg} mg (${d.infusionMl} ml)`)}
@@ -259,14 +272,17 @@ window.HUB_CLINICAL.calc = function (ctx) {
         <div class="drug-notes">Wyklucz krwawienie w TK głowy. BP przed bolusem &lt;185/110 mmHg (w trakcie i 24 h po: &lt;180/105 mmHg).</div>
         ${d.weight > 100 ? `<div class="drug-alert">Osiągnięto pułap maksymalnej dawki 90 mg (masa ≥100 kg).</div>` : ''}
       </div>
-      <div class="drug-card">
+      <div class="drug-card"${hasContra ? ' style="opacity:.62;border-color:var(--red)"' : ''}>
         <div class="drug-header"><div><div class="eyebrow" style="color:var(--teal)">Alternatywa / Przed MT</div><div class="drug-title">Tenekteplaza (TNK)</div></div><span class="chip m">0,25 mg/kg (max 25)</span></div>
-        <div class="drug-result-box"><div><div class="drug-formula">Pojedynczy bolus i.v. (5–10 s)</div><div class="drug-result-dose">${d.tnkMg} mg</div></div><span class="chip on">Bez pompy 60 min</span></div>
+        ${blockedBanner}
+        <div class="drug-result-box"><div><div class="drug-formula">Pojedynczy bolus i.v. (5–10 s)</div><div class="drug-result-dose">${hasContra ? `<del>${d.tnkMg} mg</del>` : `${d.tnkMg} mg`}</div></div><span class="chip on">Bez pompy 60 min</span></div>
         <div class="drug-notes">Wytyczne ESO 2023/2024: pojedyncze wstrzyknięcie i.v. w oknie ≤4,5 h; korzystne logistycznie przed trombektomią mechaniczną w LVO.</div>
         ${d.weight > 100 ? `<div class="drug-alert">Maksymalna dawka TNK w udarze niedokrwiennym wynosi 25 mg.</div>` : ''}
       </div>
-      <div class="drug-card">
+      <div class="drug-card"${hasContra && !isHemorrhage ? ' style="border:2px solid var(--teal)"' : ''}>
         <div class="drug-header"><div><div class="eyebrow" style="color:var(--amber)">Kwalifikacja naczyniowa (PUM #6)</div><div class="drug-title">Trombektomia mechaniczna (MT)</div></div><span class="chip">LVO: ICA · M1 · BA</span></div>
+        ${hasContra && isHemorrhage ? '<div class="presc-warning-box" style="margin:.45rem 0;padding:.45rem .65rem;font-size:.82rem"><strong>⚠️ Krwotok (ICH/SAH):</strong> bez rtPA/TNK i bez MT — pilna konsultacja neurochirurgiczna i kontrola BP!</div>' : ''}
+        ${hasContra && !isHemorrhage ? '<div class="why" style="margin:.45rem 0;padding:.45rem .65rem;font-size:.82rem"><strong>→ Kwalifikacja do MT:</strong> przeciwwskazania do rtPA (np. krzepnięcie, DOAC, zabieg) NIE wykluczają trombektomii mechanicznej w LVO.</div>' : ''}
         <div class="drug-notes"><p><strong>• Standard:</strong> ≤6 h (brak krwotoku w TK + LVO w angio-TK).</p><p style="margin-top:.3rem"><strong>• Okno rozszerzone:</strong> 6–24 h wg DAWN/DEFUSE-3 (mismatch w CTP/MR).</p><p style="margin-top:.3rem"><strong>• Cele SOR:</strong> glikemia 140–180 mg/dl; bez ASA/heparyny przez 24 h po rtPA.</p></div>
       </div>
     </div>
@@ -474,6 +490,14 @@ window.HUB_CLINICAL.calc = function (ctx) {
     </div>`;
   }
 
+  function getShuffledChallengeStep(activeId, stepIdx, step) {
+    const rawOpts = Array.isArray(step?.opts || step?.options) ? (step.opts || step.options) : [];
+    const rawKey = Number(step?.key ?? step?.correct ?? step?.ans ?? 0);
+    return (typeof HUB_LOGIC !== 'undefined' && HUB_LOGIC.shuffleQuizOptions)
+      ? HUB_LOGIC.shuffleQuizOptions(rawOpts, rawKey, `chal:${activeId}:${stepIdx}`)
+      : { opts: rawOpts, key: rawKey };
+  }
+
   function renderPrescChallenges(challenges) {
     if (!challenges.length) return `<div class="card"><h3>Brak przypadków treningowych</h3><p class="muted" style="margin-top:.3rem">Brak danych <code>window.HUB_META.PRESCRIPTION_CHALLENGES</code>.</p></div>`;
     const list = challenges.map((ch, i) => Object.assign({ id: ch.id || ('ch-' + i) }, ch));
@@ -482,8 +506,9 @@ window.HUB_CLINICAL.calc = function (ctx) {
     const steps = Array.isArray(active.steps || active.questions) ? (active.steps || active.questions) : [];
     const ansMap = state.chal.answers[active.id] || {};
     const stepIdx = Math.max(0, Math.min(state.chal.stepIdx || 0, Math.max(0, steps.length - 1)));
-    const curStep = steps[stepIdx] || {}, opts = Array.isArray(curStep.opts || curStep.options) ? (curStep.opts || curStep.options) : [];
-    const key = Number(curStep.key ?? curStep.correct ?? curStep.ans ?? 0), curAns = ansMap[stepIdx];
+    const curStep = steps[stepIdx] || {};
+    const { opts, key } = getShuffledChallengeStep(active.id, stepIdx, curStep);
+    const curAns = ansMap[stepIdx];
     const allDone = steps.length > 0 && steps.every((_, i) => !!ansMap[i]);
     const okCount = steps.filter((_, i) => ansMap[i] && ansMap[i].ok).length;
     const scorePct = typeof pct === 'function' ? pct(okCount, steps.length) : (steps.length ? Math.round(100 * okCount / steps.length) : 0);
@@ -501,7 +526,7 @@ window.HUB_CLINICAL.calc = function (ctx) {
             const cls = curAns ? (i === key ? ' correct' : i === curAns.sel ? ' wrong' : ' disabled') : '';
             return `<button type="button" class="chal-opt-btn${cls}" data-chal-opt="${i}" ${curAns ? 'disabled' : ''}><span class="chal-opt-letter">${letters[i] || (i + 1)}.</span><span>${safeEsc(opt)}</span></button>`;
           }).join('')}</div>
-          ${curAns ? `<div class="chal-explanation-box ${curAns.ok ? 'ok' : 'err'}"><strong>${curAns.ok ? '✓ Poprawna decyzja!' : `✗ Nieoptymalnie — właściwa odpowiedź: ${letters[key] || '?'}`}</strong><p style="margin-top:.3rem;font-size:.9rem">${safeEsc(curStep.why || curStep.exp || curStep.explanation || '')}</p>${stepIdx < steps.length - 1 ? `<button type="button" class="btn pri sm" id="btnChalNext" style="margin-top:.65rem">Następny krok →</button>` : ''}</div>` : ''}
+          ${curAns ? `<div class="chal-explanation-box ${curAns.ok ? 'ok' : 'err'}"><strong>${curAns.ok ? '✓ Poprawna decyzja!' : `✗ Nieoptymalnie — właściwa odpowiedź: ${letters[key] || '?'}`}</strong><p style="margin-top:.3rem;font-size:.9rem">${safeEsc(curStep.why || curStep.exp || curStep.explanation || '')}</p><div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.65rem">${!curAns.ok ? '<button type="button" class="btn sec sm" id="btnChalRetry">🔄 Spróbuj ponownie</button>' : ''}${stepIdx < steps.length - 1 ? '<button type="button" class="btn pri sm" id="btnChalNext">Następny krok →</button>' : ''}</div></div>` : ''}
         </div>` : ''}
         ${allDone ? `<div class="chal-congrats-banner" style="margin-top:1rem"><strong>🎉 Przypadek ukończony (${okCount}/${steps.length} · ${scorePct}%)</strong>${active.pearl || active.summary ? `<div class="chal-pearl-box"><strong>Perła egzaminacyjna PUM:</strong> ${safeEsc(active.pearl || active.summary)}</div>` : ''}<div class="acts" style="margin-top:.7rem"><button type="button" class="btn sec sm" id="btnChalReset">🔄 Powtórz</button>${list.length > 1 ? `<button type="button" class="btn pri sm" data-chal-next="${safeEsc(nextId)}">Następny przypadek →</button>` : ''}</div></div>` : ''}
       </div>
@@ -555,8 +580,14 @@ window.HUB_CLINICAL.calc = function (ctx) {
     qAll('.calc-pill[data-w]', root).forEach(b => b.classList.toggle('active', Number(b.dataset.w) === state.w));
   }
 
+  const WEIGHT_TABS = new Set(['udar', 'padaczka', 'recepty']);
+
   function bindEvents(root) {
-    const refreshTab = () => { const b = q1('#calcTabBody', root); if (b) b.innerHTML = renderActiveTab(); };
+    const syncWeightCard = () => {
+      const card = q1('.calc-param-card', root);
+      if (card) card.hidden = !WEIGHT_TABS.has(state.tab);
+    };
+    const refreshTab = () => { syncWeightCard(); const b = q1('#calcTabBody', root); if (b) b.innerHTML = renderActiveTab(); };
     root.addEventListener('input', ev => {
       if (ev.target.id !== 'calcWeightSlider') return;
       state.w = clampW(ev.target.value);
@@ -615,12 +646,16 @@ window.HUB_CLINICAL.calc = function (ctx) {
         if (active) {
           const steps = Array.isArray(active.steps || active.questions) ? (active.steps || active.questions) : [];
           const idx = Math.max(0, Math.min(state.chal.stepIdx || 0, Math.max(0, steps.length - 1)));
-          const sel = Number(t.dataset.chalOpt), key = Number(steps[idx]?.key ?? steps[idx]?.correct ?? steps[idx]?.ans ?? 0);
+          const sel = Number(t.dataset.chalOpt), { key } = getShuffledChallengeStep(active.id, idx, steps[idx]);
           state.chal.answers[active.id] = state.chal.answers[active.id] || {};
           state.chal.answers[active.id][idx] = { sel, ok: sel === key };
           if (steps.length && steps.every((_, i) => !!state.chal.answers[active.id][i])) state.chal.done[active.id] = true;
           dirty = true;
         }
+      } else if (t.id === 'btnChalRetry') {
+        if (state.chal.answers[state.chal.activeId]) delete state.chal.answers[state.chal.activeId][state.chal.stepIdx || 0];
+        delete state.chal.done[state.chal.activeId];
+        dirty = true;
       } else if (t.id === 'btnChalNext') { state.chal.stepIdx = (state.chal.stepIdx || 0) + 1; dirty = true; }
       else if (t.id === 'btnChalReset') { delete state.chal.answers[state.chal.activeId]; delete state.chal.done[state.chal.activeId]; state.chal.stepIdx = 0; dirty = true; }
       else if (t.dataset.chalNext) { state.chal.activeId = t.dataset.chalNext; state.chal.stepIdx = 0; dirty = true; }
@@ -650,7 +685,7 @@ window.HUB_CLINICAL.calc = function (ctx) {
       <div class="eyebrow">Klinika Neurologii PUM · Stany nagłe, skale i dawkowanie</div>
       <h2>Skale neurologiczne i kalkulator dawek</h2>
       <p class="lead">Ocena punktowa (NIHSS, GCS/FOUR, CHA₂DS₂-VA, ABCD², mRS, Hunt-Hess), dawkowanie w trombolizie i.v. oraz stan padaczkowy i ordynacja leków.</p>
-      <div class="calc-param-card"><div class="calc-param-grid">
+      <div class="calc-param-card"${WEIGHT_TABS.has(state.tab) ? '' : ' hidden'}><div class="calc-param-grid">
         <div class="calc-field-group">
           <div style="display:flex;justify-content:space-between;align-items:center;gap:.6rem;flex-wrap:wrap">
             <label for="calcWeightSlider" style="font-size:.82rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)">Masa ciała pacjenta (30–160 kg)</label>

@@ -2,7 +2,9 @@
 
 ## Platform
 
-web (statyczna aplikacja PWA bez backendu, hostowana na GitHub Pages)
+web
+
+Statyczna aplikacja PWA bez backendu, hostowana na GitHub Pages.
 
 ## Users
 

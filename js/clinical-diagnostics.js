@@ -252,18 +252,25 @@
     }
 
     function extractPuzzleSteps(p) {
-      const normStep = s => ({
-        stem: s?.stem || s?.question || s?.prompt || s?.q || 'Wybierz właściwą odpowiedź:',
-        opts: Array.isArray(s?.opts || s?.options) ? (s.opts || s.options) : [],
-        key: resolveKey(s?.key, s?.correct, s?.answerIndex, s?.answer),
-        why: s?.why || s?.explanation || ''
-      });
+      const normStep = (s, idx) => {
+        const rawOpts = Array.isArray(s?.opts || s?.options) ? (s.opts || s.options) : [];
+        const rawKey = resolveKey(s?.key, s?.correct, s?.answerIndex, s?.answer);
+        const shuf = (typeof window !== 'undefined' && window.HUB_LOGIC?.shuffleQuizOptions)
+          ? window.HUB_LOGIC.shuffleQuizOptions(rawOpts, rawKey, `topo:${p?.id || p?.title || ''}:${idx}`)
+          : { opts: rawOpts, key: rawKey };
+        return {
+          stem: s?.stem || s?.question || s?.prompt || s?.q || 'Wybierz właściwą odpowiedź:',
+          opts: shuf.opts,
+          key: shuf.key,
+          why: s?.why || s?.explanation || ''
+        };
+      };
       if (Array.isArray(p?.steps) && p.steps.length) return p.steps.map(normStep);
       const list = [];
-      if (p?.step1) list.push(normStep(p.step1));
-      else if (p?.q1) list.push(normStep({ stem: p.q1, opts: p.opts1 || p.options1, key: p.key1 ?? p.correct1, why: p.why1 || p.exp1 }));
-      if (p?.step2) list.push(normStep(p.step2));
-      else if (p?.q2) list.push(normStep({ stem: p.q2, opts: p.opts2 || p.options2, key: p.key2 ?? p.correct2, why: p.why2 || p.exp2 }));
+      if (p?.step1) list.push(normStep(p.step1, 0));
+      else if (p?.q1) list.push(normStep({ stem: p.q1, opts: p.opts1 || p.options1, key: p.key1 ?? p.correct1, why: p.why1 || p.exp1 }, 0));
+      if (p?.step2) list.push(normStep(p.step2, 1));
+      else if (p?.q2) list.push(normStep({ stem: p.q2, opts: p.opts2 || p.options2, key: p.key2 ?? p.correct2, why: p.why2 || p.exp2 }, 1));
       return list;
     }
 
@@ -350,7 +357,11 @@
       const modType = normMod(active);
       const geo = resolveImagingGeometry(all, active);
       const revealed = !!(state.imgRevealed[active.id] || state.imgSolved[active.id]);
-      const quiz = extractCaseQuiz(active);
+      const rawQuiz = extractCaseQuiz(active);
+      const shufQuiz = (typeof window !== 'undefined' && window.HUB_LOGIC?.shuffleQuizOptions)
+        ? window.HUB_LOGIC.shuffleQuizOptions(rawQuiz.opts, rawQuiz.key, `img:${active.id}`)
+        : { opts: rawQuiz.opts, key: rawQuiz.key };
+      const quiz = { ...rawQuiz, opts: shufQuiz.opts, key: shufQuiz.key };
       const picked = state.imgStepAns[active.id];
       const isSolved = !!state.imgSolved[active.id];
       const solvedCount = all.filter(x => state.imgSolved[x.id]).length;
@@ -396,7 +407,7 @@
                 if (picked !== undefined) cls += idx === quiz.key ? ' correct' : (idx === picked ? ' wrong' : ' disabled');
                 return `<button type="button" class="${cls}" data-img-opt="${idx}"${picked !== undefined ? ' disabled' : ''}><span class="chal-opt-letter">${letters[idx] || idx + 1}</span><span>${hEsc(opt)}</span></button>`;
               }).join('')}</div>
-              ${picked !== undefined ? `<div class="chal-explanation-box ${picked === quiz.key ? 'ok' : 'err'}"><strong>${picked === quiz.key ? 'Poprawnie!' : 'Błąd — klucz: ' + (letters[quiz.key] || '?')}</strong><p style="margin-top:.3rem;font-size:.88rem">${hEsc(quiz.why)}</p></div>` : ''}
+              ${picked !== undefined ? `<div class="chal-explanation-box ${picked === quiz.key ? 'ok' : 'err'}"><strong>${picked === quiz.key ? 'Poprawnie!' : 'Błąd — klucz: ' + (letters[quiz.key] || '?')}</strong><p style="margin-top:.3rem;font-size:.88rem">${hEsc(quiz.why)}</p>${picked !== quiz.key ? '<button type="button" class="btn sec sm" id="imgRetryBtn" style="margin-top:.55rem">🔄 Spróbuj ponownie</button>' : ''}</div>` : ''}
             </div>` : ''}
             ${(isSolved || picked !== undefined) && (quiz.pearl || active.pearl || active.tip) ? `<div class="imaging-pearl-box"><span>💡</span><div><strong>Perła egzaminacyjna:</strong> ${hEsc(quiz.pearl || active.pearl || active.tip)}</div></div>` : ''}
             ${(isSolved || picked === quiz.key) && list.length > 1 ? '<div style="display:flex;justify-content:flex-end"><button type="button" class="btn pri sm" id="imgNextBtn">Następny przypadek →</button></div>' : ''}
@@ -408,6 +419,7 @@
       qAll('[data-case-id]', host).forEach(b => { b.onclick = () => { state.caseId = b.dataset.caseId; renderImaging(host); }; });
       const resetBtn = qSel('#imgResetBtn', host);
       if (resetBtn) resetBtn.onclick = () => {
+        if (!confirm('Czy na pewno zresetować postęp wszystkich przypadków TK/MRI?')) return;
         state.imgSolved = {}; state.imgRevealed = {}; state.imgStepAns = {};
         saveLS(IMG_STORAGE_KEY, JSON.stringify({}));
         notify('Wyczyszczono postęp trenażera TK/MRI');
@@ -449,6 +461,8 @@
           renderImaging(host);
         };
       });
+      const imgRetryBtn = qSel('#imgRetryBtn', host);
+      if (imgRetryBtn) imgRetryBtn.onclick = () => { delete state.imgStepAns[active.id]; renderImaging(host); };
       const nextBtn = qSel('#imgNextBtn', host);
       if (nextBtn) nextBtn.onclick = () => { state.caseId = list[(list.findIndex(x => x.id === active.id) + 1) % list.length].id; renderImaging(host); };
     }
@@ -589,7 +603,7 @@
                     if (pickedOpt !== undefined) cls += idx === step.key ? ' correct' : (idx === pickedOpt ? ' wrong' : ' disabled');
                     return `<button type="button" class="${cls}" data-puz-opt="${idx}"${pickedOpt !== undefined ? ' disabled' : ''}><span class="chal-opt-letter">${letters[idx] || idx + 1}</span><span>${hEsc(opt)}</span></button>`;
                   }).join('')}</div>
-                  ${pickedOpt !== undefined ? `<div class="chal-explanation-box ${pickedOpt === step.key ? 'ok' : 'err'}"><strong>${pickedOpt === step.key ? 'Poprawnie!' : 'Błąd — klucz: ' + (letters[step.key] || '?')}</strong><p style="margin-top:.25rem;font-size:.88rem">${hEsc(step.why)}</p></div>` : ''}
+                  ${pickedOpt !== undefined ? `<div class="chal-explanation-box ${pickedOpt === step.key ? 'ok' : 'err'}"><strong>${pickedOpt === step.key ? 'Poprawnie!' : 'Błąd — klucz: ' + (letters[step.key] || '?')}</strong><p style="margin-top:.25rem;font-size:.88rem">${hEsc(step.why)}</p>${pickedOpt !== step.key ? '<button type="button" class="btn sec sm" id="puzRetryStep" style="margin-top:.5rem">🔄 Spróbuj ponownie</button>' : ''}</div>` : ''}
                   ${solved ? `<div class="chal-congrats-banner" style="margin-top:.9rem"><strong>✓ Zagadka ukończona!</strong>${(puz.pearl || puz.tip) ? `<div class="chal-pearl-box">💡 ${hEsc(puz.pearl || puz.tip)}</div>` : ''}</div>` : ''}
                   <div style="display:flex;justify-content:flex-end;gap:.5rem;margin-top:.8rem">
                     ${pickedOpt === step.key && sIdx + 1 < steps.length ? '<button type="button" class="btn pri sm" id="puzNextStep">Przejdź do etapu 2 →</button>' : ''}
@@ -641,6 +655,13 @@
           renderTopo(host);
         };
       });
+      const retryStepBtn = qSel('#puzRetryStep', host);
+      if (retryStepBtn) retryStepBtn.onclick = () => {
+        const puz = puzzles[state.puzzleIdx];
+        const pId = (puz && puz.id) || ('puz-' + state.puzzleIdx);
+        delete state.puzzleAns[`${pId}:${state.puzzleStep}`];
+        renderTopo(host);
+      };
       const nextStepBtn = qSel('#puzNextStep', host);
       if (nextStepBtn) nextStepBtn.onclick = () => { state.puzzleStep += 1; renderTopo(host); };
       const nextCaseBtn = qSel('#puzNextCase', host);
@@ -684,7 +705,7 @@
       if (p.case) state.caseId = p.case;
       if (p.topo) { state.topoId = p.topo; state.topoMode = 'catalog'; }
 
-      root.innerHTML = `<section class="wrap view">
+      root.innerHTML = `<section class="wrap view blk" style="border:0">
         <div class="eyebrow">Diagnostyka neurologiczna · Sylabus PUM 2026/2027</div>
         <h2>Pracownia PMR, neuroobrazowania, EEG/EMG i topodiagnostyki</h2>
         <p class="lead">Interaktywny kalkulator PMR, trenażer skanów TK/MRI z lokalizacją ogniska, wzorce elektrofizjologiczne oraz silnik lokalizacji uszkodzeń układu nerwowego.</p>

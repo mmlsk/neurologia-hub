@@ -83,15 +83,15 @@
     function renderAdultNeuroSvg(station, selectedZoneObj, viewMode = 'front') {
       const isBack = viewMode === 'back';
       const doneSet = new Set((station.zones || []).filter(isZoneDone).map(z => z.id));
-      const fillBase = 'rgba(12,122,133,0.10)';
-      const strokeBase = 'rgba(12,122,133,0.42)';
+      const fillBase = 'var(--teal-l)';
+      const strokeBase = 'var(--teal)';
       const badge = (cx, cy, ok) => ok
         ? `<g class="osce-finding-badge-svg"><circle cx="${cx}" cy="${cy}" r="8" fill="var(--green)"/><path d="M${cx - 3.5},${cy} l2.5,2.5 l4.5,-5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g>`
         : '';
 
       return `<svg class="osce-silhouette-svg" viewBox="0 0 300 480" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Sylwetka neurologiczna dorosłego pacjenta">
         <defs><linearGradient id="neuroSkin" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="var(--teal)" stop-opacity="0.07"/><stop offset="100%" stop-color="var(--teal)" stop-opacity="0.16"/></linearGradient></defs>
-        <rect x="14" y="10" width="272" height="460" rx="22" fill="rgba(12,122,133,0.02)" stroke="var(--line)" stroke-width="1.5" stroke-dasharray="4 4"/>
+        <rect x="14" y="10" width="272" height="460" rx="22" fill="var(--surface-2)" stroke="var(--line)" stroke-width="1.5" stroke-dasharray="4 4"/>
         <line x1="150" y1="20" x2="150" y2="458" stroke="var(--line)" stroke-width="1" stroke-dasharray="3 5" opacity="0.65"/>
         <g fill="url(#neuroSkin)" stroke="${strokeBase}" stroke-width="1.6" stroke-linejoin="round">
           <ellipse cx="150" cy="64" rx="32" ry="40"/>
@@ -120,7 +120,7 @@
         </g>
         <path class="${getZoneClass(station, 'tulow_odruchy', selectedZoneObj)}" data-zone-id="tulow_odruchy" d="M114,132 L186,132 L182,244 L118,244 Z" fill="${fillBase}" stroke="${strokeBase}" stroke-width="1.8"/>
         ${isBack
-          ? '<rect x="144" y="136" width="12" height="102" rx="6" fill="rgba(12,122,133,0.16)" stroke="var(--teal)" stroke-width="1.2" pointer-events="none"/><circle cx="150" cy="216" r="4.5" fill="var(--amber)" opacity="0.85" pointer-events="none"/>'
+          ? '<rect x="144" y="136" width="12" height="102" rx="6" fill="var(--teal-l)" stroke="var(--teal)" stroke-width="1.2" pointer-events="none"/><circle cx="150" cy="216" r="4.5" fill="var(--amber)" opacity="0.85" pointer-events="none"/>'
           : '<path d="M132,162 L168,162 M130,192 L170,192 M134,218 L166,218" stroke="var(--teal)" stroke-width="1.1" stroke-dasharray="3 3" opacity="0.55" pointer-events="none"/>'}
         <g class="${getZoneClass(station, 'konczyny_dolne', selectedZoneObj)}" data-zone-id="konczyny_dolne" fill="${fillBase}" stroke="${strokeBase}" stroke-width="1.8">
           <path d="M114,248 L146,248 L142,346 L138,442 L117,442 L113,346 Z"/>
@@ -130,7 +130,7 @@
           <circle cx="128" cy="434" r="3.5" fill="var(--surface)" stroke="var(--teal)" stroke-width="1.2" pointer-events="none"/>
           <circle cx="172" cy="434" r="3.5" fill="var(--surface)" stroke="var(--teal)" stroke-width="1.2" pointer-events="none"/>
         </g>
-        ${OSCE_ACTIVE && OSCE_ACTIVE.isComplication ? '<circle cx="150" cy="58" r="14" fill="rgba(194,59,42,0.28)" stroke="var(--red)" stroke-width="2.5" class="osce-pulse-ring"/>' : ''}
+        ${OSCE_ACTIVE && OSCE_ACTIVE.isComplication ? '<circle cx="150" cy="58" r="14" fill="var(--red-l)" stroke="var(--red)" stroke-width="2.5" class="osce-pulse-ring"/>' : ''}
         ${badge(184, 40, doneSet.has('glowa_nerwy'))}${badge(180, 86, doneSet.has('twarz_mowa'))}${badge(174, 114, doneSet.has('kark_opony'))}
         ${badge(226, 212, doneSet.has('konczyny_gorne'))}${badge(184, 194, doneSet.has('tulow_odruchy'))}${badge(188, 344, doneSet.has('konczyny_dolne'))}
       </svg>`;
@@ -203,13 +203,13 @@
                 <div style="font-size:.85rem;color:var(--teal);font-weight:700;margin-bottom:.6rem">🧠 ${esc(station.topic)}</div>
                 <p style="font-size:.88rem;color:var(--ink-muted);line-height:1.45;margin-bottom:.9rem">${esc(station.briefing.scenario)}</p>
                 <div style="display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1rem">
-                  <span class="badge" style="background:rgba(12,122,133,0.1);color:var(--teal)">📍 ${totalZones} stref anatomicznych</span>
-                  <span class="badge" style="background:rgba(12,122,133,0.1);color:var(--teal)">🔑 ${totalKey} manewrów kluczowych</span>
-                  <span class="badge" style="background:rgba(194,59,42,0.1);color:var(--red)">⚠️ Błędy krytyczne</span>
+                  <span class="badge" style="background:var(--teal-l);color:var(--teal)">📍 ${totalZones} stref anatomicznych</span>
+                  <span class="badge" style="background:var(--teal-l);color:var(--teal)">🔑 ${totalKey} manewrów kluczowych</span>
+                  <span class="badge" style="background:var(--red-l);color:var(--red)">⚠️ Błędy krytyczne</span>
                 </div>
               </div>
               <div style="border-top:1px solid var(--line-2);padding-top:.9rem;display:flex;align-items:center;justify-content:space-between">
-                <div>${saved ? `<span class="badge" style="background:${isPassed ? 'rgba(46,133,64,0.15)' : 'rgba(194,59,42,0.15)'};color:${isPassed ? 'var(--green)' : 'var(--red)'};font-weight:800">${isPassed ? '✅ ZALICZONE' : '❌ DO POPRAWY'}: ${saved.score}%</span>` : '<span class="badge" style="background:var(--bg-card);color:var(--ink-muted)">Status: Nowa stacja</span>'}</div>
+                <div>${saved ? `<span class="badge" style="background:${isPassed ? 'var(--green-l)' : 'var(--red-l)'};color:${isPassed ? 'var(--green)' : 'var(--red)'};font-weight:800">${isPassed ? '✅ ZALICZONE' : '❌ DO POPRAWY'}: ${saved.score}%</span>` : '<span class="badge" style="background:var(--surface-2);color:var(--ink-muted)">Status: Nowa stacja</span>'}</div>
                 <a href="#/pacjent/osce/${station.id}" class="btn btn-sm btn-primary">${saved ? 'Powtórz badanie →' : 'Rozpocznij stację →'}</a>
               </div>
             </div>`;
@@ -291,7 +291,7 @@
           </div>
         </div>
         <div style="margin-top:.6rem;padding:.6rem .8rem;border-radius:6px;background:color-mix(in srgb, ${c} 10%, transparent);border:1px solid color-mix(in srgb, ${c} 28%, transparent);font-size:.84rem;line-height:1.45;color:var(--ink)"><b>💡 Wskazanie kliniczne:</b> ${esc(scale.interpretation.tip)}</div>
-        ${tech ? `<div style="margin-top:.6rem;padding:.55rem .8rem;border-radius:8px;background:${tech.type === 'gold' ? 'rgba(217,119,6,0.1)' : 'rgba(12,122,133,0.08)'};border:1px solid ${tech.type === 'gold' ? 'rgba(184,115,15,0.32)' : 'rgba(12,122,133,0.28)'};font-size:.82rem;line-height:1.4"><b style="color:${tech.type === 'gold' ? 'var(--amber)' : 'var(--teal)'}">${tech.badge}:</b> ${tech.text}</div>` : ''}
+        ${tech ? `<div style="margin-top:.6rem;padding:.55rem .8rem;border-radius:8px;background:${tech.type === 'gold' ? 'var(--amber-l)' : 'var(--teal-l)'};border:1px solid ${tech.type === 'gold' ? 'var(--amber)' : 'var(--teal)'};font-size:.82rem;line-height:1.4"><b style="color:${tech.type === 'gold' ? 'var(--amber)' : 'var(--teal)'}">${tech.badge}:</b> ${tech.text}</div>` : ''}
         ${isExpanded ? `<div style="margin-top:.9rem;padding-top:.8rem;border-top:1px solid var(--line-2)"><div style="font-size:.78rem;font-weight:700;color:var(--ink-muted);text-transform:uppercase;margin-bottom:.5rem">Status składowych skali w badaniu:</div><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:.5rem">${scale.items.map(it => `<div style="padding:.5rem .7rem;border-radius:6px;background:var(--bg);border:1px solid ${it.isAssessed ? 'var(--line)' : 'var(--line-2)'};font-size:.8rem"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.2rem"><span style="font-weight:700;color:var(--ink)">${esc(it.label)}</span><span class="chip" style="font-size:.7rem;padding:.1rem .35rem;background:${it.isAssessed ? 'var(--teal-l)' : 'var(--surface)'};color:${it.isAssessed ? 'var(--teal-d)' : 'var(--ink-muted)'};font-weight:700">${it.isAssessed ? '+' + it.earned + ' pkt' : '⏳ Czeka'}</span></div><div style="color:${it.isAssessed ? 'var(--teal)' : 'var(--ink-muted)'};font-size:.76rem">${it.isAssessed ? '✓ ' + esc(it.findingVal) : '○ Wymaga zbadania odpowiedniej strefy'}</div></div>`).join('')}</div></div>` : ''}
       </div>`;
     }
@@ -419,7 +419,7 @@
                   const isPerformed = OSCE_ACTIVE.performedManeuvers.has(m.id);
                   return `<div style="margin-bottom:.65rem">
                     <button class="osce-maneuver-btn ${isPerformed ? 'done' : ''}" data-maneuver="${esc(m.id)}">
-                      <span style="display:flex;align-items:center;gap:.4rem;flex:1;text-align:left">${isPerformed ? '✅' : '🩺'}<span>${esc(m.label)}</span>${m.isKey ? '<span class="badge" style="background:rgba(12,122,133,0.15);color:var(--teal);font-size:.68rem;padding:.15rem .4rem">KLUCZOWY</span>' : ''}${m.isFatal ? '<span class="badge" style="background:rgba(194,59,42,0.15);color:var(--red);font-size:.68rem;padding:.15rem .4rem">RYZYKO</span>' : ''}</span>
+                      <span style="display:flex;align-items:center;gap:.4rem;flex:1;text-align:left">${isPerformed ? '✅' : '🩺'}<span>${esc(m.label)}</span>${isPerformed && m.isKey ? '<span class="badge" style="background:var(--teal-l);color:var(--teal);font-size:.68rem;padding:.15rem .4rem">KLUCZOWY</span>' : ''}${isPerformed && m.isFatal ? '<span class="badge" style="background:var(--red-l);color:var(--red);font-size:.68rem;padding:.15rem .4rem">RYZYKO</span>' : ''}</span>
                       <span style="font-size:.78rem;font-weight:800;color:${isPerformed ? 'var(--green)' : 'var(--teal)'};margin-left:.6rem">${isPerformed ? 'Wykonano' : 'Zbadaj →'}</span>
                     </button>
                     ${isPerformed ? `<div class="osce-finding-alert"><b>Wynik badania:</b> ${esc(m.finding)}</div>` : ''}
@@ -434,9 +434,9 @@
                   return `<div class="card" style="margin-bottom:.6rem;padding:.75rem .9rem;background:var(--bg);border:1px solid ${isAsked ? 'var(--green)' : 'var(--line)'}">
                     <div style="display:flex;justify-content:space-between;align-items:center;gap:.6rem">
                       <span style="font-weight:700;font-size:.86rem;color:var(--ink)">„${esc(item.q)}”</span>
-                      ${!isAsked ? `<button class="btn btn-sm btn-subtle btn-ask-question" data-qidx="${idx}" style="white-space:nowrap">Zapytaj 💬</button>` : '<span class="badge" style="background:rgba(46,133,64,0.12);color:var(--green);font-size:.72rem">Zadano</span>'}
+                      ${!isAsked ? `<button class="btn btn-sm btn-subtle btn-ask-question" data-qidx="${idx}" style="white-space:nowrap">Zapytaj 💬</button>` : '<span class="badge" style="background:var(--green-l);color:var(--green);font-size:.72rem">Zadano</span>'}
                     </div>
-                    ${isAsked ? `<div style="margin-top:.5rem;padding-top:.5rem;border-top:1px dashed var(--line);font-size:.84rem;color:var(--teal);line-height:1.45"><b>Odpowiedź:</b> „${esc(item.a)}” ${item.isKey ? '<span class="badge" style="background:rgba(12,122,133,0.15);color:var(--teal);font-size:.65rem;margin-left:.4rem">KLUCZOWE</span>' : ''}</div>` : ''}
+                    ${isAsked ? `<div style="margin-top:.5rem;padding-top:.5rem;border-top:1px dashed var(--line);font-size:.84rem;color:var(--teal);line-height:1.45"><b>Odpowiedź:</b> „${esc(item.a)}” ${item.isKey ? '<span class="badge" style="background:var(--teal-l);color:var(--teal);font-size:.65rem;margin-left:.4rem">KLUCZOWE</span>' : ''}</div>` : ''}
                   </div>`;
                 }).join('')}
               </div>
@@ -446,7 +446,7 @@
               <div style="font-weight:800;font-size:.86rem;color:var(--ink);margin-bottom:.5rem">📝 Ostatnio odkryte objawy neurologiczne (${OSCE_ACTIVE.findings.length})</div>
               ${OSCE_ACTIVE.findings.length === 0
                 ? '<div style="font-size:.82rem;color:var(--ink-muted);font-style:italic">Nie wykonano jeszcze żadnych manewrów. Kliknij wybraną strefę sylwetki, aby rozpocząć badanie neurologiczne.</div>'
-                : `<div style="max-height:220px;overflow-y:auto;display:flex;flex-direction:column;gap:.4rem">${OSCE_ACTIVE.findings.slice(0, 5).map(f => `<div style="font-size:.8rem;padding:.45rem .65rem;background:var(--surface);border-radius:8px;border:1px solid ${f.isFatal ? 'rgba(194,59,42,0.32)' : 'rgba(12,122,133,0.28)'}"><div style="display:flex;justify-content:space-between;color:var(--ink-muted);font-size:.72rem;margin-bottom:.15rem"><span><b>${esc(f.zoneName)}</b> › ${esc(f.label)}</span><span>${esc(f.time)}</span></div><div style="color:var(--ink);line-height:1.35">${esc(f.finding)}</div></div>`).join('')}</div>`}
+                : `<div style="max-height:220px;overflow-y:auto;display:flex;flex-direction:column;gap:.4rem">${OSCE_ACTIVE.findings.map(f => `<div style="font-size:.8rem;padding:.45rem .65rem;background:var(--surface);border-radius:8px;border:1px solid ${f.isFatal ? 'var(--red-b)' : 'var(--teal)'}"><div style="display:flex;justify-content:space-between;color:var(--ink-muted);font-size:.72rem;margin-bottom:.15rem"><span><b>${esc(f.zoneName)}</b> › ${esc(f.label)}</span><span>${esc(f.time)}</span></div><div style="color:var(--ink);line-height:1.35">${esc(f.finding)}</div></div>`).join('')}</div>`}
             </div>
           </div>
         </div>
@@ -604,7 +604,7 @@
           <div class="card" style="margin-bottom:1.5rem;border-top:4px solid var(--teal)">
             <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;margin-bottom:.8rem">
               <div><div class="eyebrow" style="color:var(--teal)">Karta oceny OSCE · ${esc(station.shortTitle)}</div><h2 style="margin:0">${esc(station.title)}</h2></div>
-              ${isEvaluated ? `<div style="text-align:right"><span class="badge" style="font-size:1.1rem;padding:.4rem .9rem;background:${OSCE_ACTIVE.score >= 60 ? 'rgba(46,133,64,0.15)' : 'rgba(194,59,42,0.15)'};color:${OSCE_ACTIVE.score >= 60 ? 'var(--green)' : 'var(--red)'};font-weight:900">${OSCE_ACTIVE.score >= 60 ? '✅ ZDANY' : '❌ NIEZALICZONY'}: ${OSCE_ACTIVE.score}%</span></div>` : ''}
+              ${isEvaluated ? `<div style="text-align:right"><span class="badge" style="font-size:1.1rem;padding:.4rem .9rem;background:${OSCE_ACTIVE.score >= 60 ? 'var(--green-l)' : 'var(--red-l)'};color:${OSCE_ACTIVE.score >= 60 ? 'var(--green)' : 'var(--red)'};font-weight:900">${OSCE_ACTIVE.score >= 60 ? '✅ ZDANY' : '❌ NIEZALICZONY'}: ${OSCE_ACTIVE.score}%</span></div>` : ''}
             </div>
 
             <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));gap:.8rem;background:var(--bg);padding:1rem;border-radius:var(--r);margin-bottom:1rem">
@@ -613,6 +613,21 @@
               <div><div style="font-size:.75rem;font-weight:800;color:var(--ink-muted)">Błędy krytyczne</div><div style="font-size:1.1rem;font-weight:900;color:${OSCE_ACTIVE.fatalErrorsTriggered > 0 ? 'var(--red)' : 'var(--green)'}">${OSCE_ACTIVE.fatalErrorsTriggered > 0 ? '⚠️ ' + OSCE_ACTIVE.fatalErrorsTriggered + ' powikłań' : '0 (Czysto)'}</div></div>
               <div><div style="font-size:.75rem;font-weight:800;color:var(--ink-muted)">Ocena syntetyczna</div><div style="font-size:1.1rem;font-weight:900;color:var(--teal)">${isEvaluated ? OSCE_ACTIVE.score + '% punktów' : 'Oczekuje na test'}</div></div>
             </div>
+
+            <details style="margin-bottom:1rem;background:var(--bg);border:1px solid var(--line);border-radius:var(--r);padding:.75rem .95rem">
+              <summary style="cursor:pointer;font-weight:800;font-size:.88rem;color:var(--ink)">📋 Podgląd zebranych objawów (${OSCE_ACTIVE.findings.length}), wywiadu (${OSCE_ACTIVE.performedQuestions.size}) i parametrów życiowych</summary>
+              <div style="margin-top:.75rem;display:grid;gap:.6rem;font-size:.84rem">
+                <div style="display:flex;flex-wrap:wrap;gap:.5rem;padding:.5rem .7rem;background:var(--surface);border-radius:8px;border:1px solid var(--line-2)">
+                  <span><b>BP:</b> ${esc((OSCE_ACTIVE.currentVitals || {}).bp || '—')}</span>
+                  <span><b>HR:</b> ${esc((OSCE_ACTIVE.currentVitals || {}).hr || '—')}</span>
+                  <span><b>SpO₂:</b> ${esc((OSCE_ACTIVE.currentVitals || {}).spo2 || '—')}</span>
+                  <span><b>Temp:</b> ${esc((OSCE_ACTIVE.currentVitals || {}).temp || '—')}</span>
+                  <span><b>Glukemia:</b> ${esc((OSCE_ACTIVE.currentVitals || {}).glucose || '—')}</span>
+                </div>
+                ${OSCE_ACTIVE.findings.length ? `<div><div style="font-weight:800;font-size:.78rem;color:var(--ink-muted);margin-bottom:.3rem">ODKRYTE OBJAWY W BADANIU (${OSCE_ACTIVE.findings.length}):</div><div style="display:grid;gap:.3rem;max-height:200px;overflow-y:auto">${OSCE_ACTIVE.findings.map(f => `<div style="padding:.4rem .6rem;background:var(--surface);border-radius:6px;border:1px solid var(--line-2)"><b>${esc(f.zoneName)} › ${esc(f.label)}:</b> ${esc(f.finding)}</div>`).join('')}</div></div>` : '<div class="muted">Nie wykonano jeszcze żadnych manewrów badania.</div>'}
+                ${OSCE_ACTIVE.performedQuestions.size ? `<div><div style="font-weight:800;font-size:.78rem;color:var(--ink-muted);margin-bottom:.3rem">ZEBRANY WYWIAD (${OSCE_ACTIVE.performedQuestions.size}):</div><div style="display:grid;gap:.3rem">${interview.map((q, idx) => OSCE_ACTIVE.performedQuestions.has(idx) ? `<div style="padding:.4rem .6rem;background:var(--surface);border-radius:6px;border:1px solid var(--line-2)"><b>${esc(q.q)}</b> → ${esc(q.a)}</div>` : '').join('')}</div></div>` : ''}
+              </div>
+            </details>
 
             <div style="border-top:1px solid var(--line-2);padding-top:1.2rem">
               <h3 style="margin-top:0;margin-bottom:.5rem;font-size:1.1rem">🧠 Synteza kliniczna i decyzja egzaminacyjna</h3>
@@ -672,7 +687,7 @@
               <p style="font-size:.86rem;color:var(--ink-muted);line-height:1.45;margin-bottom:1.2rem">Wzorcowy opis stanu neurologicznego (Status Praesens) zgodny ze standardem badania U02 w Klinice Neurologii PUM. Skopiuj raport do Notatnika lub schowka jednym kliknięciem.</p>
               <div class="status-praesens-box">
                 ${(sp.sections || []).map(sec => `<div class="status-praesens-section"><h4>${esc(sec.num)}. ${esc(sec.title)}</h4><p style="margin:0;color:var(--ink)">${esc(sec.content)}</p></div>`).join('')}
-                <div style="margin-top:1.2rem;border-top:1.5px solid var(--line);background:rgba(12,122,133,0.04);padding:1rem;border-radius:8px"><h4 style="margin:0 0 .35rem 0;color:var(--teal)">💡 Wnioski kliniczne i rozpoznanie końcowe:</h4><p style="margin:0;font-size:.9rem;line-height:1.5;color:var(--ink)">${esc(sp.conclusions)}</p></div>
+                <div style="margin-top:1.2rem;border-top:1.5px solid var(--line);background:var(--teal-l);padding:1rem;border-radius:8px"><h4 style="margin:0 0 .35rem 0;color:var(--teal)">💡 Wnioski kliniczne i rozpoznanie końcowe:</h4><p style="margin:0;font-size:.9rem;line-height:1.5;color:var(--ink)">${esc(sp.conclusions)}</p></div>
               </div>
               <div style="display:flex;justify-content:space-between;align-items:center;margin-top:1.2rem;flex-wrap:wrap;gap:.6rem">
                 <a href="#/pacjent?tab=osce" class="btn">← Wróć do listy stacji OSCE</a>

@@ -26,11 +26,11 @@
     const modTag = opts.modTag || '[N]';
     const Q = rawQ.map((q, idx) => Object.assign({}, q, { n: q.n || (idx + 1) }));
     const CONF = {
-      src: ['src', 'KLUCZ POTWIERDZONY'],
-      inf: ['inf', 'KLUCZ WNIOSKOWANY'],
-      unk: ['unk', 'KLUCZ NIEPEWNY'],
-      did: ['src', 'DYDAKTYCZNE'],
-      own: ['inf', 'AUTORSKIE']
+      src: ['src', 'ZGODNE ZE ŹRÓDŁEM'],
+      inf: ['inf', 'ROZBIEŻNOŚĆ KLUCZ VS KLINIKA'],
+      unk: ['unk', 'WERYFIKUJ W LITERATURZE'],
+      did: ['src', 'REKONSTRUKCJA DYDAKTYCZNA'],
+      own: ['inf', 'WŁASNE PYTANIE']
     };
     const L = 'ABCDEF';
     let filter = 'all';

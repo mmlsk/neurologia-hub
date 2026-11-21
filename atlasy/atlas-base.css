@@ -2,10 +2,10 @@
 :root{
   --bg:#F5F6F2; --surface:#FFFFFF; --surface-2:#EEF2F0; --ink:#13232C; --ink-2:#44545D; --ink-inv:#FFFFFF; --on-accent:#FFFFFF; --muted:#596870; --line:#DCE2E0;
   --teal:#0C7A85; --teal-d:#075760; --teal-l:#DDF1F2; --teal-2:#4DB8C0;
-  --red:#A82D1E; --red-l:#FBE6E2; --red-b:#F0C4BC;
-  --amber:#8F5808; --amber-l:#FCEFD6;
+  --red:#B93424; --red-l:#FBE6E2; --red-b:#F0C4BC;
+  --amber:#9A5F09; --amber-l:#FCEFD6;
   --blue:#2B63AE; --blue-l:#E1ECF9; --blue-b:#BFD4EE;
-  --green:#216B3E; --green-l:#E1F3E7; --green-b:#BFE2CB;
+  --green:#2F8450; --green-l:#E1F3E7; --green-b:#BFE2CB;
   --violet:#245B7A; --violet-l:#E1EFF5; --violet-b:#BFD8E4;
   --edge:#B5C0C3; --nav-bg:rgba(245,246,242,.92); --hero-glow:#CFEBEC; --focus-ring:#7CC9CF;
   --font-display:'Cabinet Grotesk','Satoshi',system-ui,sans-serif;
@@ -90,7 +90,7 @@ section{padding:clamp(2.5rem,6vw,4.5rem) 0;border-top:1px solid var(--line)}
 .callout.amber{border-color:rgba(229,154,36,.45);background:var(--amber-l)}
 .callout.blue{border-color:rgba(78,143,230,.45);background:var(--blue-l)}
 .callout.green{border-color:rgba(59,179,110,.45);background:var(--green-l)}
-.callout b.k{display:block;font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;margin-bottom:.15rem}
+.callout b.k{display:block;font-size:.82rem;letter-spacing:.02em;margin-bottom:.15rem}
 ul.tight{padding-left:1.1rem}ul.tight li{margin:.2rem 0}
 .small{font-size:.88rem;color:var(--ink-2)}
 .mod{display:inline-block;font-size:.72rem;font-weight:800;padding:.05rem .4rem;border-radius:6px;background:var(--ink);color:var(--ink-inv);margin-right:.15rem;vertical-align:middle}
@@ -113,7 +113,7 @@ th:first-child{border-top-left-radius:8px}
 th:last-child{border-top-right-radius:8px}
 tr:last-child td{border-bottom:0}
 
-/* abdomen map */
+/* interactive anatomical map */
 .map{display:grid;grid-template-columns:minmax(260px,420px) 1fr;gap:1.5rem;align-items:start}
 .map svg .reg{fill:transparent;stroke:var(--ink);stroke-opacity:.25;stroke-dasharray:4 3;cursor:pointer;transition:fill .15s}
 .map svg .reg:hover,.map svg .reg:focus{fill:rgba(12,122,133,.18);outline:none}
@@ -147,7 +147,7 @@ tr:last-child td{border-bottom:0}
 .fn.green{border-color:var(--green);background:var(--green-l)}
 .fn.violet{border-color:var(--violet);background:var(--violet-l)}
 .fn b{display:block}
-.ar{color:var(--muted);font-size:1.3rem;line-height:1}
+.ar{color:var(--muted);font-size:1.15rem;line-height:1.35}
 .branch{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;width:100%}
 .branch>div{display:grid;gap:.6rem;justify-items:center;align-content:start;padding:.8rem;border-radius:14px;background:rgba(255,255,255,.55);border:1px dashed var(--line)}
 .branch .fn{width:100%}

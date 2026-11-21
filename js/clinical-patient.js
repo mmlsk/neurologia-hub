@@ -441,8 +441,8 @@
         return;
       }
       const tab = (parts[1] === 'osce' || (params && params.tab === 'osce')) ? 'osce' : 'sor';
-      if (tab === 'osce') ctx.osce.renderOsceStationList();
-      else renderPatientCaseList();
+      window.PATIENT_HUB_FILTER = tab === 'osce' ? 'osce' : 'sor';
+      renderPatientCaseList();
     }
 
     function startPatientSim(caseItem) {
@@ -469,10 +469,10 @@
               <div style="padding:.45rem .6rem;background:var(--surface);border:1.5px solid var(--teal);border-radius:6px;margin-bottom:.4rem"><span style="font-size:.74rem;color:var(--teal-d);display:block;font-weight:700">DAWKA DLA PACJENTA:</span><b style="font-size:.94rem;color:var(--teal);display:block">${esc(d.calcDose)}</b></div>
               <div style="font-size:.78rem;color:var(--ink-muted);margin-bottom:.2rem"><b>Droga:</b> ${esc(d.route)}</div>
             </div>
-            <div style="font-size:.76rem;color:var(--ink);background:rgba(12,122,133,0.06);padding:.35rem .5rem;border-radius:4px;margin-top:.4rem;line-height:1.35">${esc(d.indication)}</div>
+            <div style="font-size:.76rem;color:var(--ink);background:var(--teal-l);padding:.35rem .5rem;border-radius:4px;margin-top:.4rem;line-height:1.35">${esc(d.indication)}</div>
           </div>`).join('')}
         </div>
-        <div style="background:rgba(194,59,42,0.08);border:1px solid rgba(194,59,42,0.28);padding:.7rem .9rem;border-radius:8px;font-size:.82rem;line-height:1.45;color:var(--ink)">
+        <div style="background:var(--red-l);border:1px solid var(--red-b);padding:.7rem .9rem;border-radius:8px;font-size:.82rem;line-height:1.45;color:var(--ink)">
           <b style="color:var(--red)">⚠️ CZERWONE FLAGI I PRZECIWWSKAZANIA:</b>
           <ul style="margin:.3rem 0 0 1.1rem;padding:0">${card.redFlags.map(rf => `<li>${esc(rf)}</li>`).join('')}</ul>
         </div>
@@ -542,7 +542,7 @@
           <button class="sim-filter-chip ${currentFilter === 'pns' ? 'active' : ''}" data-filter="pns">⚡ Obwodowy i złącze NM</button>
         </div>
         ${sorFiltered.length > 0 ? `<div style="margin-bottom:2rem">
-          <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.8rem"><span style="font-size:1.3rem">🚨</span><h3 style="margin:0;font-size:1.2rem">Stany Nagłe w Neurologii (SOR)</h3><span class="chip" style="background:rgba(194,59,42,0.1);color:var(--red);font-weight:700;border:0">${sorFiltered.length}</span></div>
+          <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.8rem"><span style="font-size:1.3rem">🚨</span><h3 style="margin:0;font-size:1.2rem">Stany Nagłe w Neurologii (SOR)</h3><span class="chip" style="background:var(--red-l);color:var(--red);font-weight:700;border:0">${sorFiltered.length}</span></div>
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:1.1rem">
             ${sorFiltered.map(c => {
               const saved = (ctx.S.patientCases || {})[c.id], hasScore = saved && saved.bestScore !== undefined;
@@ -580,7 +580,7 @@
                   <h4 style="font-size:1.08rem;margin-bottom:.35rem;font-family:var(--font-display)"><a href="#/pacjent/osce/${st.id}">${esc(st.title)}</a></h4>
                   <div style="font-size:.82rem;color:var(--teal);font-weight:700;margin-bottom:.5rem">🩺 ${esc(st.scale && st.scale.name ? st.scale.name.split('/')[0].trim() : (st.topic || 'Badanie neurologiczne'))}</div>
                   <p class="srcline" style="margin-bottom:.8rem;font-size:.86rem;line-height:1.4">${esc(st.briefing && st.briefing.scenario ? st.briefing.scenario : '')}</p>
-                  <div style="display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:.6rem"><span class="badge" style="background:rgba(12,122,133,0.1);color:var(--teal);font-size:.72rem">📍 ${zones.length} stref</span><span class="badge" style="background:rgba(12,122,133,0.1);color:var(--teal);font-size:.72rem">🔑 ${totalKey} manewrów</span><span class="badge" style="background:rgba(194,59,42,0.1);color:var(--red);font-size:.72rem">⚠️ Błędy krytyczne</span></div>
+                  <div style="display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:.6rem"><span class="badge" style="background:var(--teal-l);color:var(--teal);font-size:.72rem">📍 ${zones.length} stref</span><span class="badge" style="background:var(--teal-l);color:var(--teal);font-size:.72rem">🔑 ${totalKey} manewrów</span><span class="badge" style="background:var(--red-l);color:var(--red);font-size:.72rem">⚠️ Błędy krytyczne</span></div>
                 </div>
                 <div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line-2);padding-top:.8rem;margin-top:.6rem">
                   <div>${saved ? `<span class="chip" style="background:${isPassed ? 'var(--green-l)' : 'var(--red-l)'};color:${isPassed ? 'var(--green)' : 'var(--red)'};font-weight:700;border:0;font-size:.74rem">${isPassed ? '✓ Zdane' : '✗ Do poprawy'}: ${saved.score}%</span>` : '<span class="chip" style="background:var(--surface);color:var(--muted);font-size:.74rem">Nowa stacja</span>'}</div>
@@ -650,7 +650,7 @@
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:.5rem">
           <a class="btn sec sm" href="#/pacjent">← Wróć do listy pacjentów</a>
           <div style="display:flex;gap:.5rem;flex-wrap:wrap">
-            <button class="btn sec sm" id="btnToggleEmergencyTray" style="font-weight:700;color:var(--red);border-color:rgba(194,59,42,0.3)">🚨 Dawki ratunkowe (${caseItem.weight} kg) ${SIM_ACTIVE.showEmergencyTray ? '▲' : '▼'}</button>
+            <button class="btn sec sm" id="btnToggleEmergencyTray" style="font-weight:700;color:var(--red);border-color:var(--red-b)">🚨 Dawki ratunkowe (${caseItem.weight} kg) ${SIM_ACTIVE.showEmergencyTray ? '▲' : '▼'}</button>
             <a class="btn sec sm" href="#/kalkulator?w=${caseItem.weight}" title="Skale NIHSS/GCS i kalkulator dawek">🧮 Skale &amp; Dawki</a>
             <a class="btn sec sm" href="#/badania" title="Moduł diagnostyki PMR, TK/MR i EEG/EMG">🔬 Diagnostyka</a>
           </div>

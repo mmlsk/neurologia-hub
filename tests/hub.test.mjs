@@ -250,7 +250,7 @@ test('Project contains zero pediatrics domain leftovers', () => {
   const hits = [];
   function walk(dir) {
     for (const ent of fs.readdirSync(dir, { withFileTypes: true })) {
-      if (ent.name === '.git' || ent.name === 'node_modules') continue;
+      if (ent.name === '.git' || ent.name === 'node_modules' || ent.name === '.impeccable') continue;
       const full = path.join(dir, ent.name);
       if (ent.isDirectory()) walk(full);
       else if (exts.has(path.extname(ent.name)) && path.relative(ROOT, full) !== 'tests/hub.test.mjs') {
@@ -400,8 +400,26 @@ test('clinical-diagnostics renders IMAGING_TRAINER_CASES hotspots, MCQs, pearls 
   // Topo puzzles highlight the zone referenced by puz.topoId (wallenberg -> brainstem cy="122")
   diag2.viewDiagnostics({ tab: 'topo' });
   puzModeBtn.onclick();
-  puzOptBtns[0].onclick();
+  const firstPuz = M.TOPO_PUZZLES[0];
+  const firstStep = firstPuz.steps ? firstPuz.steps[0] : firstPuz.step1;
+  const { key: expectedKey } = logic.shuffleQuizOptions(
+    firstStep.opts || firstStep.options,
+    firstStep.key ?? firstStep.correct ?? 0,
+    `topo:${firstPuz.id || firstPuz.title || ''}:0`
+  );
+  puzOptBtns[expectedKey].onclick();
   assert.ok(panel.innerHTML.includes('cx="140" cy="122"'), 'Wallenberg puzzle must highlight brainstem zone');
+});
+
+test('shuffleQuizOptions deterministically shuffles options and remaps correct key', () => {
+  const opts = ['Opt A', 'Opt B', 'Opt C', 'Opt D'];
+  const r1 = logic.shuffleQuizOptions(opts, 0, 'seed-1');
+  const r2 = logic.shuffleQuizOptions(opts, 0, 'seed-1');
+  assert.deepEqual(r1, r2);
+  assert.equal(r1.opts[r1.key], 'Opt A');
+  assert.deepEqual([...r1.opts].sort(), [...opts].sort());
+  const keys = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'].map(s => logic.shuffleQuizOptions(opts, 0, s).key);
+  assert.ok(new Set(keys).size > 1, 'Expected shuffled keys to vary across seeds');
 });
 
 test('clinical-calc renders all NEURO_DRUG_DATABASE items with valid settings and zero undefined text', () => {

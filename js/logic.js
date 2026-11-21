@@ -464,10 +464,30 @@
     return { score, total, pct: pctScore, passed: pctScore >= 60, byMod, wrongQIds };
   }
 
+  function shuffleQuizOptions(opts, key, seed) {
+    const list = Array.isArray(opts) ? opts.slice() : [];
+    if (list.length <= 1) return { opts: list, key: 0 };
+    const safeKey = Math.max(0, Math.min(list.length - 1, Number(key) || 0));
+    let h = 2166136261;
+    const s = String(seed || '');
+    for (let i = 0; i < s.length; i++) {
+      h ^= s.charCodeAt(i);
+      h = Math.imul(h, 16777619);
+    }
+    const idx = list.map((_, i) => i);
+    for (let i = idx.length - 1; i > 0; i--) {
+      h ^= h << 13; h ^= h >>> 17; h ^= h << 5;
+      const j = (h >>> 0) % (i + 1);
+      const tmp = idx[i]; idx[i] = idx[j]; idx[j] = tmp;
+    }
+    return { opts: idx.map(i => list[i]), key: idx.indexOf(safeKey) };
+  }
+
   const api = {
     esc, escB, norm, pct, b64EncodeUtf8, b64DecodeUtf8,
     calcAlteplaseDose, calcNIHSS, calcGCS, calcCHA2DS2VA, classifyPMR,
-    sanitizeKeys, parseQuestionsInput, diagnoseQuestionsInput, parseBackupCode, parseMarkdown, scoreExam
+    sanitizeKeys, parseQuestionsInput, diagnoseQuestionsInput, parseBackupCode, parseMarkdown, scoreExam,
+    shuffleQuizOptions
   };
 
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
