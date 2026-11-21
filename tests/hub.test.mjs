@@ -184,7 +184,7 @@ test('HUB_META, questions, and 10 atlases pass full referential and HTML section
   ctx.window = ctx;
   ctx.globalThis = ctx;
 
-  for (const file of ['js/meta.js', 'js/questions.js', 'js/questions_zaklad.js', 'js/logic.js']) {
+  for (const file of ['js/meta.js', 'js/clinical-data.js', 'js/questions.js', 'js/questions_zaklad.js', 'js/logic.js']) {
     vm.runInNewContext(fs.readFileSync(path.join(ROOT, file), 'utf8'), ctx, { filename: file });
   }
 
@@ -307,7 +307,7 @@ function createClinicalCtx() {
   };
   ctx.window = ctx;
   ctx.globalThis = ctx;
-  for (const file of ['js/meta.js', 'js/logic.js', 'js/clinical-calc.js', 'js/clinical-osce.js', 'js/clinical-diagnostics.js']) {
+  for (const file of ['js/meta.js', 'js/clinical-data.js', 'js/logic.js', 'js/clinical-calc.js', 'js/clinical-osce.js', 'js/clinical-diagnostics.js']) {
     vm.runInNewContext(fs.readFileSync(path.join(ROOT, file), 'utf8'), ctx, { filename: file });
   }
   return { ctx, baseEl };

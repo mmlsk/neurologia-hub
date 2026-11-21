@@ -1,7 +1,7 @@
 /* Neurologia V – hub nauki. Vanilla JS, jeden plik, router hash. */
 (function () {
 'use strict';
-const { GROUPS, MODS, ATLASES, TRAPS, CONF, BANKS, WIKILINKS, SEMANTIC_GAPS, OSCE_STATIONS, SYMPTOM_CLUSTERS, NEURO_EXAM_PROTOCOL, IMAGING_TRAINER_CASES, NEURO_DRUG_DATABASE, PRESCRIPTION_CHALLENGES, TOPODIAGNOSIS_DATABASE, TOPO_PUZZLES, modById, atById } = window.HUB_META;
+const { GROUPS, MODS, ATLASES, TRAPS, CONF, BANKS, WIKILINKS, SEMANTIC_GAPS, SYMPTOM_CLUSTERS, NEURO_EXAM_PROTOCOL, modById, atById } = window.HUB_META;
 const CUSTOM_Q_KEY = 'neurologia_hub_custom_questions_v1';
 let CUSTOM_Q = [];
 try {
@@ -328,6 +328,9 @@ async function ensureQuestions() {
 }
 
 async function ensureClinical(kind) {
+  if (!window.HUB_META.OSCE_STATIONS) {
+    await loadScript('js/clinical-data.js');
+  }
   if (kind === 'kalkulator') {
     if (!window.HUB_CLINICAL.calc) await loadScript('js/clinical-calc.js');
     if (!clinicalCalc._ready && window.HUB_CLINICAL.calc) {
@@ -5143,7 +5146,7 @@ function buildSearchIndex() {
   return [
     ...VIEWS.map(v => ({ k: 'Widok', t: v[0], h: v[1], n: norm(v[0]) })),
     ...(clinicalPatient.cases || []).map(c => ({ k: 'Pacjent SOR', t: c.title, h: '#/pacjent/' + c.id, n: norm(c.shortTitle + ' ' + c.title + ' ' + c.category + ' ' + c.debrief.diagnosis) })),
-    ...(OSCE_STATIONS || []).map(s => ({ k: 'Stacja OSCE', t: s.title, h: '#/pacjent/osce/' + s.id, n: norm(s.shortTitle + ' ' + s.title + ' ' + s.topic) })),
+    ...((window.HUB_META && window.HUB_META.OSCE_STATIONS) || []).map(s => ({ k: 'Stacja OSCE', t: s.title, h: '#/pacjent/osce/' + s.id, n: norm(s.shortTitle + ' ' + s.title + ' ' + s.topic) })),
     ...(NEURO_EXAM_PROTOCOL?.cranialNerves || []).map(cn => ({ k: 'Nerw ' + cn.num, t: `n. ${cn.num} · ${cn.name}`, h: '#/badanie-neuro?tab=nerwy', n: norm(`nerw ${cn.num} ${cn.name} ${cn.test} ${cn.lesionSigns} ${cn.examTrap}`) })),
     ...(SEMANTIC_GAPS || []).map(g => ({ k: 'Luka wiedzy', t: g.title, h: `#/graf?gap=${g.id}`, n: norm(`${g.title} ${g.clinicalReason} ${g.examTrap}`) })),
     ...MODS.map(m => ({ k: 'Moduł', t: `[${m.id}] ${m.n}`, h: m.at ? `#/atlas/${m.at}/${m.a}` : `#/polaczenia?mod=${m.id}`, n: norm(`${m.id} ${m.n} ${m.desc || m.d || ''}`) })),

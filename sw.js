@@ -16,6 +16,7 @@ const PRECACHE_ASSETS = [
   './atlasy/atlas-hub-sync.js',
   './atlasy/atlas-shared.js',
   './js/meta.js',
+  './js/clinical-data.js',
   './js/questions.js',
   './js/questions_zaklad.js',
   './js/logic.js',

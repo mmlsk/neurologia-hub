@@ -7,10 +7,10 @@
 :root{
   --bg:#F5F6F2; --surface:#FFFFFF; --surface-2:#EEF2F0; --ink:#13232C; --ink-2:#44545D; --ink-inv:#FFFFFF; --on-accent:#FFFFFF; --muted:#596870; --line:#DCE2E0;
   --teal:#0C7A85; --teal-d:#075760; --teal-l:#DDF1F2; --teal-2:#4DB8C0;
-  --red:#B93424; --red-l:#FBE6E2; --red-b:#F0C4BC;
-  --amber:#9A5F09; --amber-l:#FCEFD6;
+  --red:#B93424; --red-d:#992B1D; --red-l:#FBE6E2; --red-b:#F0C4BC;
+  --amber:#9A5F09; --amber-d:#7A4B06; --amber-l:#FCEFD6;
   --blue:#2B63AE; --blue-l:#E1ECF9; --blue-b:#BFD4EE;
-  --green:#236B40; --green-l:#E1F3E7; --green-b:#BFE2CB;
+  --green:#236B40; --green-d:#184D2D; --green-l:#E1F3E7; --green-b:#BFE2CB;
   --violet:#245B7A; --violet-l:#E1EFF5; --violet-b:#BFD8E4;
   --edge:#B5C0C3; --nav-bg:rgba(245,246,242,.92); --hero-glow:#CFEBEC; --focus-ring:#7CC9CF;
   --font-display:'Cabinet Grotesk','Satoshi',system-ui,sans-serif;
@@ -247,10 +247,10 @@ footer ul{padding-left:1.1rem}footer li{margin:.25rem 0}
   color-scheme:dark;
   --bg:#090C0E; --surface:#11161A; --surface-2:#171E24; --ink:#F1F5F7; --ink-2:#B3C0C8; --ink-inv:#090C0E; --muted:#8A9BA5; --line:#222B32; --line-2:#192026;
   --teal:#0F828E; --teal-d:#4FD1DD; --teal-l:rgba(18,153,166,.18);
-  --red:#E55B4B; --red-l:rgba(229,91,75,.16);
-  --amber:#E59A24; --amber-l:rgba(229,154,36,.16);
+  --red:#E55B4B; --red-d:#FF8C7E; --red-l:rgba(229,91,75,.16);
+  --amber:#E59A24; --amber-d:#F7BE59; --amber-l:rgba(229,154,36,.16);
   --blue:#4E8FE6; --blue-l:rgba(78,143,230,.16);
-  --green:#3BB36E; --green-l:rgba(59,179,110,.16);
+  --green:#3BB36E; --green-d:#71DF9E; --green-l:rgba(59,179,110,.16);
   --violet:#4FA3CC; --violet-l:rgba(79,163,204,.16);
   --nav-bg:rgba(9,12,14,.9);
 }
