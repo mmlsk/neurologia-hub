@@ -153,7 +153,7 @@
       cauda: { cx: 140, cy: 266, r: 20 }, lmn: { cx: 198, cy: 238, r: 20 }, nmj: { cx: 215, cy: 298, r: 20 }
     };
     const z = zones[zoneKey];
-    return `<svg viewBox="0 0 280 340" class="rash-svg-canvas" role="img" aria-label="Schemat pięter układu nerwowego">
+    return `<svg viewBox="0 0 280 340" class="topo-svg-canvas" role="img" aria-label="Schemat pięter układu nerwowego">
       <ellipse cx="140" cy="60" rx="64" ry="42" fill="${zoneKey === 'cortex' || zoneKey === 'sla' ? hiFill : 'var(--surface-2)'}" stroke="${zoneKey === 'cortex' || zoneKey === 'sla' ? hi : dim}" stroke-width="2.2"/>
       <path d="M140 20 V100" stroke="${dim}" stroke-width="1.5" stroke-dasharray="3 3"/>
       <ellipse cx="194" cy="126" rx="28" ry="20" fill="${zoneKey === 'cerebellum' ? hiFill : 'var(--surface-2)'}" stroke="${zoneKey === 'cerebellum' ? hi : dim}" stroke-width="2"/>
@@ -497,7 +497,7 @@
       if (!state.topoId && db.length) state.topoId = db[0].id;
       if (state.compareIds.length < 2 && db.length >= 2) state.compareIds = db.slice(0, Math.min(3, db.length)).map(x => x.id);
 
-      const modeNav = `<div class="rash-mode-bar"><div class="calc-tab-nav" style="margin-bottom:0;border-bottom:0">
+      const modeNav = `<div class="topo-mode-bar"><div class="calc-tab-nav" style="margin-bottom:0;border-bottom:0">
         <button type="button" class="calc-tab-btn${state.topoMode === 'catalog' ? ' active' : ''}" data-tmode="catalog">🧠 Atlas pięter (${db.length})</button>
         <button type="button" class="calc-tab-btn${state.topoMode === 'matrix' ? ' active' : ''}" data-tmode="matrix">⚖️ Porównanie side-by-side</button>
         <button type="button" class="calc-tab-btn${state.topoMode === 'puzzles' ? ' active' : ''}" data-tmode="puzzles">🧩 Zagadki lokalizacyjne (${puzzles.length})</button>
@@ -514,25 +514,25 @@
           const zone = inferTopoZone(sel);
           const isUrgent = !!(sel.urgent || sel.redFlag || sel.alert);
           const glassClass = isUrgent ? 'non_blanching' : (zone === 'brainstem' || zone === 'lmn' ? 'vesicle' : 'blanching');
-          body = `<div class="rash-pills-row" role="tablist" aria-label="Zespoły topodiagnostyczne">${db.map(it => `<button type="button" class="rash-pill-btn${it.id === sel.id ? ' active' : ''}${it.urgent || it.redFlag || it.alert ? ' alert-pill' : ''}" data-topo-id="${hEsc(it.id)}">${hEsc(it.title || it.name || it.id)}</button>`).join('')}</div>
-          <div class="rash-card-grid">
-            <div class="rash-visual-card">
-              <div class="rash-silhouette-container">${renderTopoSVG(zone, isUrgent)}</div>
-              <div class="rash-zone-badge" style="margin-top:.75rem"><strong>Piętro uszkodzenia:</strong> ${hEsc(sel.lesionSite || sel.level || sel.location || sel.zone || zone)}</div>
-              <div class="rash-glass-result ${glassClass}"><strong>Klucz różnicowy:</strong> ${fmtField(sel.classicSign || sel.diff || sel.differential || sel.distinction || sel.keySign)}</div>
+          body = `<div class="topo-pills-row" role="tablist" aria-label="Zespoły topodiagnostyczne">${db.map(it => `<button type="button" class="topo-pill-btn${it.id === sel.id ? ' active' : ''}${it.urgent || it.redFlag || it.alert ? ' alert-pill' : ''}" data-topo-id="${hEsc(it.id)}">${hEsc(it.title || it.name || it.id)}</button>`).join('')}</div>
+          <div class="topo-card-grid">
+            <div class="topo-visual-card">
+              <div class="topo-silhouette-container">${renderTopoSVG(zone, isUrgent)}</div>
+              <div class="topo-zone-badge" style="margin-top:.75rem"><strong>Piętro uszkodzenia:</strong> ${hEsc(sel.lesionSite || sel.level || sel.location || sel.zone || zone)}</div>
+              <div class="topo-glass-result ${glassClass}"><strong>Klucz różnicowy:</strong> ${fmtField(sel.classicSign || sel.diff || sel.differential || sel.distinction || sel.keySign)}</div>
             </div>
-            <div class="rash-details-card">
+            <div class="topo-details-card">
               <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:.5rem;flex-wrap:wrap">
                 <h3 style="margin:0;font-size:1.25rem">${hEsc(sel.title || sel.name)}</h3>
                 ${sel.atlas ? `<span class="chip">${hEsc(ASHORT[sel.atlas] || sel.atlas)}</span>` : ''}
               </div>
-              <div class="rash-info-sections">
-                <div class="rash-info-row"><span class="rash-info-label">Objawy kliniczne</span><div>${fmtField([sel.motorPattern, sel.cranialNerves].filter(Boolean).join(' · ') || sel.symptoms || sel.features || sel.signs)}</div></div>
-                <div class="rash-info-row"><span class="rash-info-label">Odruchy i napięcie</span><div>${fmtField(sel.reflexPattern || sel.reflexes || sel.tone)}</div></div>
-                <div class="rash-info-row"><span class="rash-info-label">Czucie i próby specjalne</span><div>${fmtField(sel.sensoryPattern || sel.sensory || sel.romberg || sel.special)}${Array.isArray(sel.specialZones) && sel.specialZones.length ? `<div class="muted" style="margin-top:.3rem;font-size:.82rem">${fmtField(sel.specialZones)}</div>` : ''}</div></div>
-                <div class="rash-info-row"><span class="rash-info-label">Różnicowanie i postępowanie</span><div>${fmtField(sel.differential || sel.causes || sel.etiology)}${sel.treatment ? `<div style="margin-top:.3rem"><strong>Postępowanie:</strong> ${hEsc(sel.treatment)}</div>` : ''}${sel.trap ? `<div class="muted" style="margin-top:.25rem;font-size:.82rem"><strong>Pułapka:</strong> ${hEsc(sel.trap)}</div>` : ''}</div></div>
+              <div class="topo-info-sections">
+                <div class="topo-info-row"><span class="topo-info-label">Objawy kliniczne</span><div>${fmtField([sel.motorPattern, sel.cranialNerves].filter(Boolean).join(' · ') || sel.symptoms || sel.features || sel.signs)}</div></div>
+                <div class="topo-info-row"><span class="topo-info-label">Odruchy i napięcie</span><div>${fmtField(sel.reflexPattern || sel.reflexes || sel.tone)}</div></div>
+                <div class="topo-info-row"><span class="topo-info-label">Czucie i próby specjalne</span><div>${fmtField(sel.sensoryPattern || sel.sensory || sel.romberg || sel.special)}${Array.isArray(sel.specialZones) && sel.specialZones.length ? `<div class="muted" style="margin-top:.3rem;font-size:.82rem">${fmtField(sel.specialZones)}</div>` : ''}</div></div>
+                <div class="topo-info-row"><span class="topo-info-label">Różnicowanie i postępowanie</span><div>${fmtField(sel.differential || sel.causes || sel.etiology)}${sel.treatment ? `<div style="margin-top:.3rem"><strong>Postępowanie:</strong> ${hEsc(sel.treatment)}</div>` : ''}${sel.trap ? `<div class="muted" style="margin-top:.25rem;font-size:.82rem"><strong>Pułapka:</strong> ${hEsc(sel.trap)}</div>` : ''}</div></div>
               </div>
-              ${(sel.pearl || sel.tip || sel.examTip) ? `<div class="rash-pearl-box"><strong>Wskazówka PUM:</strong> ${hEsc(sel.pearl || sel.tip || sel.examTip)}</div>` : ''}
+              ${(sel.pearl || sel.tip || sel.examTip) ? `<div class="topo-pearl-box"><strong>Wskazówka PUM:</strong> ${hEsc(sel.pearl || sel.tip || sel.examTip)}</div>` : ''}
             </div>
           </div>`;
         }
@@ -542,13 +542,13 @@
         } else {
           const picked = state.compareIds.map(id => db.find(x => x.id === id)).filter(Boolean).slice(0, 3);
           const presets = ['MCA vs ACA (#5)', 'Móżdżek vs Sznury tylne (#10)', 'VII ośrodkowy (MCA) vs obwodowy (Most, #3)', 'Rdzeń (Brown-Séquard) vs Ogon koński'];
-          body = `<div class="rash-matrix-wrap">
-            <div class="rash-matrix-filters">${presets.map((lbl, i) => `<button type="button" class="calc-pill" data-cmp-preset="${i}">${hEsc(lbl)}</button>`).join('')}</div>
-            <div class="rash-compare-picker">
+          body = `<div class="topo-matrix-wrap">
+            <div class="topo-matrix-filters">${presets.map((lbl, i) => `<button type="button" class="calc-pill" data-cmp-preset="${i}">${hEsc(lbl)}</button>`).join('')}</div>
+            <div class="topo-compare-picker">
               <div class="muted" style="font-size:.8rem;font-weight:700;margin-bottom:.5rem">Wybierz 2–3 zespoły do porównania side-by-side:</div>
-              <div class="pillrow">${db.map(x => `<button type="button" class="rash-pill-btn${state.compareIds.includes(x.id) ? ' active' : ''}" data-cmp-id="${hEsc(x.id)}" aria-pressed="${state.compareIds.includes(x.id)}">${hEsc(x.title || x.name)}</button>`).join('')}</div>
+              <div class="pillrow">${db.map(x => `<button type="button" class="topo-pill-btn${state.compareIds.includes(x.id) ? ' active' : ''}" data-cmp-id="${hEsc(x.id)}" aria-pressed="${state.compareIds.includes(x.id)}">${hEsc(x.title || x.name)}</button>`).join('')}</div>
             </div>
-            <div class="rash-matrix-table-wrap"><table class="rash-matrix-table">
+            <div class="topo-matrix-table-wrap"><table class="topo-matrix-table">
               <thead><tr><th class="feature-col">Cecha kliniczna</th>${picked.map(x => `<th>${hEsc(x.title || x.name)}</th>`).join('')}</tr></thead>
               <tbody>
                 <tr><td class="feature-col">Piętro</td>${picked.map(x => `<td>${fmtField(x.lesionSite || x.level || x.location || x.zone)}</td>`).join('')}</tr>
@@ -575,23 +575,23 @@
         const step0Done = state.puzzleAns[`${pId}:0`] === steps[0]?.key;
         const letters = 'ABCDEF';
 
-        body = `<div class="rash-puzzles-wrap">
+        body = `<div class="topo-puzzles-wrap">
           <div class="chal-pills-row">${puzzles.map((pz, i) => {
             const done = !!state.topoSolved[pz.id || ('puz-' + i)];
             return `<button type="button" class="chal-pill-btn${i === pIdx ? ' active' : ''}${done ? ' done' : ''}" data-puz-idx="${i}"><span class="chal-num">${i + 1}</span><span>${hEsc(pz.short || pz.title || ('Zagadka ' + (i + 1)))}</span>${done ? '<span class="chal-check">✓</span>' : ''}</button>`;
           }).join('')}</div>
-          <div class="rash-puzzle-card">
+          <div class="topo-puzzle-card">
             <div class="chal-card-header">
               <div><h3 style="margin:0">${hEsc(puz.title || ('Zagadka #' + (pIdx + 1)))}</h3><span class="muted" style="font-size:.82rem">Dwuetapowa lokalizacja ogniska i postępowanie</span></div>
               <span class="chip">${solved ? '✓ Rozwiązana' : `Etap ${sIdx + 1}/${steps.length || 2}`}</span>
             </div>
-            <div class="rash-puzzle-body-grid">
-              <div class="rash-puzzle-svg-box">
+            <div class="topo-puzzle-body-grid">
+              <div class="topo-puzzle-svg-box">
                 ${renderTopoSVG(step0Done || solved ? inferTopoZone(db.find(x => x.id === puz.topoId) || puz) : 'none', !!(puz.urgent || puz.redFlag))}
                 <div class="muted" style="font-size:.76rem;margin-top:.35rem">${step0Done || solved ? 'Lokalizacja podświetlona' : 'Wskaż piętro w Kroku 1'}</div>
               </div>
               <div>
-                <div class="rash-puzzle-vignette">${hEsc(puz.vignette || puz.clinical || puz.scenario || '')}</div>
+                <div class="topo-puzzle-vignette">${hEsc(puz.vignette || puz.clinical || puz.scenario || '')}</div>
                 <div class="chal-stepper">${steps.map((st, i) => {
                   const ok = state.puzzleAns[`${pId}:${i}`] === st.key;
                   return `<button type="button" class="chal-step-dot${i === sIdx ? ' current' : ''}${ok ? ' done' : ''}" data-puz-step="${i}" aria-label="Etap ${i + 1}">${ok ? '✓' : i + 1}</button>`;
@@ -616,7 +616,7 @@
         </div>`;
       }
 
-      host.innerHTML = `<div class="rash-module-wrap">${modeNav}${body}</div>`;
+      host.innerHTML = `<div class="topo-module-wrap">${modeNav}${body}</div>`;
       qAll('[data-tmode]', host).forEach(b => { b.onclick = () => { state.topoMode = b.dataset.tmode; renderTopo(host); }; });
       qAll('[data-topo-id]', host).forEach(b => { b.onclick = () => { state.topoId = b.dataset.topoId; renderTopo(host); }; });
       qAll('[data-cmp-id]', host).forEach(b => {

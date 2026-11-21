@@ -1,4 +1,9 @@
 /* Wspólny arkusz bazowy dla atlasów spójnych z systemem Hub (Cabinet Grotesk + Satoshi) */
+@font-face{font-family:'Cabinet Grotesk';src:url('../../fonts/cabinet-grotesk-700.woff2') format('woff2');font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:'Cabinet Grotesk';src:url('../../fonts/cabinet-grotesk-800.woff2') format('woff2');font-weight:800;font-style:normal;font-display:swap}
+@font-face{font-family:'Satoshi';src:url('../../fonts/satoshi-400.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:'Satoshi';src:url('../../fonts/satoshi-500.woff2') format('woff2');font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:'Satoshi';src:url('../../fonts/satoshi-700.woff2') format('woff2');font-weight:700;font-style:normal;font-display:swap}
 :root{
   --bg:#F5F6F2; --surface:#FFFFFF; --surface-2:#EEF2F0; --ink:#13232C; --ink-2:#44545D; --ink-inv:#FFFFFF; --on-accent:#FFFFFF; --muted:#596870; --line:#DCE2E0;
   --teal:#0C7A85; --teal-d:#075760; --teal-l:#DDF1F2; --teal-2:#4DB8C0;

@@ -302,6 +302,60 @@ function saveCustomQ() {
   ALL = null;
 }
 
+const _scriptPromises = {};
+function loadScript(src) {
+  if (!_scriptPromises[src]) {
+    _scriptPromises[src] = new Promise((resolve, reject) => {
+      const s = document.createElement('script');
+      s.src = src;
+      s.onload = () => resolve();
+      s.onerror = () => { delete _scriptPromises[src]; reject(new Error('Nie udało się załadować: ' + src)); };
+      document.head.appendChild(s);
+    });
+  }
+  return _scriptPromises[src];
+}
+
+let _qLoaded = !!(window.HUB_MODULOWA_Q || window.HUB_ZAKLAD_Q);
+async function ensureQuestions() {
+  if (_qLoaded) return;
+  await Promise.all([loadScript('js/questions.js'), loadScript('js/questions_zaklad.js')]);
+  _qLoaded = true;
+  Q = loadAllQuestions();
+  qById = Object.fromEntries(Q.map(q => [q.id, q]));
+  _qStats = null;
+  ALL = null;
+}
+
+async function ensureClinical(kind) {
+  if (kind === 'kalkulator') {
+    if (!window.HUB_CLINICAL.calc) await loadScript('js/clinical-calc.js');
+    if (!clinicalCalc._ready && window.HUB_CLINICAL.calc) {
+      clinicalCalc = window.HUB_CLINICAL.calc(clinicalCtx);
+      clinicalCalc._ready = true;
+    }
+  } else if (kind === 'pacjent') {
+    const tasks = [];
+    if (!window.HUB_CLINICAL.patient) tasks.push(loadScript('js/clinical-patient.js'));
+    if (!window.HUB_CLINICAL.osce) tasks.push(loadScript('js/clinical-osce.js'));
+    if (tasks.length) await Promise.all(tasks);
+    if (!clinicalPatient._ready && window.HUB_CLINICAL.patient) {
+      clinicalPatient = window.HUB_CLINICAL.patient(clinicalCtx);
+      clinicalPatient._ready = true;
+    }
+    if (!clinicalOsce._ready && window.HUB_CLINICAL.osce) {
+      clinicalOsce = window.HUB_CLINICAL.osce(clinicalCtx);
+      clinicalOsce._ready = true;
+    }
+  } else if (kind === 'badania') {
+    if (!window.HUB_CLINICAL.diagnostics) await loadScript('js/clinical-diagnostics.js');
+    if (!clinicalDiagnostics._ready && window.HUB_CLINICAL.diagnostics) {
+      clinicalDiagnostics = window.HUB_CLINICAL.diagnostics(clinicalCtx);
+      clinicalDiagnostics._ready = true;
+    }
+  }
+}
+
 
 
 /* ---------- dane pochodne ---------- */
@@ -774,7 +828,7 @@ function initNavMenus() {
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeNavDropdowns(); });
 }
 
-function route() {
+async function route() {
   closeNavDropdowns();
   onBmMutate = null;
   const { parts, params } = parseHash(); const name = parts[0] || 'start';
@@ -793,8 +847,22 @@ function route() {
     const isMatch = (dd.dataset.group === 'klinika' && KLINIKA_ROUTES.has(name)) || (dd.dataset.group === 'wiecej' && WIECEJ_ROUTES.has(name));
     btn.classList.toggle('on', isMatch);
   });
-  const v = { start: viewStart, atlasy: viewGallery, atlas: viewReader, trening: viewTrening, egzamin: viewExam, pacjent: clinicalPatient.viewPatient, kalkulator: (parts, params) => clinicalCalc.viewCalculator(params), 'badanie-neuro': viewNeuroExam, badania: (parts, params) => clinicalDiagnostics.viewDiagnostics(params), pytania: viewQuestions, notatki: viewNotes, polaczenia: viewConnections, graf: viewKnowledgeGraph, postep: viewProgress }[name];
+  const needsQ = new Set(['trening', 'egzamin', 'pytania', 'polaczenia', 'graf', 'postep']);
+  const needsClin = new Set(['pacjent', 'kalkulator', 'badania']);
+  const routeToken = name + ':' + (parts[1] || '');
   current = { name, id: parts[1] || null };
+  if ((needsQ.has(name) && !_qLoaded) || needsClin.has(name)) {
+    main.innerHTML = '<section class="blk"><div class="wrap"><p class="muted">Ładowanie modułu…</p></div></section>';
+    try {
+      if (needsQ.has(name)) await ensureQuestions();
+      if (needsClin.has(name)) await ensureClinical(name);
+    } catch (e) {
+      main.innerHTML = `<section class="blk"><div class="wrap"><div class="card"><p class="muted">${esc(e.message || 'Błąd ładowania modułu.')}</p></div></div></section>`;
+      return;
+    }
+    if (current.name + ':' + (current.id || '') !== routeToken) return;
+  }
+  const v = { start: viewStart, atlasy: viewGallery, atlas: viewReader, trening: viewTrening, egzamin: viewExam, pacjent: clinicalPatient.viewPatient, kalkulator: (parts, params) => clinicalCalc.viewCalculator(params), 'badanie-neuro': viewNeuroExam, badania: (parts, params) => clinicalDiagnostics.viewDiagnostics(params), pytania: viewQuestions, notatki: viewNotes, polaczenia: viewConnections, graf: viewKnowledgeGraph, postep: viewProgress }[name];
   main.classList.remove('view'); void main.offsetWidth; main.classList.add('view');
   if (!v) { location.hash = '#/'; return; }
   v(parts, params);
@@ -807,14 +875,25 @@ window.addEventListener('hashchange', route);
 function viewStart() {
   const last = S.last && atById[S.last.at];
   const contHref = last ? '#/atlas/' + S.last.at + (S.last.a ? '/' + S.last.a : '') : '#/atlas/badanie';
+  const totalQ = Q.length || 110;
+  const shownGapCount = Q.length ? gapCount : 43;
   const sample = [];
   ['udar', 'autoimmuno', 'padaczka', 'bole'].forEach(a => { const q = Q.find(x => x.at === a && x.zal && x.akt && x.stem.length < 200); if (q && sample.length < 2) sample.push(q); });
+  if (!sample.length) {
+    sample.push({
+      stem: 'Zgodnie z praktyczną definicją ILAE (2014) padaczkę można rozpoznać już po JEDNYM napadzie nieprowokowanym, jeżeli:',
+      mods: ['4'],
+      conf: 'src',
+      zal: 'W starszych opracowaniach testowych warunkiem rozpoznania padaczki było wyłącznie wystąpienie co najmniej dwóch samoistnych napadów w wywiadzie.',
+      akt: 'Obowiązująca definicja ILAE (2014) pozwala rozpoznać padaczkę już po 1 napadzie nieprowokowanym, jeśli ryzyko nawrotu w ciągu 10 lat wynosi ≥60% (np. blizna poudarowa/guz + iglice w EEG) lub spełnione są kryteria zespołu padaczkowego.'
+    });
+  }
   const confRows = ATLASES.map(a => {
     const qs = Q.filter(q => q.at === a.id), tot = qs.length;
     const seg = tot ? ['src', 'inf', 'unk', 'did', 'own'].map(k => { const c = qs.filter(q => q.conf === k).length; return c ? `<i style="width:${100 * c / tot}%;background:${confColor(CONF[k])}" title="${CONF[k].n}: ${c}"></i>` : ''; }).join('') : '';
-    return `<div class="crow"><span>${esc(ASHORT[a.id])}</span><div class="cstack">${seg}</div><span class="mono muted">${tot}</span></div>`;
+    return tot ? `<div class="crow"><span>${esc(ASHORT[a.id])}</span><div class="cstack">${seg}</div><span class="mono muted">${tot}</span></div>` : '';
   }).join('');
-  const zakladCount = Q.filter(q => q.bank === 'zaklad').length;
+  const zakladCount = Q.length ? Q.filter(q => q.bank === 'zaklad').length : 26;
   const isReturning = !!(last || Object.keys(S.ans || {}).length > 0);
   const weakMod = MODS.filter(m => m.at).map(m => ({ m, st: modStats(m.id) })).filter(x => x.st.att > 0).sort((a, b) => pct(a.st.ok, a.st.att) - pct(b.st.ok, b.st.att))[0];
   const returningBar = isReturning ? `<section class="blk" style="padding-block:1.2rem;border-bottom:1px solid var(--line-2);background:var(--surface)"><div class="wrap">
@@ -839,13 +918,13 @@ function viewStart() {
       <p class="sub">${ATLASES.length} atlasów modułowych, ${Q.length} zadań testowych, symulatory SOR/OSCE i mapa powiązań wg sylabusa Kliniki Neurologii PUM 2026/2027.</p>
       <div class="cta">
         <a class="btn pri" href="${contHref}" id="cont">${last ? 'Kontynuuj: ' + esc(ASHORT[S.last.at]) : 'Zacznij od badania U02'} <span aria-hidden="true">→</span></a>
-        ${zakladCount > 0 ? `<a class="btn sec" href="#/pytania?tab=zaklad">🏛️ Pula Katedry (${zakladCount} pytań) →</a>` : (Q.length > 0 ? `<a class="btn sec" href="#/trening">Ćwicz pytania (${Q.length}) →</a>` : `<a class="btn sec" href="#/badanie-neuro">🧠 Badanie neurologiczne U02 →</a>`)}
+        ${zakladCount > 0 ? `<a class="btn sec" href="#/pytania?tab=zaklad">🏛️ Pula Katedry (${zakladCount} pytań) →</a>` : (totalQ > 0 ? `<a class="btn sec" href="#/trening">Ćwicz pytania (${totalQ}) →</a>` : `<a class="btn sec" href="#/badanie-neuro">🧠 Badanie neurologiczne U02 →</a>`)}
       </div>
       <div class="stats" aria-label="Zakres hubu">
         <div class="stat"><b data-n="${ATLASES.length}">${ATLASES.length}</b><span>atlasów</span></div>
         <div class="stat"><b><i style="font-style:normal" data-n="${coveredBase.length}">${coveredBase.length}</i><small style="font-size:1rem;color:var(--muted)">/${baseNums.length}</small></b><span>modułów pokrytych</span></div>
-        <div class="stat"><b data-n="${Q.length}">${Q.length}</b><span>zadań łącznie</span></div>
-        <div class="stat"><b data-n="${gapCount}">${gapCount}</b><span>rozbieżności klucz ↔ wytyczne</span></div>
+        <div class="stat"><b data-n="${totalQ}">${totalQ}</b><span>zadań łącznie</span></div>
+        <div class="stat"><b data-n="${shownGapCount}">${shownGapCount}</b><span>rozbieżności klucz ↔ wytyczne</span></div>
       </div>
     </div>
     <div class="hero-viz"><div id="heroGraph"></div><p class="cap"><b>Mapa powiązań.</b> Najedź na węzeł, aby zobaczyć moduły, które łączą wspólne pytania i pułapki.</p></div>
@@ -854,11 +933,19 @@ function viewStart() {
   <section class="blk" id="mapa"><div class="wrap">
     <div class="eyebrow">Mapa modułów</div><h2>Szesnaście modułów, cztery obszary</h2>
     <p class="lead">Komplet 16 modułów sylabusa Kliniki Neurologii PUM 2026/2027 (5&nbsp;h wykładów, 20&nbsp;h seminariów, 60&nbsp;h ćwiczeń) spięty w ${ATLASES.length} atlasach klinicznych. Każdy kafelek prowadzi prosto do właściwej sekcji.</p>
-    <div class="map">${Object.keys(GROUPS).map(g => `<div class="mgroup" style="--gc:${GROUPS[g].color}"><div class="gl">Obszar ${g}</div><h3>${GROUPS[g].name}</h3><div class="stack">${MODS.filter(m => m.g === g).map(m => {
+    <div class="map">${Object.keys(GROUPS).map(g => {
+      const gIcon = {
+        A: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>',
+        B: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg>',
+        C: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>',
+        D: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v4m0 12v4M2 12h4m12 0h4"/></svg>'
+      }[g] || '';
+      return `<div class="mgroup" style="--gc:${GROUPS[g].color}"><div class="gl">${gIcon}<span>Obszar ${g}</span></div><h3>${GROUPS[g].name}</h3><div class="stack">${MODS.filter(m => m.g === g).map(m => {
       const st = modStats(m.id), tag = m.at ? 'a' : 'div';
-      const right = m.at ? (st.att ? `<span class="acc">${pct(st.ok, st.att)}%</span>` : `<span class="acc">${st.total}</span>`) : '<span class="acc">brak</span>';
+      const right = m.at ? (st.att ? `<span class="acc">${pct(st.ok, st.att)}%</span>` : `<span class="acc">${st.total || '•'}</span>`) : '<span class="acc">brak</span>';
       return `<${tag} class="mtile${m.at ? '' : ' miss'}" ${m.at ? `href="#/atlas/${m.at}/${m.a}"` : ''} style="--gc:${GROUPS[g].color}"><span class="nb">${m.id}</span><span><b>${esc(m.n)}</b><small>${esc(m.desc || m.d || '')}</small></span>${right}</${tag}>`;
-    }).join('')}</div></div>`).join('')}</div>
+    }).join('')}</div></div>`;
+    }).join('')}</div>
     <p class="srcline" style="margin-top:1rem">Liczba po prawej: odsetek poprawnych odpowiedzi w hubie albo, bez prób, liczba zadań modułu.</p>
   </div></section>
 
@@ -867,10 +954,10 @@ function viewStart() {
     <div class="eyebrow">Pętla nauki</div><h2>Od zrozumienia do powtórki</h2>
     <p class="lead">Cztery kroki, które hub łączy w jedną ścieżkę zamiast ${ATLASES.length} osobnych plików.</p>
     <div class="loop">
-      <a class="step" href="#/atlasy"><h3>Atlas</h3><p>Algorytmy ostrego dyżuru, topodiagnostyka, badanie U02 i karty chorób dla każdego modułu.</p><span class="go">Otwórz atlasy →</span></a>
-      <a class="step" href="#/trening"><h3>Trening</h3><p>Mieszane sesje ze wszystkich atlasów, w trybie nauki, egzaminu lub fiszek.</p><span class="go">Ułóż sesję →</span></a>
-      <a class="step" href="#/pytania"><h3>Baza pytań</h3><p>Wyszukiwarka z filtrami pewności klucza, rozbieżności i zakładek.</p><span class="go">Przeszukaj ${Q.length} zadań →</span></a>
-      <a class="step" href="#/postep"><h3>Powtórka</h3><p>Moduły z największą liczbą błędów i szybki powrót do zadań, które nie wyszły.</p><span class="go">Zobacz postęp →</span></a>
+      <a class="step" href="#/atlasy"><span class="step-ico" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></span><h3>Atlas</h3><p>Algorytmy ostrego dyżuru, topodiagnostyka, badanie U02 i karty chorób dla każdego modułu.</p><span class="go">Otwórz atlasy →</span></a>
+      <a class="step" href="#/trening"><span class="step-ico" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg></span><h3>Trening</h3><p>Mieszane sesje ze wszystkich atlasów, w trybie nauki, egzaminu lub fiszek.</p><span class="go">Ułóż sesję →</span></a>
+      <a class="step" href="#/pytania"><span class="step-ico" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></span><h3>Baza pytań</h3><p>Wyszukiwarka z filtrami pewności klucza, rozbieżności i zakładek.</p><span class="go">Przeszukaj ${totalQ} zadań →</span></a>
+      <a class="step" href="#/postep"><span class="step-ico" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg></span><h3>Powtórka</h3><p>Moduły z największą liczbą błędów i szybki powrót do zadań, które nie wyszły.</p><span class="go">Zobacz postęp →</span></a>
     </div>
   </div></section>
 
@@ -878,14 +965,14 @@ function viewStart() {
     <div class="eyebrow">Zasada hubu</div><h2>Pod zaliczenie czy aktualnie klinicznie?</h2>
     <p class="lead">Klucz testowy bywa nieaktualny względem wytycznych ESO/AHA/EAN/ILAE. Tam, gdzie źródła się rozchodzą, atlasy pokazują oba stanowiska osobno.</p>
     <div class="dcase">${sample.map(q => `<div class="card"><div class="q">${esc(q.stem)}</div><div class="tags" style="display:flex;gap:.3rem;margin:.5rem 0 .8rem">${modChips(q)}${confChip(q.conf)}</div><div class="dual"><div class="dbox z"><div class="dbox-title">Pod zaliczenie</div>${rich(q.zal)}</div><div class="dbox a"><div class="dbox-title">Aktualnie klinicznie</div>${rich(q.akt)}</div></div></div>`).join('') || '<div class="card"><p class="muted">Gdy wczytasz lub dodasz pytania z oznaczeniem rozbieżności, pojawią się tutaj porównania klucza z aktualnymi wytycznymi.</p></div>'}</div>
-    <p style="margin-top:1rem"><a class="btn sec" href="#/pytania?gap=1">Zobacz wszystkie ${gapCount} rozbieżności →</a></p>
+    <p style="margin-top:1rem"><a class="btn sec" href="#/pytania?gap=1">Zobacz wszystkie ${shownGapCount} rozbieżności →</a></p>
   </div></section>
 
   <section class="blk"><div class="wrap">
     <div class="eyebrow">Przejrzystość źródeł</div><h2>Jak pewny jest klucz?</h2>
     <p class="lead">Powtarzalność pytania w pulach jest sygnałem do nauki, nie prognozą egzaminu. Każde zadanie niesie więc znacznik pewności klucza.</p>
-    <div class="card"><div class="cbars">${confRows}</div>
-      <div class="legend">${Object.keys(CONF).filter(k => Q.some(q => q.conf === k)).map(k => `<span><i class="dot" style="background:${confColor(CONF[k])}"></i><b>${CONF[k].n}</b> – ${confDesc(CONF[k])}</span>`).join('') || '<span class="muted">Znaczniki pojawią się po załadowaniu lub dodaniu pytań do bazy.</span>'}</div></div>
+    <div class="card">${confRows ? `<div class="cbars">${confRows}</div>` : '<p class="muted" style="margin-bottom:.75rem">Szczegółowy rozkład pewności per atlas jest dostępny w bazie pytań i w widoku postępu.</p>'}
+      <div class="legend">${Object.keys(CONF).map(k => `<span><i class="dot" style="background:${confColor(CONF[k])}"></i><b>${CONF[k].n}</b> – ${confDesc(CONF[k])}</span>`).join('')}</div></div>
   </div></section>
 
   <section class="blk"><div class="wrap">
@@ -3182,11 +3269,28 @@ function initNotesDrawer() {
 
   if (clearBtn) {
     clearBtn.onclick = () => {
-      if (confirm('Czy na pewno chcesz wyczyścić szybki brudnopis?')) {
-        input.value = '';
-        try { localStorage.removeItem(SCRATCH_KEY); } catch (e) {}
-        updatePreview();
-        toast('Wyczyszczono brudnopis');
+      if (!input.value.trim()) { toast('Brudnopis jest już pusty'); return; }
+      if (!clearBtn.dataset.s) {
+        clearBtn.dataset.s = '1';
+        clearBtn.textContent = 'Potwierdź wyczyszczenie';
+        setTimeout(() => { if (clearBtn) { delete clearBtn.dataset.s; clearBtn.textContent = 'Wyczyść'; } }, 3000);
+        return;
+      }
+      delete clearBtn.dataset.s;
+      clearBtn.textContent = 'Wyczyść';
+      const prevText = input.value;
+      input.value = '';
+      try { localStorage.removeItem(SCRATCH_KEY); } catch (e) {}
+      updatePreview();
+      toast('Wyczyszczono brudnopis <button type="button" class="btn sec sm" id="undoDrawerClear" style="margin-left:.45rem">Cofnij</button>', { html: true, duration: 5000 });
+      const undoBtn = $('#undoDrawerClear');
+      if (undoBtn) {
+        undoBtn.onclick = () => {
+          input.value = prevText;
+          safeStorageSet(SCRATCH_KEY, prevText);
+          updatePreview();
+          toast('Przywrócono brudnopis');
+        };
       }
     };
   }
@@ -4350,24 +4454,24 @@ function viewNeuroExam(parts, params) {
             ${doneItems ? '<button type="button" class="btn sec sm" id="btnU02Reset" style="color:var(--red)">Wyczyść</button>' : ''}
           </div>
         </div>
-        <div class="pso-container">
-          <div class="timeline-pso">
+        <div class="u02-container">
+          <div class="u02-timeline">
             ${checklistSections.map(sec => {
               const secItems = sec.items || [];
               const secDone = secItems.filter(it => !!checkedMap[it.id]).length;
               return `
-                <div class="pso-node">
-                  <span class="pso-dot"></span>
-                  <div class="pso-card">
-                    <div class="pso-header">
-                      <span class="pso-age" style="font-size:1.1rem">${esc(sec.title)}</span>
+                <div class="u02-node">
+                  <span class="u02-dot"></span>
+                  <div class="u02-card">
+                    <div class="u02-header">
+                      <span class="u02-title" style="font-size:1.1rem">${esc(sec.title)}</span>
                       <span class="chip">${secDone}/${secItems.length}</span>
                     </div>
                     <div style="display:grid;gap:.65rem">
                       ${secItems.map(it => {
                         const isChk = !!checkedMap[it.id];
                         return `
-                          <label class="vaccine-item" style="cursor:pointer;border-left:3px solid ${isChk ? 'var(--green)' : 'var(--teal)'}">
+                          <label class="u02-item" style="cursor:pointer;border-left:3px solid ${isChk ? 'var(--green)' : 'var(--teal)'}">
                             <span style="display:flex;align-items:flex-start;gap:.55rem;font-weight:700;color:var(--ink)">
                               <input type="checkbox" data-u02-chk="${esc(it.id)}" ${isChk ? 'checked' : ''} style="margin-top:.2rem;accent-color:var(--teal)">
                               <span>${esc(it.label)}</span>
@@ -4993,6 +5097,16 @@ function viewProgress() {
   $('#bkLoad').onclick = () => {
     const res = parseBackupCode($('#bk').value, defaultState());
     if (!res.ok) { setBkMsg(res.error, true); toast(res.error); return; }
+    const btn = $('#bkLoad');
+    if (!btn.dataset.s) {
+      btn.dataset.s = '1';
+      btn.textContent = 'Kliknij ponownie, aby nadpisać';
+      setBkMsg('Kod poprawny — kliknij ponownie, aby nadpisać bieżący postęp.', false);
+      setTimeout(() => { const b = $('#bkLoad'); if (b) { delete b.dataset.s; b.textContent = 'Wczytaj z kodu'; } }, 3500);
+      return;
+    }
+    delete btn.dataset.s;
+    btn.textContent = 'Wczytaj z kodu';
     S = res.state;
     save();
     toast('Wczytano postęp');
@@ -5047,7 +5161,19 @@ function palRender() {
   if (palItems.length) palIn.setAttribute('aria-activedescendant', 'pal-opt-0');
   else palIn.removeAttribute('aria-activedescendant');
 }
-function palOpen() { if (!ALL) ALL = buildSearchIndex(); if (!pal.open) pal.showModal(); palIn.value = ''; palRender(); palIn.focus(); }
+function palOpen() {
+  if (!ALL) ALL = buildSearchIndex();
+  if (!pal.open) pal.showModal();
+  palIn.value = '';
+  palRender();
+  palIn.focus();
+  if (!_qLoaded) {
+    ensureQuestions().then(() => {
+      ALL = buildSearchIndex();
+      if (pal.open) palRender();
+    }).catch(() => {});
+  }
+}
 $('#openPal').onclick = palOpen;
 const palClose = $('#palClose');
 if (palClose) palClose.onclick = () => pal.close();
@@ -5201,10 +5327,10 @@ const clinicalCtx = {
   getNotes,
   saveNotes
 };
-const clinicalCalc = HUB_CLINICAL.calc ? HUB_CLINICAL.calc(clinicalCtx) : { viewCalculator: () => {} };
-const clinicalPatient = HUB_CLINICAL.patient ? HUB_CLINICAL.patient(clinicalCtx) : { viewPatient: () => {}, cases: [], getVitalStatus: () => 'ok' };
-const clinicalOsce = HUB_CLINICAL.osce ? HUB_CLINICAL.osce(clinicalCtx) : { openStation: () => {}, renderOsceStationList: () => {} };
-const clinicalDiagnostics = HUB_CLINICAL.diagnostics ? HUB_CLINICAL.diagnostics(clinicalCtx) : { viewDiagnostics: () => {} };
+let clinicalCalc = HUB_CLINICAL.calc ? HUB_CLINICAL.calc(clinicalCtx) : { viewCalculator: () => {} };
+let clinicalPatient = HUB_CLINICAL.patient ? HUB_CLINICAL.patient(clinicalCtx) : { viewPatient: () => {}, cases: [], getVitalStatus: () => 'ok' };
+let clinicalOsce = HUB_CLINICAL.osce ? HUB_CLINICAL.osce(clinicalCtx) : { openStation: () => {}, renderOsceStationList: () => {} };
+let clinicalDiagnostics = HUB_CLINICAL.diagnostics ? HUB_CLINICAL.diagnostics(clinicalCtx) : { viewDiagnostics: () => {} };
 
 delegateBm(main, () => { if (onBmMutate) onBmMutate(); });
 initNavMenus();
