@@ -832,7 +832,7 @@ function viewStart() {
     </div>
   </div></section>` : '';
   main.innerHTML = `${returningBar}
-  <section class="hero"${isReturning ? ' style="padding-block:1.5rem"' : ''}><div class="wrap grid">
+  <section class="hero${isReturning ? ' hero-compact' : ''}"${isReturning ? ' style="padding-block:1.5rem"' : ''}><div class="wrap grid">
     <div>
       <div class="eyebrow">Neurologia · V rok PUM · 6 ECTS · 85 h · egzamin ET</div>
       <h1>Cały materiał w <em>jednym</em> miejscu.</h1>
@@ -853,7 +853,7 @@ function viewStart() {
 
   <section class="blk" id="mapa"><div class="wrap">
     <div class="eyebrow">Mapa modułów</div><h2>Szesnaście modułów, cztery obszary</h2>
-    <p class="lead">Komplet 16 modułów sylabusa Kliniki Neurologii PUM 2026/2027 (5 h wykładów, 20 h seminariów, 60 h ćwiczeń) spięty w ${ATLASES.length} atlasach klinicznych. Każdy kafelek prowadzi prosto do właściwej sekcji.</p>
+    <p class="lead">Komplet 16 modułów sylabusa Kliniki Neurologii PUM 2026/2027 (5&nbsp;h wykładów, 20&nbsp;h seminariów, 60&nbsp;h ćwiczeń) spięty w ${ATLASES.length} atlasach klinicznych. Każdy kafelek prowadzi prosto do właściwej sekcji.</p>
     <div class="map">${Object.keys(GROUPS).map(g => `<div class="mgroup" style="--gc:${GROUPS[g].color}"><div class="gl">Obszar ${g}</div><h3>${GROUPS[g].name}</h3><div class="stack">${MODS.filter(m => m.g === g).map(m => {
       const st = modStats(m.id), tag = m.at ? 'a' : 'div';
       const right = m.at ? (st.att ? `<span class="acc">${pct(st.ok, st.att)}%</span>` : `<span class="acc">${st.total}</span>`) : '<span class="acc">brak</span>';
@@ -877,7 +877,7 @@ function viewStart() {
   <section class="blk" id="dwa"><div class="wrap">
     <div class="eyebrow">Zasada hubu</div><h2>Pod zaliczenie czy aktualnie klinicznie?</h2>
     <p class="lead">Klucz testowy bywa nieaktualny względem wytycznych ESO/AHA/EAN/ILAE. Tam, gdzie źródła się rozchodzą, atlasy pokazują oba stanowiska osobno.</p>
-    <div class="dcase">${sample.map(q => `<div class="card"><div class="q">${esc(q.stem)}</div><div class="tags" style="display:flex;gap:.3rem;margin:.5rem 0 .8rem">${modChips(q)}${confChip(q.conf)}</div><div class="dual"><div class="dbox z"><h4>Pod zaliczenie</h4>${rich(q.zal)}</div><div class="dbox a"><h4>Aktualnie klinicznie</h4>${rich(q.akt)}</div></div></div>`).join('') || '<div class="card"><p class="muted">Gdy wczytasz lub dodasz pytania z oznaczeniem rozbieżności, pojawią się tutaj porównania klucza z aktualnymi wytycznymi.</p></div>'}</div>
+    <div class="dcase">${sample.map(q => `<div class="card"><div class="q">${esc(q.stem)}</div><div class="tags" style="display:flex;gap:.3rem;margin:.5rem 0 .8rem">${modChips(q)}${confChip(q.conf)}</div><div class="dual"><div class="dbox z"><div class="dbox-title">Pod zaliczenie</div>${rich(q.zal)}</div><div class="dbox a"><div class="dbox-title">Aktualnie klinicznie</div>${rich(q.akt)}</div></div></div>`).join('') || '<div class="card"><p class="muted">Gdy wczytasz lub dodasz pytania z oznaczeniem rozbieżności, pojawią się tutaj porównania klucza z aktualnymi wytycznymi.</p></div>'}</div>
     <p style="margin-top:1rem"><a class="btn sec" href="#/pytania?gap=1">Zobacz wszystkie ${gapCount} rozbieżności →</a></p>
   </div></section>
 
@@ -4862,14 +4862,14 @@ function viewProgress() {
     ${renderExamHistorySection()}
 
     <h3 style="margin:2.2rem 0 .3rem">Motyw graficzny</h3>
-    <p class="muted" style="margin-bottom:.7rem">Wybierz motyw bazowy lub jedną z 6 palet kolorystycznych dla całego Hubu.</p>
+    <p class="muted" style="margin-bottom:.7rem">Wybierz motyw jasny, ciemny lub dopasowany do ustawień systemu.</p>
     <div id="themeSeg">
       <div class="seg">
         <button data-theme-choice="auto" aria-pressed="${currentTheme === 'auto'}">🖥️ Auto (systemowy)</button>
         <button data-theme-choice="light" aria-pressed="${currentTheme === 'light'}">☀️ Jasny</button>
         <button data-theme-choice="dark" aria-pressed="${currentTheme === 'dark'}">🌙 Ciemny</button>
       </div>
-      <div class="theme-grid">
+      ${THEME_PALETTES.length ? `<div class="theme-grid">
         ${THEME_PALETTES.map(p => `<button type="button" class="theme-card" data-theme-choice="${p.id}" aria-pressed="${currentTheme === p.id}">
           <div class="theme-preview" style="background:${p.bg}" aria-hidden="true">
             <div class="theme-preview-card" style="background:${p.surface}">
@@ -4887,7 +4887,7 @@ function viewProgress() {
           <div class="theme-dots" aria-hidden="true">${p.colors.map(c => `<span style="background:${c}"></span>`).join('')}</div>
           <div class="theme-card-sub">${esc(p.desc)}</div>
         </button>`).join('')}
-      </div>
+      </div>` : ''}
     </div>
     <h3 style="margin:2.2rem 0 .3rem">Kopia zapasowa</h3>
     <p class="muted" style="margin-bottom:.7rem">Skopiuj kod, aby przenieść postęp na inne urządzenie, albo wklej kod, aby go wczytać.</p>
