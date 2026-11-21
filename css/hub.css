@@ -4030,9 +4030,6 @@ body.reader-focus .rbar {
   .trening-next-sticky {
     bottom: calc(55px + env(safe-area-inset-bottom));
   }
-  .fab-notes {
-    bottom: calc(61px + env(safe-area-inset-bottom));
-  }
   }
 @media (pointer: coarse) {
   .exam-kbd-hint {
@@ -4040,11 +4037,8 @@ body.reader-focus .rbar {
   }
 }
 
-
-
-/* ---------- paleta 6 dodatkowych motywów (themes) + quick picker ---------- */
 html{scrollbar-color:var(--line) transparent}
+::selection{background:var(--teal-l);color:var(--teal-d)}
 body,.bar,.card,.btn.pri{transition:background-color .22s ease,border-color .22s ease,color .18s ease}
 .field-sel{min-height:40px;padding:.4rem .75rem;border:1px solid var(--line);border-radius:var(--r);background:var(--surface);color:var(--ink);font:600 .88rem/1.3 var(--sans);max-width:100%}
 .filter-active-bar{position:sticky;top:60px;z-index:20;display:flex;align-items:center;flex-wrap:wrap;gap:.45rem;padding:.55rem .85rem;margin:.6rem 0 .8rem;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh)}
-@media (prefers-reduced-motion:reduce){body,.bar,.card,.btn.pri{transition:none}}

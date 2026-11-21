@@ -235,7 +235,7 @@ footer ul{padding-left:1.1rem}footer li{margin:.25rem 0}
  [data-theme="dark"] .heat th:first-child{background:var(--surface)}
  [data-theme="dark"] .heat tr.grp td:first-child{background:var(--line-2)}
 }
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important}a,button,.btn,.opt,.tgl button,.tabs button,.filters button{transition:opacity .15s ease,background-color .15s ease,border-color .15s ease,color .15s ease,box-shadow .15s ease!important;transform:none!important}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}*,*::before,*::after{animation-iteration-count:1!important}a,button,.btn,.opt,.tgl button,.tabs button,.filters button{transition:opacity .15s ease,background-color .15s ease,border-color .15s ease,color .15s ease,box-shadow .15s ease!important;transform:none!important}}
 
 .opt:disabled{color:var(--ink,#13232C);opacity:1;cursor:default}
 .opt:disabled:hover{border-color:var(--line)}

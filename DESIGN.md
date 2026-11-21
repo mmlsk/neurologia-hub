@@ -27,7 +27,7 @@ colors:
   diagnostic-blue-soft: "#E1ECF9"
   diagnostic-blue-border: "#BFD4EE"
   diagnostic-blue-dark: "#4E8FE6"
-  verified-green: "#2F8450"
+  verified-green: "#236B40"
   verified-green-soft: "#E1F3E7"
   verified-green-border: "#BFE2CB"
   verified-green-dark: "#3BB36E"
@@ -51,7 +51,7 @@ System wizualny łączy powłokę Hubu (`css/hub.css`) oraz 10 modułowych atlas
 
 ## Typografia i ergonomia
 
-- **Display:** `Cabinet Grotesk` (`700`, `800`).
-- **Body:** `Satoshi` (`400`, `500`, `700`).
+- **Display:** `Cabinet Grotesk` (`700`, `800`, self-hosted `.woff2` w `fonts/`).
+- **Body:** `Satoshi` (`400`, `500`, `700`, self-hosted `.woff2` w `fonts/`).
 - **Tabular / Mono:** wartości dawek (`0.9 mg/kg`, `0.25 mg/kg`), skale NIHSS/GCS/CHA₂DS₂-VA, parametry PMR oraz identyfikatory zadań.
-- **Dostępność:** tryb jasny + tryb ciemny (`Obsidian Carbon`) + 6 rozszerzonych palet ciemnych (`navy`, `moss`, `espresso`, `ochre`, `purple`, `ocean`), obsługa `prefers-reduced-motion: reduce`, cele dotykowe `>= 44px` poniżej `720px`.
+- **Dostępność:** tryb jasny + tryb ciemny (`Obsidian Carbon`) z przełącznikiem `Auto / Jasny / Ciemny`, obsługa `prefers-reduced-motion: reduce`, cele dotykowe `>= 44px` poniżej `720px`.

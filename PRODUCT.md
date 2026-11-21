@@ -23,9 +23,9 @@ Statyczna aplikacja PWA bez backendu, hostowana na GitHub Pages.
 
 ## Capabilities and Constraints
 
-- **Architektura bez backendu:** statyczny HTML/CSS/vanilla JS (`index.html`, `js/meta.js`, `js/logic.js`, `js/questions.js`, `js/questions_zaklad.js`, `js/clinical-*.js`, `js/app.js`, `atlasy/*`, `sw.js`).
-- **Trwałość w `localStorage`:** osobna przestrzeń kluczy `neurologia_hub_*` dla postępu pytań, zakładek, checklisty badania U02, kalkulatora, notatek i pytań własnych.
-- **Sprawdzenia automatyczne:** testy jednostkowe i testy integralności projektu w `tests/hub.test.mjs` (`node --test`).
+- **Architektura bez backendu:** statyczny HTML/CSS/vanilla JS (`index.html`, `js/meta.js`, `js/logic.js`, lazy-loaded `js/clinical-data.js`, `js/articles-data.js`, `js/questions*.js`, `js/clinical-*.js`, `js/app.js`, `atlasy/*`, `fonts/*`, `sw.js`).
+- **Trwałość w `localStorage`:** osobna przestrzeń kluczy `neurologia_hub_*` dla postępu pytań, zakładek, checklisty badania U02, kalkulatora, notatek, pytań własnych i własnych wpisów (`#/wpisy`).
+- **Sprawdzenia automatyczne:** testy jednostkowe i testy integralności projektu w `tests/hub.test.mjs` (`node --test`) oraz E2E w `tests/e2e.mjs`.
 
 ## Brand Commitments
 
@@ -36,6 +36,6 @@ Statyczna aplikacja PWA bez backendu, hostowana na GitHub Pages.
 
 1. **Chroń podwójną prawdę:** rozdzielaj klasyczne ujęcie egzaminacyjne od aktualnych wytycznych bez zacierania różnic.
 2. **Zero utraty postępu:** synchronizuj odpowiedzi między atlasami i Hubem przez `neurologia_hub_state_v1`.
-3. **Ergonomia nauki jedną ręką:** cele dotykowe ≥ 44 px, dolna nawigacja mobilna poniżej 720 px, tryb jasny i 7 palet ciemnych.
+3. **Ergonomia nauki jedną ręką:** cele dotykowe ≥ 44 px, dolna nawigacja mobilna poniżej 720 px, tryb jasny i ciemny (`Obsidian Carbon`).
 4. **Gotowość offline:** pełny precache zasobów przez Service Worker (`sw.js`).
 5. **Uczciwość merytoryczna:** brak fabrykowanych metryk i źródeł historycznych.
