@@ -154,7 +154,9 @@ async function run() {
     await evalJS(`location.hash = '#/wpisy'`);
     await waitFor(`document.querySelectorAll('.art-grid .art-card').length >= 8 && !!(window.HUB_ARTICLES?.length >= 8)`);
     await evalJS(`location.hash = '#/wpisy/guzy-oun-icp'`);
-    await waitFor(`!!document.querySelector('.art-reader .art-toc') && !!document.querySelector('.art-body table') && !!document.querySelector('.art-wiki')`);
+    await waitFor(`!!document.querySelector('.art-reader .art-toc') && !!document.querySelector('.art-body table') && !!document.querySelector('.art-wiki') && !!document.querySelector('iframe.art-diagram-frame[src="diagrams/icp-lifecycle.html"]')`);
+    await evalJS(`location.hash = '#/wpisy/stan-padaczkowy-esett'`);
+    await waitFor(`!!document.querySelector('iframe.art-diagram-frame[src="diagrams/se-timeline.html"]')`);
 
     // 4. Service Worker offline check
     await waitFor(`navigator.serviceWorker.ready.then(() => true)`);

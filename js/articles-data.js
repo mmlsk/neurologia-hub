@@ -3,6 +3,7 @@ window.HUB_ARTICLES = [
   {
     id: 'tromboliza-tnk-vs-rtpa',
     title: 'Tenekteplaza (TNK) vs Alteplaza (rtPA) w ostrym udarze',
+    diagram: { src: 'diagrams/stroke-workflow.html', title: 'Kwalifikacja do rtPA / TNK i trombektomii w udarze' },
     subtitle: 'Kiedy pojedynczy bolus TNK zastępuje godzinny wlew rtPA i na co uważać w oknie 4,5 h przed trombektomią.',
     category: 'Wytyczne',
     group: 'A',
@@ -35,6 +36,7 @@ W wytycznych **ESO** tenekteplaza w dawce **0,25 mg/kg (maks. 25 mg)** stanowi r
   {
     id: 'zespol-hornera-lokalizacja',
     title: 'Zespół Hornera: 3-neuronowa droga i szybka topodiagnostyka',
+    diagram: { src: 'diagrams/horner-pathway.html', title: '3-neuronowa droga współczulna oka i lokalizacja zespołu Hornera' },
     subtitle: 'Ptoza, mioza i anhydroza — jak po objawach towarzyszących odróżnić uszkodzenie ośrodkowe od rozwarstwienia tętnicy szyjnej.',
     category: 'Badanie U02',
     group: 'B',
@@ -61,6 +63,7 @@ Klasyczna triada zespołu Hornera obejmuje **niewielką ptozę** (porażenie mi�
   {
     id: 'stan-padaczkowy-esett',
     title: 'Stan padaczkowy (SE): algorytm czasowy 0–5–15–30 minut',
+    diagram: { src: 'diagrams/se-timeline.html', title: 'Stan padaczkowy (SE) — oś czasu 0–5–15–30 min' },
     subtitle: 'Dlaczego benzodwuazepiny działają tylko na starcie, jak dobierać dawki II rzutu wg badania ESETT i kiedy włączyć tiaminę.',
     category: 'Stany nagłe',
     group: 'A',
@@ -111,6 +114,7 @@ Choć zarówno **stwardnienie rozsiane (SM)**, jak i **NMOSD** mogą zaczynać s
   {
     id: 'guzy-oun-icp',
     title: 'Guzy OUN i doktryna Monro–Kelliego: objawy ogniskowe vs ICP',
+    diagram: { src: 'diagrams/icp-lifecycle.html', title: 'Dynamika ciśnienia śródczaszkowego (Monro–Kellie → wgłobienia)' },
     subtitle: 'Opracowanie na bazie wykładu PUM 2026: dynamika wzrostu ciśnienia śródczaszkowego, zespoły płatowe oraz różnicowanie guzów nad- i podnamiotowych.',
     category: 'Wykład PUM 2026',
     group: 'D',

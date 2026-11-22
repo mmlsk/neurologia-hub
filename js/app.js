@@ -1244,6 +1244,7 @@ function viewArticles(parts, params) {
           </div>
         </header>
         ${art.takeaway ? `<div class="art-takeaway"><b>Kluczowy wniosek</b><div>${esc(art.takeaway)}</div></div>` : ''}
+        ${art.diagram && art.diagram.src ? `<figure class="art-diagram"><div class="art-diagram-head"><span>Interaktywny schemat: ${esc(art.diagram.title || art.title)}</span><a class="btn sec sm" href="${esc(art.diagram.src)}" target="_blank" rel="noopener">Pełny ekran ↗</a></div><iframe class="art-diagram-frame" src="${esc(art.diagram.src)}" title="${esc(art.diagram.title || art.title)}" loading="lazy"></iframe></figure>` : ''}
         <div id="artTocHost"></div>
         <div class="art-body" id="artBodyEl">${bodyHtml}</div>
       </article>

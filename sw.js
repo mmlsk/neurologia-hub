@@ -1,5 +1,5 @@
 /* Service Worker dla Neurologia V Hub */
-const CACHE_NAME = 'neurologia-hub-v2';
+const CACHE_NAME = 'neurologia-hub-v3';
 
 const PRECACHE_ASSETS = [
   './',
@@ -8,6 +8,11 @@ const PRECACHE_ASSETS = [
   './css/hub.css',
   './css/clinical.css',
   './share.jpg',
+  './diagrams/se-timeline.html',
+  './diagrams/stroke-workflow.html',
+  './diagrams/horner-pathway.html',
+  './diagrams/icp-lifecycle.html',
+  './diagrams/hub-architecture.html',
   './fonts/cabinet-grotesk-700.woff2',
   './fonts/cabinet-grotesk-800.woff2',
   './fonts/satoshi-400.woff2',
